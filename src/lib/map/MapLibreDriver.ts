@@ -5,15 +5,17 @@ import type { Zone } from '../schemas';
 
 import type { StyleSpecification } from 'maplibre-gl';
 
+const cartoKey = import.meta.env.PUBLIC_CARTO_API_KEY ? `?key=${import.meta.env.PUBLIC_CARTO_API_KEY}` : '';
+
 const DARK_STYLE: StyleSpecification = {
   version: 8,
   sources: {
     'carto-dark': {
       type: 'raster',
       tiles: [
-        'https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
-        'https://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
-        'https://c.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png'
+        `https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png${cartoKey}`,
+        `https://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png${cartoKey}`,
+        `https://c.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png${cartoKey}`
       ],
       tileSize: 256,
       attribution: '© OpenStreetMap contributors, © CARTO'
