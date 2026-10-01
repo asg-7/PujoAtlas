@@ -1,18 +1,166 @@
 ---
+import MapUIOverlay from '../components/MapUIOverlay';
+import 'maplibre-gl/dist/maplibre-gl.css';
 ---
 
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Pujo Pathfinder</title>
+        <style>
+            body, html { margin: 0; padding: 0; overflow: hidden; width: 100%; height: 100%; background: #111; }
+        </style>
 	</head>
-	<body class="bg-pujo-dark text-white font-sans min-h-screen">
-		<main class="container mx-auto px-4 py-8">
-			<h1 class="text-4xl font-bold text-pujo-gold mb-4">Pujo Pathfinder</h1>
-			<p class="text-gray-300">5-Zone Kolkata Durga Puja & Food Navigation App</p>
-		</main>
+	<body class="bg-gray-900 text-white font-sans overflow-hidden w-full h-full relative">
+		
+        <!-- Map Container -->
+        <div id="map-container" class="absolute inset-0 z-0 w-full h-full"></div>
+
+        <!-- React UI Overlay -->
+        <MapUIOverlay client:load />
+
+        <!-- Client-Side Map Engine Initialization -->
+        <script>
+            import { createMapAdapter } from '../lib/map/MapEngineAdapter';
+            import { useMapStore } from '../store/useMapStore';
+            import { ZONE_COLORS } from '../lib/map/MapEngineAdapter';
+
+            async function initApp() {
+                const mapContainer = document.getElementById('map-container');
+                if (!mapContainer) return;
+
+                // 1. Initialize Map Adapter (WebGL2 MapLibre or 2D Leaflet fallback)
+                const mapAdapter = await createMapAdapter();
+                await mapAdapter.init(mapContainer, {
+                    center: [88.3639, 22.5726], // Kolkata Center
+                    zoom: 12
+                });
+
+                // 2. Fetch Data
+                const [pandalsRes, foodRes, metroGeoJson] = await Promise.all([
+                    fetch('/api/pandals?limit=500').then(r => r.json()),
+                    fetch('/api/food?limit=500').then(r => r.json()),
+                    fetch('/src/data/metro-lines.geojson').then(r => r.json()).catch(() => null)
+                ]);
+
+                let allMarkers = [];
+
+                if (pandalsRes.data) {
+                    pandalsRes.data.forEach(p => {
+                        allMarkers.push({
+                            id: p.id,
+                            type: 'pandal',
+                            name: p.name,
+                            lat: p.lat,
+                            lng: p.lng,
+                            zone: p.zone,
+                            color: ZONE_COLORS[p.zone] || '#EF4444'
+                        });
+                    });
+                }
+
+                if (foodRes.data) {
+                    foodRes.data.forEach(f => {
+                        allMarkers.push({
+                            id: f.id,
+                            type: 'food',
+                            name: f.name,
+                            lat: f.lat,
+                            lng: f.lng,
+                            zone: f.zone,
+                            color: '#F59E0B' // Amber for food
+                        });
+                    });
+                }
+
+                // 3. Initial Render
+                const renderActiveMarkers = () => {
+                    const state = useMapStore.getState();
+                    
+                    // Filter markers based on active layers and active zone
+                    const visibleMarkers = allMarkers.filter(m => {
+                        if (state.activeZone !== 'ALL' && m.zone !== state.activeZone) return false;
+                        if (m.type === 'pandal' && !state.activeLayers.pandals) return false;
+                        if (m.type === 'food' && !state.activeLayers.food) return false;
+                        return true;
+                    });
+
+                    mapAdapter.renderMarkers(visibleMarkers, (id, type) => {
+                        // Click handler - sync with Zustand store
+                        useMapStore.getState().selectEntity(id, type as 'pandal' | 'food' | 'station');
+                    });
+
+                    if (metroGeoJson) {
+                        mapAdapter.toggleMetroOverlay(state.activeLayers.metro);
+                        if (state.activeLayers.metro) {
+                            mapAdapter.renderMetroLines(metroGeoJson);
+                        }
+                    }
+
+                    if (state.activeZone !== 'ALL') {
+                        mapAdapter.highlightZone(state.activeZone);
+                    } else {
+                        mapAdapter.clearZoneHighlights();
+                    }
+                };
+
+                renderActiveMarkers();
+
+                // 4. Subscribe to Zustand store changes for Reactive Map Updates
+                useMapStore.subscribe((state, prevState) => {
+                    let needsReRender = false;
+                    
+                    if (state.activeZone !== prevState.activeZone) {
+                        needsReRender = true;
+                    }
+                    
+                    if (state.activeLayers.pandals !== prevState.activeLayers.pandals ||
+                        state.activeLayers.food !== prevState.activeLayers.food) {
+                        needsReRender = true;
+                    }
+
+                    if (state.activeLayers.metro !== prevState.activeLayers.metro) {
+                        if (metroGeoJson) {
+                            mapAdapter.toggleMetroOverlay(state.activeLayers.metro);
+                            if (state.activeLayers.metro) {
+                                mapAdapter.renderMetroLines(metroGeoJson);
+                            }
+                        }
+                    }
+
+                    if (needsReRender) {
+                        renderActiveMarkers();
+                    }
+                    
+                    // Fly to selected entity
+                    if (state.selectedEntity && state.selectedEntity.id !== prevState.selectedEntity?.id) {
+                        const target = allMarkers.find(m => m.id === state.selectedEntity!.id);
+                        if (target) {
+                            mapAdapter.flyTo([target.lng, target.lat], 16);
+                        }
+                    }
+                });
+
+                // Listen to custom window events for Zone FlyTo
+                window.addEventListener('map:flyToZone', (e: any) => {
+                    const zone = e.detail?.zone;
+                    if (zone === 'NORTH') mapAdapter.flyTo([88.37, 22.61], 13);
+                    else if (zone === 'SOUTH') mapAdapter.flyTo([88.36, 22.51], 13);
+                    else if (zone === 'CENTRAL') mapAdapter.flyTo([88.36, 22.56], 14);
+                    else if (zone === 'EAST') mapAdapter.flyTo([88.42, 22.58], 13);
+                    else if (zone === 'WEST') mapAdapter.flyTo([88.30, 22.49], 13);
+                    else if (zone === 'ALL') mapAdapter.flyTo([88.3639, 22.5726], 12);
+                });
+
+                // Resize observer for robust container sizing
+                window.addEventListener('resize', () => mapAdapter.resize());
+            }
+
+            // Start initialization when DOM is ready
+            document.addEventListener('DOMContentLoaded', initApp);
+        </script>
 	</body>
 </html>
