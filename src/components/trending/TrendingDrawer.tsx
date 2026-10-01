@@ -15,7 +15,7 @@ interface TrendingEntity {
  * Displays real-time trending spots based on the backend heuristic algorithm.
  */
 export default function TrendingDrawer() {
-  const { isTrendingOpen, setTrendingOpen, selectEntity } = useMapStore();
+  const { isTrendingOpen, setTrendingOpen, selectEntity, pandals, food } = useMapStore();
   const [trending, setTrending] = useState<TrendingEntity[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const sheetRef = useRef<HTMLDivElement>(null);
@@ -30,13 +30,43 @@ export default function TrendingDrawer() {
     setIsLoading(true);
     try {
       const res = await fetch('/api/trending?limit=10');
-      const data = await res.json();
-      setTrending(data.data || []);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.data && data.data.length > 0) {
+          setTrending(data.data);
+          setIsLoading(false);
+          return;
+        }
+      }
     } catch (e) {
-      console.error('Failed to fetch trending', e);
-    } finally {
-      setIsLoading(false);
+      // Fall through to local fallback
     }
+
+    // Local fallback from loaded data
+    const topPandals: TrendingEntity[] = pandals
+      .filter((p) => p.isFamous)
+      .slice(0, 6)
+      .map((p) => ({
+        entityId: p.id,
+        score: 125,
+        type: 'pandal',
+        name: p.name,
+        data: p,
+      }));
+
+    const topFood: TrendingEntity[] = food
+      .filter((f) => f.isLateNight)
+      .slice(0, 4)
+      .map((f) => ({
+        entityId: f.id,
+        score: 115,
+        type: 'food',
+        name: f.name,
+        data: f,
+      }));
+
+    setTrending([...topPandals, ...topFood]);
+    setIsLoading(false);
   };
 
   const handleSelect = (entity: TrendingEntity) => {

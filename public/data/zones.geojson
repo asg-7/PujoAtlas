@@ -1,0 +1,110 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "NORTH",
+        "name": "North Kolkata",
+        "description": "Heritage pandals, narrow lanes, Shyambazar & Bagbazar hubs",
+        "color": "#E53935"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [88.35, 22.585],
+            [88.35, 22.65],
+            [88.395, 22.65],
+            [88.395, 22.585],
+            [88.35, 22.585]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "CENTRAL",
+        "name": "Central Kolkata",
+        "description": "College Square, MG Road, Esplanade & Sealdah thematic pandals",
+        "color": "#43A047"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [88.34, 22.548],
+            [88.34, 22.585],
+            [88.395, 22.585],
+            [88.395, 22.548],
+            [88.34, 22.548]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "SOUTH",
+        "name": "South Kolkata",
+        "description": "Mega budget pandals, Gariahat, Ekdalia, Chetla & Kalighat",
+        "color": "#1E88E5"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [88.332, 22.44],
+            [88.332, 22.548],
+            [88.395, 22.548],
+            [88.395, 22.44],
+            [88.332, 22.44]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "EAST",
+        "name": "East Kolkata",
+        "description": "Salt Lake, New Town, Kankurgachi & EM Bypass modern spectacles",
+        "color": "#8E24AA"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [88.395, 22.44],
+            [88.395, 22.65],
+            [88.48, 22.65],
+            [88.48, 22.44],
+            [88.395, 22.44]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "WEST",
+        "name": "West Kolkata",
+        "description": "Behala, Taratala, New Alipore & Thakurpukur community hubs",
+        "color": "#FB8C00"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [88.25, 22.44],
+            [88.25, 22.548],
+            [88.332, 22.548],
+            [88.332, 22.44],
+            [88.25, 22.44]
+          ]
+        ]
+      }
+    }
+  ]
+}

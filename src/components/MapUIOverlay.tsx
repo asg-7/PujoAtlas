@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import SearchBar from './search/SearchBar';
 import FilterPills from './filters/FilterPills';
 import TrendingDrawer from './trending/TrendingDrawer';
@@ -7,36 +7,30 @@ import FoodCard from './cards/FoodCard';
 import { useMapStore } from '../store/useMapStore';
 import type { PandalEntity, FoodEntity } from '../lib/schemas';
 
-export default function MapUIOverlay() {
-  const { selectedEntity, clearSelection, setTrendingOpen } = useMapStore();
-  const [pandals, setPandals] = useState<Record<string, PandalEntity>>({});
-  const [food, setFood] = useState<Record<string, FoodEntity>>({});
+interface MapUIOverlayProps {
+  initialPandals?: PandalEntity[];
+  initialFood?: FoodEntity[];
+}
+
+export default function MapUIOverlay({ initialPandals = [], initialFood = [] }: MapUIOverlayProps) {
+  const { selectedEntity, clearSelection, setTrendingOpen, initData, pandals: storePandals, food: storeFood } = useMapStore();
 
   useEffect(() => {
-    // Fetch lookup data for the drawers
-    const fetchData = async () => {
-      try {
-        const [pRes, fRes] = await Promise.all([
-          fetch('/api/pandals').then(r => r.json()),
-          fetch('/api/food').then(r => r.json()),
-        ]);
-        
-        const pMap: Record<string, PandalEntity> = {};
-        pRes.data?.forEach((p: PandalEntity) => { pMap[p.id] = p; });
-        setPandals(pMap);
+    if (initialPandals.length > 0 || initialFood.length > 0) {
+      initData(initialPandals, initialFood);
+    }
+  }, [initialPandals, initialFood, initData]);
 
-        const fMap: Record<string, FoodEntity> = {};
-        fRes.data?.forEach((f: FoodEntity) => { fMap[f.id] = f; });
-        setFood(fMap);
-      } catch (err) {
-        console.error("Failed to load entity data for UI", err);
-      }
-    };
-    fetchData();
-  }, []);
+  const pandalsList = initialPandals.length > 0 ? initialPandals : storePandals;
+  const foodList = initialFood.length > 0 ? initialFood : storeFood;
 
-  const selectedPandal = selectedEntity?.type === 'pandal' ? pandals[selectedEntity.id] : null;
-  const selectedFood = selectedEntity?.type === 'food' ? food[selectedEntity.id] : null;
+  const selectedPandal = selectedEntity?.type === 'pandal' 
+    ? pandalsList.find((p) => p.id === selectedEntity.id) 
+    : null;
+    
+  const selectedFood = selectedEntity?.type === 'food' 
+    ? foodList.find((f) => f.id === selectedEntity.id) 
+    : null;
 
   return (
     <div className="absolute inset-0 z-10 pointer-events-none flex flex-col justify-between overflow-hidden">

@@ -1,6 +1,26 @@
 ---
 import MapUIOverlay from '../components/MapUIOverlay';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import fs from 'node:fs';
+import path from 'node:path';
+
+// Read all datasets at build time (Node.js)
+const dataDir = path.resolve('./src/data');
+const pandalsNorth = JSON.parse(fs.readFileSync(path.join(dataDir, 'pandals-north.json'), 'utf-8'));
+const pandalsSouth = JSON.parse(fs.readFileSync(path.join(dataDir, 'pandals-south.json'), 'utf-8'));
+const pandalsCentral = JSON.parse(fs.readFileSync(path.join(dataDir, 'pandals-central.json'), 'utf-8'));
+const pandalsEast = JSON.parse(fs.readFileSync(path.join(dataDir, 'pandals-east.json'), 'utf-8'));
+const pandalsWest = JSON.parse(fs.readFileSync(path.join(dataDir, 'pandals-west.json'), 'utf-8'));
+const foodData = JSON.parse(fs.readFileSync(path.join(dataDir, 'food.json'), 'utf-8'));
+const metroGeoJson = JSON.parse(fs.readFileSync(path.join(dataDir, 'metro-lines.geojson'), 'utf-8'));
+
+const allPandals = [
+  ...pandalsNorth,
+  ...pandalsSouth,
+  ...pandalsCentral,
+  ...pandalsEast,
+  ...pandalsWest,
+];
 ---
 
 <html lang="en">
@@ -19,11 +39,11 @@ import 'maplibre-gl/dist/maplibre-gl.css';
         <!-- Map Container -->
         <div id="map-container" class="absolute inset-0 z-0 w-full h-full"></div>
 
-        <!-- React UI Overlay -->
-        <MapUIOverlay client:load />
+        <!-- React UI Overlay with Instant Baked-in Data -->
+        <MapUIOverlay client:load initialPandals={allPandals} initialFood={foodData} />
 
-        <!-- Client-Side Map Engine Initialization -->
-        <script>
+        <!-- Client-Side Map Engine Initialization with Inlined Data -->
+        <script define:vars={{ allPandals, foodData, metroGeoJson }}>
             import { createMapAdapter } from '../lib/map/MapEngineAdapter';
             import { useMapStore } from '../store/useMapStore';
             import { ZONE_COLORS } from '../lib/map/MapEngineAdapter';
@@ -39,17 +59,11 @@ import 'maplibre-gl/dist/maplibre-gl.css';
                     zoom: 12
                 });
 
-                // 2. Fetch Data
-                const [pandalsRes, foodRes, metroGeoJson] = await Promise.all([
-                    fetch('/api/pandals?limit=500').then(r => r.json()),
-                    fetch('/api/food?limit=500').then(r => r.json()),
-                    fetch('/src/data/metro-lines.geojson').then(r => r.json()).catch(() => null)
-                ]);
+                // 2. Format Markers directly from baked-in dataset
+                const allMarkers = [];
 
-                let allMarkers = [];
-
-                if (pandalsRes.data) {
-                    pandalsRes.data.forEach(p => {
+                if (Array.isArray(allPandals)) {
+                    allPandals.forEach(p => {
                         allMarkers.push({
                             id: p.id,
                             type: 'pandal',
@@ -62,8 +76,8 @@ import 'maplibre-gl/dist/maplibre-gl.css';
                     });
                 }
 
-                if (foodRes.data) {
-                    foodRes.data.forEach(f => {
+                if (Array.isArray(foodData)) {
+                    foodData.forEach(f => {
                         allMarkers.push({
                             id: f.id,
                             type: 'food',
@@ -89,8 +103,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
                     });
 
                     mapAdapter.renderMarkers(visibleMarkers, (id, type) => {
-                        // Click handler - sync with Zustand store
-                        useMapStore.getState().selectEntity(id, type as 'pandal' | 'food' | 'station');
+                        useMapStore.getState().selectEntity(id, type);
                     });
 
                     if (metroGeoJson) {
@@ -137,7 +150,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
                     
                     // Fly to selected entity
                     if (state.selectedEntity && state.selectedEntity.id !== prevState.selectedEntity?.id) {
-                        const target = allMarkers.find(m => m.id === state.selectedEntity!.id);
+                        const target = allMarkers.find(m => m.id === state.selectedEntity.id);
                         if (target) {
                             mapAdapter.flyTo([target.lng, target.lat], 16);
                         }
@@ -145,7 +158,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
                 });
 
                 // Listen to custom window events for Zone FlyTo
-                window.addEventListener('map:flyToZone', (e: any) => {
+                window.addEventListener('map:flyToZone', (e) => {
                     const zone = e.detail?.zone;
                     if (zone === 'NORTH') mapAdapter.flyTo([88.37, 22.61], 13);
                     else if (zone === 'SOUTH') mapAdapter.flyTo([88.36, 22.51], 13);

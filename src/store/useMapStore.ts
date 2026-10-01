@@ -1,7 +1,10 @@
-import { create } from 'zustand';
-import type { Zone } from '../lib/schemas';
+import type { Zone, PandalEntity, FoodEntity } from '../lib/schemas';
 
 interface MapState {
+  // Data
+  pandals: PandalEntity[];
+  food: FoodEntity[];
+
   // Filters
   activeZone: Zone | 'ALL';
   activeLayers: {
@@ -16,6 +19,7 @@ interface MapState {
   isTrendingOpen: boolean;
 
   // Actions
+  initData: (pandals: PandalEntity[], food: FoodEntity[]) => void;
   setZone: (zone: Zone | 'ALL') => void;
   toggleLayer: (layer: keyof MapState['activeLayers']) => void;
   setSearchQuery: (query: string) => void;
@@ -29,7 +33,11 @@ interface MapState {
  * Coordinates filters, selections, and drawer visibility across the app.
  * Decouples the React UI from the imperative MapEngineAdapter.
  */
+import { create } from 'zustand';
+
 export const useMapStore = create<MapState>((set) => ({
+  pandals: [],
+  food: [],
   activeZone: 'ALL',
   activeLayers: {
     pandals: true,
@@ -39,6 +47,8 @@ export const useMapStore = create<MapState>((set) => ({
   searchQuery: '',
   selectedEntity: null,
   isTrendingOpen: false,
+
+  initData: (pandals, food) => set({ pandals, food }),
 
   setZone: (zone) => set({ activeZone: zone }),
   

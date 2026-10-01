@@ -24,6 +24,8 @@ export default function SearchBar() {
   });
   
   const selectEntity = useMapStore((s) => s.selectEntity);
+  const pandals = useMapStore((s) => s.pandals);
+  const food = useMapStore((s) => s.food);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   // Close dropdown on outside click
@@ -37,37 +39,41 @@ export default function SearchBar() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Debounced search effect
+  // Instant in-memory search
   useEffect(() => {
-    const timer = setTimeout(async () => {
-      if (query.trim().length < 2) {
-        setResults({ pandals: [], food: [] });
-        setIsSearching(false);
-        return;
-      }
+    if (query.trim().length < 2) {
+      setResults({ pandals: [], food: [] });
+      setIsSearching(false);
+      return;
+    }
 
-      setIsSearching(true);
-      telemetry.track('search_query', { query: query.trim() });
+    setIsSearching(true);
+    telemetry.track('search_query', { query: query.trim() });
 
-      try {
-        const [pRes, fRes] = await Promise.all([
-          fetch(`/api/pandals?q=${encodeURIComponent(query)}`).then((r) => r.json()),
-          fetch(`/api/food?q=${encodeURIComponent(query)}`).then((r) => r.json()),
-        ]);
+    const q = query.trim().toLowerCase();
+    const matchedPandals = pandals
+      .filter((p) =>
+        p.name.toLowerCase().includes(q) ||
+        p.address.toLowerCase().includes(q) ||
+        p.tags?.some((t) => t.toLowerCase().includes(q))
+      )
+      .slice(0, 5);
 
-        setResults({
-          pandals: pRes.data?.slice(0, 4) || [],
-          food: fRes.data?.slice(0, 4) || [],
-        });
-      } catch (err) {
-        console.error('Search failed', err);
-      } finally {
-        setIsSearching(false);
-      }
-    }, 300);
+    const matchedFood = food
+      .filter((f) =>
+        f.name.toLowerCase().includes(q) ||
+        f.address.toLowerCase().includes(q) ||
+        f.famousFor?.some((d) => d.toLowerCase().includes(q)) ||
+        f.mustTryDishes?.some((d) => d.toLowerCase().includes(q))
+      )
+      .slice(0, 5);
 
-    return () => clearTimeout(timer);
-  }, [query]);
+    setResults({
+      pandals: matchedPandals,
+      food: matchedFood,
+    });
+    setIsSearching(false);
+  }, [query, pandals, food]);
 
   const handleSelect = (id: string, type: 'pandal' | 'food') => {
     selectEntity(id, type);
