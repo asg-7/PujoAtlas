@@ -1,0 +1,31 @@
+[build]
+  # Build the Astro static site
+  command = "npm run build"
+  
+  # The output directory for static assets
+  publish = "dist"
+
+[functions]
+  # We deploy our Fastify backend API as a Netlify Edge Function / Serverless Function.
+  # Note: A serverless wrapper (like @fastify/aws-lambda or serverless-http) is 
+  # recommended in production for pure Fastify APIs on Netlify Functions.
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[dev]
+  # When running `netlify dev`, it runs our concurrently script
+  command = "npm run dev"
+  port = 4321
+  publish = "dist"
+
+# Proxy API requests to the Fastify server
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+
+# Fallback for Astro SPA / CSR routing if required
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

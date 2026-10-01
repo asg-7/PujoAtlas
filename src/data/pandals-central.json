@@ -1,0 +1,322 @@
+[
+  {
+    "id": "central-college-square",
+    "name": "College Square",
+    "zone": "CENTRAL",
+    "address": "College Square, Kolkata",
+    "lat": 22.5768,
+    "lng": 88.3642,
+    "nearestMetroStationId": "station-mg-road",
+    "bestTimeToVisit": [
+      "Saptami 04:00 - 07:00 AM (Almost Empty)",
+      "Ashtami 10:00 PM - 01:00 AM (Sandhi Puja - Very Crowded)"
+    ],
+    "bestDays": ["Saptami", "Ashtami", "Navami"],
+    "isFamous": true,
+    "tags": ["Historical", "Mega-Budget", "Traditional"],
+    "sourceUrls": [
+      {
+        "platform": "google",
+        "url": "https://www.google.com/search?q=College+Square+Durga+Puja"
+      }
+    ]
+  },
+  {
+    "id": "central-mohammad-ali-park",
+    "name": "Mohammad Ali Park",
+    "zone": "CENTRAL",
+    "address": "Chittaranjan Avenue, Kolkata",
+    "lat": 22.5712,
+    "lng": 88.3601,
+    "nearestMetroStationId": "station-central",
+    "bestTimeToVisit": [
+      "Panchami Evening 06:00 - 09:00 PM (Inauguration)",
+      "Navami Morning 08:00 - 11:00 AM (Moderate)"
+    ],
+    "bestDays": ["Shashthi", "Saptami", "Ashtami", "Navami"],
+    "isFamous": true,
+    "tags": ["Theme-Based", "Mega-Budget", "Community"],
+    "sourceUrls": [
+      {
+        "platform": "facebook",
+        "url": "https://facebook.com/mohammadalipark"
+      }
+    ]
+  },
+  {
+    "id": "central-santosh-mitra-square",
+    "name": "Santosh Mitra Square / Lebutala",
+    "zone": "CENTRAL",
+    "address": "Lebutala, Bowbazar, Kolkata",
+    "lat": 22.5705,
+    "lng": 88.3678,
+    "nearestMetroStationId": "station-central",
+    "bestTimeToVisit": [
+      "Saptami 04:00 - 07:00 AM (Almost Empty)",
+      "Ashtami 10:00 PM - 01:00 AM (Sandhi Puja - Very Crowded)"
+    ],
+    "bestDays": ["Panchami", "Shashthi", "Saptami", "Ashtami", "Navami"],
+    "isFamous": true,
+    "tags": ["Award-Winning", "Mega-Budget", "Theme-Based"],
+    "sourceUrls": [
+      {
+        "platform": "instagram",
+        "url": "https://instagram.com/santoshmitrasquare"
+      }
+    ]
+  },
+  {
+    "id": "central-subodh-mallick-square",
+    "name": "Subodh Mallick Square",
+    "zone": "CENTRAL",
+    "address": "Wellington Square, Kolkata",
+    "lat": 22.5688,
+    "lng": 88.3595,
+    "nearestMetroStationId": "station-central",
+    "bestTimeToVisit": [
+      "Navami Morning 08:00 - 11:00 AM (Moderate)",
+      "Ashtami 10:00 PM - 01:00 AM (Sandhi Puja - Very Crowded)"
+    ],
+    "bestDays": ["Saptami", "Ashtami", "Navami"],
+    "isFamous": true,
+    "tags": ["Historical", "Community", "Traditional"],
+    "sourceUrls": [
+      {
+        "platform": "google",
+        "url": "https://www.google.com/search?q=Subodh+Mallick+Square+Durga+Puja"
+      }
+    ]
+  },
+  {
+    "id": "central-sealdah-railway-athletic-club",
+    "name": "Sealdah Railway Athletic Club",
+    "zone": "CENTRAL",
+    "address": "Sealdah, Kolkata",
+    "lat": 22.5685,
+    "lng": 88.3708,
+    "nearestMetroStationId": "station-sealdah",
+    "bestTimeToVisit": [
+      "Panchami Evening 06:00 - 09:00 PM (Inauguration)",
+      "Saptami 04:00 - 07:00 AM (Almost Empty)"
+    ],
+    "bestDays": ["Shashthi", "Saptami", "Ashtami", "Navami"],
+    "isFamous": true,
+    "tags": ["Theme-Based", "Artistic", "Community"],
+    "sourceUrls": [
+      {
+        "platform": "facebook",
+        "url": "https://facebook.com/sealdahathleticclub"
+      }
+    ]
+  },
+  {
+    "id": "central-college-row",
+    "name": "College Row",
+    "zone": "CENTRAL",
+    "address": "College Row, Kolkata",
+    "lat": 22.5755,
+    "lng": 88.3628,
+    "nearestMetroStationId": "station-mg-road",
+    "bestTimeToVisit": [
+      "Navami Morning 08:00 - 11:00 AM (Moderate)"
+    ],
+    "bestDays": ["Saptami", "Ashtami", "Navami"],
+    "isFamous": false,
+    "tags": ["Community", "Traditional"],
+    "sourceUrls": [
+      {
+        "platform": "instagram",
+        "url": "https://instagram.com/collegerowpuja"
+      }
+    ]
+  },
+  {
+    "id": "central-bow-barracks",
+    "name": "Bow Barracks",
+    "zone": "CENTRAL",
+    "address": "Bow Barracks, Kolkata",
+    "lat": 22.5655,
+    "lng": 88.3589,
+    "nearestMetroStationId": "station-central",
+    "bestTimeToVisit": [
+      "Saptami 04:00 - 07:00 AM (Almost Empty)"
+    ],
+    "bestDays": ["Shashthi", "Saptami", "Ashtami"],
+    "isFamous": false,
+    "tags": ["Heritage", "Community"],
+    "sourceUrls": [
+      {
+        "platform": "reddit",
+        "url": "https://reddit.com/r/kolkata/bowbarracks"
+      }
+    ]
+  },
+  {
+    "id": "central-lala-babu-bazar",
+    "name": "Lala Babu Bazar Sarbojanin",
+    "zone": "CENTRAL",
+    "address": "Lala Babu Bazar, Kolkata",
+    "lat": 22.5738,
+    "lng": 88.3545,
+    "nearestMetroStationId": "station-mg-road",
+    "bestTimeToVisit": [
+      "Ashtami 10:00 PM - 01:00 AM (Sandhi Puja - Very Crowded)"
+    ],
+    "bestDays": ["Saptami", "Ashtami", "Navami"],
+    "isFamous": false,
+    "tags": ["Traditional", "Community"],
+    "sourceUrls": [
+      {
+        "platform": "google",
+        "url": "https://www.google.com/search?q=Lala+Babu+Bazar+Durga+Puja"
+      }
+    ]
+  },
+  {
+    "id": "central-dak-bungalow",
+    "name": "Dak Bungalow Sarbojanin",
+    "zone": "CENTRAL",
+    "address": "Dak Bungalow, Kolkata",
+    "lat": 22.5648,
+    "lng": 88.3528,
+    "nearestMetroStationId": "station-esplanade",
+    "bestTimeToVisit": [
+      "Panchami Evening 06:00 - 09:00 PM (Inauguration)"
+    ],
+    "bestDays": ["Panchami", "Shashthi", "Saptami", "Ashtami"],
+    "isFamous": false,
+    "tags": ["Theme-Based", "Artistic"],
+    "sourceUrls": [
+      {
+        "platform": "facebook",
+        "url": "https://facebook.com/dakbungalowpuja"
+      }
+    ]
+  },
+  {
+    "id": "central-taltala",
+    "name": "Taltala Sarbojanin",
+    "zone": "CENTRAL",
+    "address": "Taltala, Kolkata",
+    "lat": 22.5625,
+    "lng": 88.3572,
+    "nearestMetroStationId": "station-esplanade",
+    "bestTimeToVisit": [
+      "Navami Morning 08:00 - 11:00 AM (Moderate)"
+    ],
+    "bestDays": ["Saptami", "Ashtami", "Navami"],
+    "isFamous": false,
+    "tags": ["Community", "Traditional"],
+    "sourceUrls": [
+      {
+        "platform": "instagram",
+        "url": "https://instagram.com/taltalasarbojanin"
+      }
+    ]
+  },
+  {
+    "id": "central-surya-sen-maidan",
+    "name": "Surya Sen Maidan",
+    "zone": "CENTRAL",
+    "address": "Surya Sen Street, Kolkata",
+    "lat": 22.5678,
+    "lng": 88.3650,
+    "nearestMetroStationId": "station-central",
+    "bestTimeToVisit": [
+      "Saptami 04:00 - 07:00 AM (Almost Empty)"
+    ],
+    "bestDays": ["Saptami", "Ashtami", "Navami"],
+    "isFamous": false,
+    "tags": ["Historical", "Community"],
+    "sourceUrls": [
+      {
+        "platform": "google",
+        "url": "https://www.google.com/search?q=Surya+Sen+Maidan+Durga+Puja"
+      }
+    ]
+  },
+  {
+    "id": "central-entally-bayam-samity",
+    "name": "Entally Bayam Samity",
+    "zone": "CENTRAL",
+    "address": "Entally, Kolkata",
+    "lat": 22.5635,
+    "lng": 88.3745,
+    "nearestMetroStationId": "station-sealdah",
+    "bestTimeToVisit": [
+      "Ashtami 10:00 PM - 01:00 AM (Sandhi Puja - Very Crowded)"
+    ],
+    "bestDays": ["Shashthi", "Saptami", "Ashtami", "Navami"],
+    "isFamous": false,
+    "tags": ["Theme-Based", "Artistic"],
+    "sourceUrls": [
+      {
+        "platform": "facebook",
+        "url": "https://facebook.com/entallybayam"
+      }
+    ]
+  },
+  {
+    "id": "central-park-circus",
+    "name": "Park Circus Sarbojanin",
+    "zone": "CENTRAL",
+    "address": "Park Circus, Kolkata",
+    "lat": 22.5558,
+    "lng": 88.3684,
+    "nearestMetroStationId": "station-esplanade",
+    "bestTimeToVisit": [
+      "Panchami Evening 06:00 - 09:00 PM (Inauguration)"
+    ],
+    "bestDays": ["Panchami", "Shashthi", "Saptami", "Ashtami"],
+    "isFamous": false,
+    "tags": ["Theme-Based", "Mega-Budget"],
+    "sourceUrls": [
+      {
+        "platform": "instagram",
+        "url": "https://instagram.com/parkcircuspuja"
+      }
+    ]
+  },
+  {
+    "id": "central-moulali-yuva-kendra",
+    "name": "Moulali Yuva Kendra",
+    "zone": "CENTRAL",
+    "address": "Moulali, Kolkata",
+    "lat": 22.5668,
+    "lng": 88.3722,
+    "nearestMetroStationId": "station-sealdah",
+    "bestTimeToVisit": [
+      "Navami Morning 08:00 - 11:00 AM (Moderate)"
+    ],
+    "bestDays": ["Saptami", "Ashtami", "Navami"],
+    "isFamous": false,
+    "tags": ["Community"],
+    "sourceUrls": [
+      {
+        "platform": "google",
+        "url": "https://www.google.com/search?q=Moulali+Yuva+Kendra+Durga+Puja"
+      }
+    ]
+  },
+  {
+    "id": "central-kalighat",
+    "name": "Kalighat Sarbojanin",
+    "zone": "CENTRAL",
+    "address": "Kalighat Area, Kolkata",
+    "lat": 22.5562,
+    "lng": 88.3542,
+    "nearestMetroStationId": "station-esplanade",
+    "bestTimeToVisit": [
+      "Saptami 04:00 - 07:00 AM (Almost Empty)"
+    ],
+    "bestDays": ["Shashthi", "Saptami", "Ashtami"],
+    "isFamous": false,
+    "tags": ["Heritage", "Traditional"],
+    "sourceUrls": [
+      {
+        "platform": "facebook",
+        "url": "https://facebook.com/kalighatsarbojanin"
+      }
+    ]
+  }
+]

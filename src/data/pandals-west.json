@@ -1,0 +1,192 @@
+[
+  {
+    "id": "behala-nutan-dal",
+    "name": "Behala Nutan Dal",
+    "zone": "WEST",
+    "address": "Behala, West Kolkata",
+    "lat": 22.4845,
+    "lng": 88.3095,
+    "nearestMetroStationId": "station-taratala",
+    "bestTimeToVisit": ["Evening", "Late Night"],
+    "bestDays": ["Shashthi", "Saptami", "Ashtami"],
+    "isFamous": true,
+    "tags": ["Theme-Based", "Artistic", "Community"],
+    "sourceUrls": [
+      {
+        "platform": "google",
+        "url": "https://google.com/search?q=Behala+Nutan+Dal"
+      }
+    ]
+  },
+  {
+    "id": "barisha-club",
+    "name": "Barisha Club",
+    "zone": "WEST",
+    "address": "Barisha, West Kolkata",
+    "lat": 22.4712,
+    "lng": 88.3038,
+    "nearestMetroStationId": "station-joka",
+    "bestTimeToVisit": ["Morning", "Afternoon"],
+    "bestDays": ["Saptami", "Ashtami", "Navami"],
+    "isFamous": true,
+    "tags": ["Theme-Based", "Traditional", "Artistic"],
+    "sourceUrls": [
+      {
+        "platform": "instagram",
+        "url": "https://instagram.com/explore/tags/barishaclub"
+      }
+    ]
+  },
+  {
+    "id": "behala-players-corner",
+    "name": "Behala Players Corner",
+    "zone": "WEST",
+    "address": "Behala, West Kolkata",
+    "lat": 22.4888,
+    "lng": 88.3125,
+    "nearestMetroStationId": "station-taratala",
+    "bestTimeToVisit": ["Evening", "Night"],
+    "bestDays": ["Panchami", "Shashthi", "Saptami"],
+    "isFamous": false,
+    "tags": ["Community", "Local-Favorite"],
+    "sourceUrls": [
+      {
+        "platform": "facebook",
+        "url": "https://facebook.com/search/top?q=Behala%20Players%20Corner"
+      }
+    ]
+  },
+  {
+    "id": "ajeya-sanghati",
+    "name": "Ajeya Sanghati",
+    "zone": "WEST",
+    "address": "Haridevpur, West Kolkata",
+    "lat": 22.4775,
+    "lng": 88.3055,
+    "nearestMetroStationId": "station-joka",
+    "bestTimeToVisit": ["Evening", "Night"],
+    "bestDays": ["Shashthi", "Saptami", "Ashtami"],
+    "isFamous": false,
+    "tags": ["Traditional", "Local-Favorite"],
+    "sourceUrls": [
+      {
+        "platform": "google",
+        "url": "https://google.com/search?q=Ajeya+Sanghati"
+      }
+    ]
+  },
+  {
+    "id": "haridevpur-41-pally",
+    "name": "Haridevpur 41 Pally",
+    "zone": "WEST",
+    "address": "Haridevpur, West Kolkata",
+    "lat": 22.4685,
+    "lng": 88.3142,
+    "nearestMetroStationId": "station-joka",
+    "bestTimeToVisit": ["Afternoon", "Evening", "Late Night"],
+    "bestDays": ["Saptami", "Ashtami", "Navami", "Dashami"],
+    "isFamous": true,
+    "tags": ["Theme-Based", "Lighting-Famous", "Artistic"],
+    "sourceUrls": [
+      {
+        "platform": "reddit",
+        "url": "https://reddit.com/r/kolkata/search?q=Haridevpur+41+Pally"
+      }
+    ]
+  },
+  {
+    "id": "new-alipore-block-g",
+    "name": "New Alipore Block G",
+    "zone": "WEST",
+    "address": "New Alipore, West Kolkata",
+    "lat": 22.5045,
+    "lng": 88.3268,
+    "nearestMetroStationId": "station-majerhat",
+    "bestTimeToVisit": ["Morning", "Evening"],
+    "bestDays": ["Panchami", "Shashthi", "Saptami", "Ashtami"],
+    "isFamous": false,
+    "tags": ["Community", "Traditional"],
+    "sourceUrls": [
+      {
+        "platform": "google",
+        "url": "https://google.com/search?q=New+Alipore+Block+G+Durga+Puja"
+      }
+    ]
+  },
+  {
+    "id": "thakurpukur-adarsha-sangha",
+    "name": "Thakurpukur Adarsha Sangha",
+    "zone": "WEST",
+    "address": "Thakurpukur, West Kolkata",
+    "lat": 22.4525,
+    "lng": 88.2985,
+    "nearestMetroStationId": "station-joka",
+    "bestTimeToVisit": ["Evening", "Night"],
+    "bestDays": ["Shashthi", "Saptami", "Ashtami"],
+    "isFamous": false,
+    "tags": ["Local-Favorite", "Traditional"],
+    "sourceUrls": [
+      {
+        "platform": "facebook",
+        "url": "https://facebook.com/search/top?q=Thakurpukur%20Adarsha%20Sangha"
+      }
+    ]
+  },
+  {
+    "id": "sakherbazar-sarbojanin",
+    "name": "Sakherbazar Sarbojanin",
+    "zone": "WEST",
+    "address": "Sakherbazar, West Kolkata",
+    "lat": 22.4635,
+    "lng": 88.3012,
+    "nearestMetroStationId": "station-joka",
+    "bestTimeToVisit": ["Evening", "Night"],
+    "bestDays": ["Saptami", "Ashtami", "Navami"],
+    "isFamous": false,
+    "tags": ["Local-Favorite", "Community"],
+    "sourceUrls": [
+      {
+        "platform": "google",
+        "url": "https://google.com/search?q=Sakherbazar+Sarbojanin"
+      }
+    ]
+  },
+  {
+    "id": "behala-natun-sangha",
+    "name": "Behala Natun Sangha",
+    "zone": "WEST",
+    "address": "Behala, West Kolkata",
+    "lat": 22.4815,
+    "lng": 88.3068,
+    "nearestMetroStationId": "station-taratala",
+    "bestTimeToVisit": ["Evening", "Night"],
+    "bestDays": ["Shashthi", "Saptami", "Ashtami", "Navami"],
+    "isFamous": false,
+    "tags": ["Community", "Traditional"],
+    "sourceUrls": [
+      {
+        "platform": "google",
+        "url": "https://google.com/search?q=Behala+Natun+Sangha"
+      }
+    ]
+  },
+  {
+    "id": "james-long-sarani-sarbojanin",
+    "name": "James Long Sarani Sarbojanin",
+    "zone": "WEST",
+    "address": "James Long Sarani, West Kolkata",
+    "lat": 22.4928,
+    "lng": 88.3195,
+    "nearestMetroStationId": "station-taratala",
+    "bestTimeToVisit": ["Evening", "Night"],
+    "bestDays": ["Shashthi", "Saptami", "Ashtami"],
+    "isFamous": false,
+    "tags": ["Local-Favorite", "Community"],
+    "sourceUrls": [
+      {
+        "platform": "google",
+        "url": "https://google.com/search?q=James+Long+Sarani+Sarbojanin"
+      }
+    ]
+  }
+]

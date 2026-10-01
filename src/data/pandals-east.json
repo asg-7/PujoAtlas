@@ -1,0 +1,162 @@
+[
+  {
+    "id": "sreebhumi-sporting",
+    "name": "Sreebhumi Sporting Club",
+    "zone": "EAST",
+    "address": "Lake Town, Kolkata",
+    "lat": 22.5945,
+    "lng": 88.4085,
+    "nearestMetroStationId": "station-salt-lake-sector-v",
+    "bestTimeToVisit": ["02:00", "04:00"],
+    "bestDays": ["Ashtami", "Navami", "Dashami"],
+    "isFamous": true,
+    "tags": ["Mega-Budget", "Lighting-Famous", "Theme-Based"],
+    "sourceUrls": [
+      { "platform": "google", "url": "https://google.com/maps" }
+    ]
+  },
+  {
+    "id": "dum-dum-tarun-sangha",
+    "name": "Dum Dum Park Tarun Sangha",
+    "zone": "EAST",
+    "address": "Dum Dum Park, Kolkata",
+    "lat": 22.6105,
+    "lng": 88.4202,
+    "nearestMetroStationId": "station-salt-lake-sector-v",
+    "bestTimeToVisit": ["23:00", "02:00"],
+    "bestDays": ["Saptami", "Ashtami", "Navami"],
+    "isFamous": true,
+    "tags": ["Theme-Based", "Innovative", "Award-Winning"],
+    "sourceUrls": [
+      { "platform": "instagram", "url": "https://instagram.com" }
+    ]
+  },
+  {
+    "id": "dum-dum-bharat-chakra",
+    "name": "Dum Dum Park Bharat Chakra",
+    "zone": "EAST",
+    "address": "Dum Dum Park, Kolkata",
+    "lat": 22.609,
+    "lng": 88.418,
+    "nearestMetroStationId": "station-salt-lake-sector-v",
+    "bestTimeToVisit": ["18:00", "22:00"],
+    "bestDays": ["Shashthi", "Saptami", "Ashtami"],
+    "isFamous": false,
+    "tags": ["Theme-Based", "Community"],
+    "sourceUrls": [
+      { "platform": "facebook", "url": "https://facebook.com" }
+    ]
+  },
+  {
+    "id": "beleghata-33-palli",
+    "name": "Beleghata 33 Palli",
+    "zone": "EAST",
+    "address": "Beleghata, Kolkata",
+    "lat": 22.5615,
+    "lng": 88.3985,
+    "nearestMetroStationId": "station-ruby",
+    "bestTimeToVisit": ["16:00", "20:00"],
+    "bestDays": ["Panchami", "Shashthi", "Saptami", "Ashtami"],
+    "isFamous": true,
+    "tags": ["Innovative", "Theme-Based"],
+    "sourceUrls": [
+      { "platform": "google", "url": "https://google.com/maps" }
+    ]
+  },
+  {
+    "id": "salt-lake-fd",
+    "name": "Salt Lake FD Block",
+    "zone": "EAST",
+    "address": "FD Block, Salt Lake City",
+    "lat": 22.5842,
+    "lng": 88.412,
+    "nearestMetroStationId": "station-salt-lake-sector-v",
+    "bestTimeToVisit": ["20:00", "00:00"],
+    "bestDays": ["Saptami", "Ashtami", "Navami"],
+    "isFamous": true,
+    "tags": ["Mega-Budget", "Theme-Based", "Community"],
+    "sourceUrls": [
+      { "platform": "facebook", "url": "https://facebook.com" }
+    ]
+  },
+  {
+    "id": "salt-lake-bj",
+    "name": "Salt Lake BJ Block",
+    "zone": "EAST",
+    "address": "BJ Block, Salt Lake City",
+    "lat": 22.5785,
+    "lng": 88.4245,
+    "nearestMetroStationId": "station-salt-lake-sector-v",
+    "bestTimeToVisit": ["18:00", "22:00"],
+    "bestDays": ["Shashthi", "Saptami", "Ashtami"],
+    "isFamous": true,
+    "tags": ["Modern", "Theme-Based"],
+    "sourceUrls": [
+      { "platform": "instagram", "url": "https://instagram.com" }
+    ]
+  },
+  {
+    "id": "kankurgachi-mitali",
+    "name": "Kankurgachi Mitali Sangha",
+    "zone": "EAST",
+    "address": "Kankurgachi, Kolkata",
+    "lat": 22.5715,
+    "lng": 88.3968,
+    "nearestMetroStationId": "station-ruby",
+    "bestTimeToVisit": ["19:00", "23:00"],
+    "bestDays": ["Panchami", "Shashthi", "Saptami"],
+    "isFamous": false,
+    "tags": ["Community", "Theme-Based"],
+    "sourceUrls": [
+      { "platform": "google", "url": "https://google.com/maps" }
+    ]
+  },
+  {
+    "id": "lake-town-adhibashi",
+    "name": "Lake Town Adhibashi Brinda",
+    "zone": "EAST",
+    "address": "Lake Town, Kolkata",
+    "lat": 22.5918,
+    "lng": 88.4028,
+    "nearestMetroStationId": "station-salt-lake-sector-v",
+    "bestTimeToVisit": ["17:00", "21:00"],
+    "bestDays": ["Shashthi", "Saptami", "Ashtami"],
+    "isFamous": false,
+    "tags": ["Community"],
+    "sourceUrls": [
+      { "platform": "facebook", "url": "https://facebook.com" }
+    ]
+  },
+  {
+    "id": "vip-road-sarbojanin",
+    "name": "VIP Road Sarbojanin",
+    "zone": "EAST",
+    "address": "VIP Road, Kolkata",
+    "lat": 22.598,
+    "lng": 88.4055,
+    "nearestMetroStationId": "station-salt-lake-sector-v",
+    "bestTimeToVisit": ["20:00", "01:00"],
+    "bestDays": ["Saptami", "Ashtami", "Navami"],
+    "isFamous": false,
+    "tags": ["Theme-Based", "Lighting-Famous"],
+    "sourceUrls": [
+      { "platform": "google", "url": "https://google.com/maps" }
+    ]
+  },
+  {
+    "id": "ultadanga-sandhani",
+    "name": "Ultadanga Sandhani Club",
+    "zone": "EAST",
+    "address": "Ultadanga, Kolkata",
+    "lat": 22.5772,
+    "lng": 88.3925,
+    "nearestMetroStationId": "station-ruby",
+    "bestTimeToVisit": ["18:00", "22:00"],
+    "bestDays": ["Shashthi", "Saptami", "Ashtami"],
+    "isFamous": false,
+    "tags": ["Theme-Based"],
+    "sourceUrls": [
+      { "platform": "google", "url": "https://google.com/maps" }
+    ]
+  }
+]

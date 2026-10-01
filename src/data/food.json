@@ -1,0 +1,4890 @@
+[
+  {
+    "id": "food-north-001",
+    "name": "The Grid",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Rajarhat/Kankurgachi feeder",
+    "lat": 22.5901,
+    "lng": 88.3686,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Craft beers",
+      "gastropub grub"
+    ],
+    "mustTryDishes": [
+      "Craft beers",
+      "gastropub grub"
+    ],
+    "openHours": "12:00 PM – 2:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-002",
+    "name": "Traffic Gastropub",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "City Centre 1 / Ultadanga link",
+    "lat": 22.6089,
+    "lng": 88.3728,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Quirky cocktails",
+      "street-style bar food"
+    ],
+    "mustTryDishes": [
+      "Quirky cocktails",
+      "street-style bar food"
+    ],
+    "openHours": "12:00 PM – 2:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-003",
+    "name": "Equinox Bar",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Shyambazar / Hati Bagan",
+    "lat": 22.6092,
+    "lng": 88.3845,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Classic neighborhood watering hole"
+    ],
+    "mustTryDishes": [
+      "Classic neighborhood watering hole"
+    ],
+    "openHours": "11:30 AM – 12:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-004",
+    "name": "Opium Bar & Restaurant",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Salt Lake/Ultadanga crossover",
+    "lat": 22.6102,
+    "lng": 88.3926,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Retro cocktails",
+      "sizzlers"
+    ],
+    "mustTryDishes": [
+      "Retro cocktails",
+      "sizzlers"
+    ],
+    "openHours": "12:00 PM – 1:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-005",
+    "name": "Afraa Lounge",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Salt Lake Stadium connector",
+    "lat": 22.6403,
+    "lng": 88.378,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Rooftop drinks",
+      "global bites"
+    ],
+    "mustTryDishes": [
+      "Rooftop drinks",
+      "global bites"
+    ],
+    "openHours": "12:00 PM – 2:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-006",
+    "name": "Indian Coffee House",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "College Street",
+    "lat": 22.5859,
+    "lng": 88.3586,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Mutton cutlet",
+      "cold coffee"
+    ],
+    "mustTryDishes": [
+      "Mutton cutlet",
+      "cold coffee",
+      "infusion tea"
+    ],
+    "openHours": "9:00 AM – 10:30 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-007",
+    "name": "Roastery Coffee House",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "North Extn. / Kankurgachi",
+    "lat": 22.5869,
+    "lng": 88.3809,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Specialty pour-overs",
+      "onion rings"
+    ],
+    "mustTryDishes": [
+      "Specialty pour-overs",
+      "onion rings"
+    ],
+    "openHours": "8:00 AM – 1:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-008",
+    "name": "Cafe The",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Sovabazar",
+    "lat": 22.586,
+    "lng": 88.3881,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Cozy student café",
+      "pasta"
+    ],
+    "mustTryDishes": [
+      "Cozy student café",
+      "pasta",
+      "iced teas"
+    ],
+    "openHours": "11:00 AM – 12:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-009",
+    "name": "Arts & Craft Cafe",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Hatibagan",
+    "lat": 22.6215,
+    "lng": 88.3574,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Handcrafted snacks",
+      "artisan espresso"
+    ],
+    "mustTryDishes": [
+      "Handcrafted snacks",
+      "artisan espresso"
+    ],
+    "openHours": "11:00 AM – 11:30 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-010",
+    "name": "The Tea Trove",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Kankurgachi",
+    "lat": 22.6095,
+    "lng": 88.3891,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Flavored gourmet teas",
+      "cheese platters"
+    ],
+    "mustTryDishes": [
+      "Flavored gourmet teas",
+      "cheese platters"
+    ],
+    "openHours": "10:00 AM – 1:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-011",
+    "name": "Mitra Cafe",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Sovabazar",
+    "lat": 22.5871,
+    "lng": 88.3671,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Legendary mutton brain chop",
+      "fish diamond fry"
+    ],
+    "mustTryDishes": [
+      "Legendary mutton brain chop",
+      "fish diamond fry",
+      "duck egg devil"
+    ],
+    "openHours": "12:00 PM – 3:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-012",
+    "name": "Allen Kitchen",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Shobhabazar",
+    "lat": 22.6434,
+    "lng": 88.3641,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Signature Prawn Cutlet fried in pure ghee"
+    ],
+    "mustTryDishes": [
+      "Signature Prawn Cutlet fried in pure ghee"
+    ],
+    "openHours": "4:00 PM – 11:30 PM",
+    "isLateNight": false,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-013",
+    "name": "Niranjan Agar",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Girish Park",
+    "lat": 22.5939,
+    "lng": 88.3553,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Mutton liver fry",
+      "egg devil"
+    ],
+    "mustTryDishes": [
+      "Mutton liver fry",
+      "egg devil",
+      "mutton chop"
+    ],
+    "openHours": "3:30 PM – 11:00 PM",
+    "isLateNight": false,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-014",
+    "name": "Dhiren Cabin",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Sovabazar",
+    "lat": 22.5923,
+    "lng": 88.386,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Fish Kabiraji",
+      "fowl cutlet"
+    ],
+    "mustTryDishes": [
+      "Fish Kabiraji",
+      "fowl cutlet",
+      "pudina fish"
+    ],
+    "openHours": "4:00 PM – 12:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-015",
+    "name": "Basanta Cabin",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "College Street/Hatibagan",
+    "lat": 22.6212,
+    "lng": 88.392,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Mughlai paratha",
+      "fish roll"
+    ],
+    "mustTryDishes": [
+      "Mughlai paratha",
+      "fish roll",
+      "dimer devil"
+    ],
+    "openHours": "11:00 AM – 11:00 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-016",
+    "name": "Dilkhusa Cabin",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "MG Road/College Sq.",
+    "lat": 22.6198,
+    "lng": 88.3555,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "100-year-old Kabiraji and chops"
+    ],
+    "mustTryDishes": [
+      "100-year-old Kabiraji and chops"
+    ],
+    "openHours": "12:00 PM – 11:30 PM",
+    "isLateNight": false,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-017",
+    "name": "Apanjan",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Sadananda/Shyambazar link",
+    "lat": 22.5873,
+    "lng": 88.3621,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Authentic fish fry with kasundi"
+    ],
+    "mustTryDishes": [
+      "Authentic fish fry with kasundi"
+    ],
+    "openHours": "2:00 PM – 12:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-018",
+    "name": "Golbari",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Shyambazar 5-point",
+    "lat": 22.6302,
+    "lng": 88.371,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Iconic dark Kosha Mangsho & Roomali Roti"
+    ],
+    "mustTryDishes": [
+      "Iconic dark Kosha Mangsho & Roomali Roti"
+    ],
+    "openHours": "1:00 PM – 3:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-019",
+    "name": "Royal Indian Hotel",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Chitpur",
+    "lat": 22.6222,
+    "lng": 88.3575,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Original Awadhi mutton chaap",
+      "pasinda"
+    ],
+    "mustTryDishes": [
+      "Original Awadhi mutton chaap",
+      "pasinda",
+      "Lucknowi Biryani (no potato)"
+    ],
+    "openHours": "11:00 AM – 4:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-020",
+    "name": "Bhojohori Manna",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Hatibagan",
+    "lat": 22.6137,
+    "lng": 88.3769,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Chingri malai curry",
+      "ilish paturi"
+    ],
+    "mustTryDishes": [
+      "Chingri malai curry",
+      "ilish paturi",
+      "daab chingri"
+    ],
+    "openHours": "12:00 PM – 2:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-021",
+    "name": "Kasturi",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Hatibagan branch",
+    "lat": 22.6328,
+    "lng": 88.3915,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Authentic Dhakai Kochu Pata Chingri",
+      "spicy mutton duckbangla"
+    ],
+    "mustTryDishes": [
+      "Authentic Dhakai Kochu Pata Chingri",
+      "spicy mutton duckbangla"
+    ],
+    "openHours": "11:30 AM – 3:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-022",
+    "name": "Saptapadi",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Bagbazar",
+    "lat": 22.6081,
+    "lng": 88.3713,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Modern Bengali thalis",
+      "morich mangsho"
+    ],
+    "mustTryDishes": [
+      "Modern Bengali thalis",
+      "morich mangsho"
+    ],
+    "openHours": "12:00 PM – 1:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-023",
+    "name": "Aminia",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Shyambazar",
+    "lat": 22.6116,
+    "lng": 88.3675,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Classic Kolkata biryani",
+      "chicken chaap"
+    ],
+    "mustTryDishes": [
+      "Classic Kolkata biryani",
+      "chicken chaap",
+      "rezala"
+    ],
+    "openHours": "11:00 AM – 4:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-024",
+    "name": "Arsalan",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Hatibagan",
+    "lat": 22.5978,
+    "lng": 88.3926,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Rich mutton biryani",
+      "chicken bharta"
+    ],
+    "mustTryDishes": [
+      "Rich mutton biryani",
+      "chicken bharta"
+    ],
+    "openHours": "11:00 AM – 4:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-025",
+    "name": "Hanglaatherium",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Lake Town",
+    "lat": 22.6043,
+    "lng": 88.3639,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Dilli 6 chicken",
+      "mutton roghan josh"
+    ],
+    "mustTryDishes": [
+      "Dilli 6 chicken",
+      "mutton roghan josh",
+      "rolls"
+    ],
+    "openHours": "12:00 PM – 3:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-026",
+    "name": "Swadhin Bharat Hindu Hotel",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "College Street",
+    "lat": 22.63,
+    "lng": 88.3676,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Vegetarian/fish rice thalis",
+      "macher matha diye chanchra"
+    ],
+    "mustTryDishes": [
+      "Vegetarian/fish rice thalis",
+      "macher matha diye chanchra"
+    ],
+    "openHours": "9:00 AM – 11:30 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-027",
+    "name": "Jaganmata Bhojanalay",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Kailash Bose St.",
+    "lat": 22.5957,
+    "lng": 88.3546,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Vintage Pice hotel fish feasts"
+    ],
+    "mustTryDishes": [
+      "Vintage Pice hotel fish feasts"
+    ],
+    "openHours": "10:00 AM – 11:00 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-028",
+    "name": "Azad Hind Dhaba",
+    "category": "DHABA",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Girish Park",
+    "lat": 22.597,
+    "lng": 88.3596,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Chicken tarka with egg",
+      "butter naan"
+    ],
+    "mustTryDishes": [
+      "Chicken tarka with egg",
+      "butter naan",
+      "paneer kulcha"
+    ],
+    "openHours": "12:00 PM – 4:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-029",
+    "name": "Sharma Tea & Snacks",
+    "category": "DHABA",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Kankurgachi",
+    "lat": 22.6124,
+    "lng": 88.3891,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Club kachori",
+      "saffron chai"
+    ],
+    "mustTryDishes": [
+      "Club kachori",
+      "saffron chai",
+      "samosa"
+    ],
+    "openHours": "5:30 AM – 2:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-030",
+    "name": "Raju Dhaba",
+    "category": "DHABA",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Dum Dum link",
+    "lat": 22.5933,
+    "lng": 88.3849,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Tandoori chicken",
+      "dal makhani"
+    ],
+    "mustTryDishes": [
+      "Tandoori chicken",
+      "dal makhani"
+    ],
+    "openHours": "12:00 PM – 3:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-031",
+    "name": "Chowringhee Fast Food",
+    "category": "DHABA",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Maniktala",
+    "lat": 22.5854,
+    "lng": 88.3663,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Mutton tikka roll",
+      "egg roll"
+    ],
+    "mustTryDishes": [
+      "Mutton tikka roll",
+      "egg roll"
+    ],
+    "openHours": "11:00 AM – 3:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-032",
+    "name": "Kalika Mukhorochok",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "College Mkt.",
+    "lat": 22.6029,
+    "lng": 88.3847,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Famous mutton chop",
+      "mocha chop"
+    ],
+    "mustTryDishes": [
+      "Famous mutton chop",
+      "mocha chop",
+      "fish roll"
+    ],
+    "openHours": "3:30 PM – 11:30 PM",
+    "isLateNight": false,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-033",
+    "name": "Laxmi Narayan Shaw & Sons",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Bidhan Sarani",
+    "lat": 22.5879,
+    "lng": 88.3911,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Netaji's favorite telebhaja (peyanji",
+      "aloor chop"
+    ],
+    "mustTryDishes": [
+      "Netaji's favorite telebhaja (peyanji",
+      "aloor chop",
+      "beguni)"
+    ],
+    "openHours": "7:30 AM – 10:00 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-034",
+    "name": "Sanghai Restaurant",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Sovabazar",
+    "lat": 22.5922,
+    "lng": 88.3605,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Secret Reddit-recommended retro Indo-Chinese chilli chicken & chowmein"
+    ],
+    "mustTryDishes": [
+      "Secret Reddit-recommended retro Indo-Chinese chilli chicken & chowmein"
+    ],
+    "openHours": "12:00 PM – 12:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-035",
+    "name": "Nizam's Roll Outlet",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Dum Dum",
+    "lat": 22.6049,
+    "lng": 88.3664,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Flaky paratha kathi rolls"
+    ],
+    "mustTryDishes": [
+      "Flaky paratha kathi rolls"
+    ],
+    "openHours": "12:00 PM – 3:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-036",
+    "name": "Hedua Chat Centre",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Hedua Park",
+    "lat": 22.5953,
+    "lng": 88.3653,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Papri chaat",
+      "dahi vada"
+    ],
+    "mustTryDishes": [
+      "Papri chaat",
+      "dahi vada"
+    ],
+    "openHours": "3:00 PM – 12:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-037",
+    "name": "Paramount Sherbets & Syrups",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "College Sq.",
+    "lat": 22.618,
+    "lng": 88.3804,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Daab Sharbat",
+      "cocoa malai"
+    ],
+    "mustTryDishes": [
+      "Daab Sharbat",
+      "cocoa malai",
+      "passionate sherbet"
+    ],
+    "openHours": "10:00 AM – 12:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-038",
+    "name": "Bapi Da Egg Devil",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Sovabazar",
+    "lat": 22.5953,
+    "lng": 88.3753,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Giant boiled egg mutton-keema chop"
+    ],
+    "mustTryDishes": [
+      "Giant boiled egg mutton-keema chop"
+    ],
+    "openHours": "4:30 PM – 12:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-039",
+    "name": "Mukhorochok Telebhaja",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Bagbazar",
+    "lat": 22.5899,
+    "lng": 88.3935,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Crispy soybean chop and dimer chop"
+    ],
+    "mustTryDishes": [
+      "Crispy soybean chop and dimer chop"
+    ],
+    "openHours": "4:00 PM – 11:00 PM",
+    "isLateNight": false,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-040",
+    "name": "Balaram Roll Corner",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Hatibagan",
+    "lat": 22.6031,
+    "lng": 88.3511,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Rumali chicken shawarma and double egg roll"
+    ],
+    "mustTryDishes": [
+      "Rumali chicken shawarma and double egg roll"
+    ],
+    "openHours": "1:00 PM – 3:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-041",
+    "name": "Bhim Chandra Nag",
+    "category": "SWEETS",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Bowbazar/Hedua lane",
+    "lat": 22.5979,
+    "lng": 88.3854,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Origin of Ledikeni",
+      "Jalbhara Sandesh"
+    ],
+    "mustTryDishes": [
+      "Origin of Ledikeni",
+      "Jalbhara Sandesh"
+    ],
+    "openHours": "7:00 AM – 12:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-042",
+    "name": "Chittaranjan Mistanna Bhandar",
+    "category": "SWEETS",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Shyambazar",
+    "lat": 22.599,
+    "lng": 88.388,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Spongiest white Rasgulla in Bengal",
+      "Madhuparka"
+    ],
+    "mustTryDishes": [
+      "Spongiest white Rasgulla in Bengal",
+      "Madhuparka"
+    ],
+    "openHours": "6:30 AM – 11:30 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-043",
+    "name": "Nobin Chandra Das & Sons",
+    "category": "SWEETS",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Sovabazar",
+    "lat": 22.5946,
+    "lng": 88.3815,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Columbus of Rossogolla",
+      "Kancha Golla"
+    ],
+    "mustTryDishes": [
+      "Columbus of Rossogolla",
+      "Kancha Golla"
+    ],
+    "openHours": "7:00 AM – 11:30 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-044",
+    "name": "Girish Chandra Dey & Nakur Chandra Nandy",
+    "category": "SWEETS",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Hatibagan",
+    "lat": 22.6113,
+    "lng": 88.3667,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Absolute temple of Sandesh (Mousumi",
+      "Norom Pak"
+    ],
+    "mustTryDishes": [
+      "Absolute temple of Sandesh (Mousumi",
+      "Norom Pak",
+      "Chocolate Sandesh)"
+    ],
+    "openHours": "6:30 AM – 11:00 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-045",
+    "name": "Putiram Sweets",
+    "category": "SWEETS",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "College Street",
+    "lat": 22.592,
+    "lng": 88.361,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Hing kachori with aloor charchari",
+      "Kesaria Rajbhog"
+    ],
+    "mustTryDishes": [
+      "Hing kachori with aloor charchari",
+      "Kesaria Rajbhog"
+    ],
+    "openHours": "6:30 AM – 10:30 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-046",
+    "name": "Mouchak",
+    "category": "SWEETS",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Hatibagan",
+    "lat": 22.6009,
+    "lng": 88.3924,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Radhaballabhi",
+      "Chanar Payesh"
+    ],
+    "mustTryDishes": [
+      "Radhaballabhi",
+      "Chanar Payesh"
+    ],
+    "openHours": "7:00 AM – 11:00 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-047",
+    "name": "Adi Haridas Modak",
+    "category": "SWEETS",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Shyambazar",
+    "lat": 22.5927,
+    "lng": 88.393,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "200-year-old shop serving luchi on sal leaves with spicy aloo torkari"
+    ],
+    "mustTryDishes": [
+      "200-year-old shop serving luchi on sal leaves with spicy aloo torkari"
+    ],
+    "openHours": "6:00 AM – 10:30 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-048",
+    "name": "Sen Mahasay",
+    "category": "SWEETS",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Fariapukur",
+    "lat": 22.6314,
+    "lng": 88.3913,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Traditional Monohora and Mihidana"
+    ],
+    "mustTryDishes": [
+      "Traditional Monohora and Mihidana"
+    ],
+    "openHours": "7:30 AM – 10:30 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-049",
+    "name": "Banchharam",
+    "category": "SWEETS",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Lake Town",
+    "lat": 22.6485,
+    "lng": 88.3817,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Baked Rosogolla",
+      "Mihidana tart"
+    ],
+    "mustTryDishes": [
+      "Baked Rosogolla",
+      "Mihidana tart"
+    ],
+    "openHours": "7:30 AM – 12:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-north-050",
+    "name": "Dwarik’s",
+    "category": "SWEETS",
+    "priceRange": "MID_RANGE",
+    "zone": "NORTH",
+    "address": "Shyambazar",
+    "lat": 22.6094,
+    "lng": 88.3881,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Kora Pak Sandesh",
+      "Abar Khabo"
+    ],
+    "mustTryDishes": [
+      "Kora Pak Sandesh",
+      "Abar Khabo"
+    ],
+    "openHours": "7:00 AM – 11:00 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-051",
+    "name": "Olypub",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Park St. / South fringe",
+    "lat": 22.447,
+    "lng": 88.3639,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Old Calcutta beef/chicken steak",
+      "cheap pitchers"
+    ],
+    "mustTryDishes": [
+      "Old Calcutta beef/chicken steak",
+      "cheap pitchers"
+    ],
+    "openHours": "11:00 AM – 1:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-052",
+    "name": "Someplace Else",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "The Park",
+    "lat": 22.4412,
+    "lng": 88.3886,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Legendary live pub rock",
+      "draught beers"
+    ],
+    "mustTryDishes": [
+      "Legendary live pub rock",
+      "draught beers"
+    ],
+    "openHours": "3:00 PM – 2:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-053",
+    "name": "Monkey Bar",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Camac St.",
+    "lat": 22.4658,
+    "lng": 88.3324,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Butterfly chicken",
+      "Pandi curry bao"
+    ],
+    "mustTryDishes": [
+      "Butterfly chicken",
+      "Pandi curry bao",
+      "craft cocktails"
+    ],
+    "openHours": "12:00 PM – 2:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-054",
+    "name": "Scrapyard",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Camac St.",
+    "lat": 22.4486,
+    "lng": 88.3602,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Microbrew vibes",
+      "wood-fired thin-crust pizza"
+    ],
+    "mustTryDishes": [
+      "Microbrew vibes",
+      "wood-fired thin-crust pizza"
+    ],
+    "openHours": "12:00 PM – 2:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-055",
+    "name": "Lord of the Drinks",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "South City Mall",
+    "lat": 22.476,
+    "lng": 88.395,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Massive bar spread",
+      "cocktails"
+    ],
+    "mustTryDishes": [
+      "Massive bar spread",
+      "cocktails",
+      "Asian platters"
+    ],
+    "openHours": "12:00 PM – 3:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-056",
+    "name": "Hard Rock Cafe",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Park St. link",
+    "lat": 22.5392,
+    "lng": 88.3865,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Legendary beef/chicken burger",
+      "rock memorabilia"
+    ],
+    "mustTryDishes": [
+      "Legendary beef/chicken burger",
+      "rock memorabilia"
+    ],
+    "openHours": "12:00 PM – 2:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-057",
+    "name": "What's Up! Cafe",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Southern Avenue",
+    "lat": 22.4713,
+    "lng": 88.3517,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Rooftop terrace overlooking Rabindra Sarobar",
+      "shepherd's pie"
+    ],
+    "mustTryDishes": [
+      "Rooftop terrace overlooking Rabindra Sarobar",
+      "shepherd's pie"
+    ],
+    "openHours": "12:00 PM – 2:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-058",
+    "name": "Sienna Store & Cafe",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Hindustan Park",
+    "lat": 22.4941,
+    "lng": 88.3811,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Artisanal sourdough",
+      "duck noodle bowl"
+    ],
+    "mustTryDishes": [
+      "Artisanal sourdough",
+      "duck noodle bowl",
+      "seasonal bakes"
+    ],
+    "openHours": "9:00 AM – 11:30 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-059",
+    "name": "The Daily Cafe",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Deshapriya Park",
+    "lat": 22.4693,
+    "lng": 88.3585,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Truffle fries",
+      "avocado toast"
+    ],
+    "mustTryDishes": [
+      "Truffle fries",
+      "avocado toast",
+      "specialty bakes"
+    ],
+    "openHours": "8:00 AM – 12:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-060",
+    "name": "Cafe Drifter",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Bijoygarh/Jadavpur",
+    "lat": 22.5141,
+    "lng": 88.3833,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Reddit favorite for budget sandwiches",
+      "milkshakes"
+    ],
+    "mustTryDishes": [
+      "Reddit favorite for budget sandwiches",
+      "milkshakes",
+      "fries"
+    ],
+    "openHours": "10:00 AM – 1:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-061",
+    "name": "85 Lansdowne Cafe",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Sarat Bose Rd.",
+    "lat": 22.5242,
+    "lng": 88.3945,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "High-end espresso",
+      "Parisian pastries"
+    ],
+    "mustTryDishes": [
+      "High-end espresso",
+      "Parisian pastries"
+    ],
+    "openHours": "9:00 AM – 11:30 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-062",
+    "name": "Wise Owl Steakhouse & Cafe",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Hindustan Park",
+    "lat": 22.455,
+    "lng": 88.38,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Outdoor open garden",
+      "grilled steaks"
+    ],
+    "mustTryDishes": [
+      "Outdoor open garden",
+      "grilled steaks",
+      "iced lattes"
+    ],
+    "openHours": "7:30 AM – 1:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-063",
+    "name": "Country Roads Cafe",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Gariahat",
+    "lat": 22.5058,
+    "lng": 88.3682,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Cozy reading café",
+      "Darjeeling first-flush"
+    ],
+    "mustTryDishes": [
+      "Cozy reading café",
+      "Darjeeling first-flush",
+      "cutlets"
+    ],
+    "openHours": "10:00 AM – 12:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-064",
+    "name": "6 Ballygunge Place",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Ballygunge",
+    "lat": 22.5061,
+    "lng": 88.3602,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Dab Chingri",
+      "Kankra Jhal"
+    ],
+    "mustTryDishes": [
+      "Dab Chingri",
+      "Kankra Jhal",
+      "Kosha Mangsho buffet"
+    ],
+    "openHours": "11:30 AM – 3:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-065",
+    "name": "Bohemian",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Old Ballygunge",
+    "lat": 22.4901,
+    "lng": 88.3393,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Modern Bengali fusion",
+      "mustard pork"
+    ],
+    "mustTryDishes": [
+      "Modern Bengali fusion",
+      "mustard pork",
+      "Gondhoraj fish"
+    ],
+    "openHours": "12:30 PM – 1:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-066",
+    "name": "Shiraz Golden Restaurant",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Mullick Bazar",
+    "lat": 22.5372,
+    "lng": 88.3511,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Kolkata Awadhi Dum Biryani",
+      "Mutton Rezala"
+    ],
+    "mustTryDishes": [
+      "Kolkata Awadhi Dum Biryani",
+      "Mutton Rezala"
+    ],
+    "openHours": "11:00 AM – 4:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-067",
+    "name": "Zeeshan",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Park Circus",
+    "lat": 22.5412,
+    "lng": 88.3926,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Tikka kebab rolls",
+      "brain masala"
+    ],
+    "mustTryDishes": [
+      "Tikka kebab rolls",
+      "brain masala",
+      "mutton chaap"
+    ],
+    "openHours": "12:00 PM – 4:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-068",
+    "name": "Kewpie's",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Elgin / South link",
+    "lat": 22.5306,
+    "lng": 88.3927,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Traditional thala meals served on banana leaves"
+    ],
+    "mustTryDishes": [
+      "Traditional thala meals served on banana leaves"
+    ],
+    "openHours": "12:30 PM – 11:30 PM",
+    "isLateNight": false,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-069",
+    "name": "Oudh 1590",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Deshapriya Park",
+    "lat": 22.4768,
+    "lng": 88.386,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Awadhi Raan Biryani",
+      "Galawati Kebab"
+    ],
+    "mustTryDishes": [
+      "Awadhi Raan Biryani",
+      "Galawati Kebab",
+      "Nehari"
+    ],
+    "openHours": "12:00 PM – 3:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-070",
+    "name": "Mainland China",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Gurusinghe / South",
+    "lat": 22.546,
+    "lng": 88.3815,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Crispy chilli potatoes",
+      "dim sums"
+    ],
+    "mustTryDishes": [
+      "Crispy chilli potatoes",
+      "dim sums"
+    ],
+    "openHours": "12:00 PM – 2:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-071",
+    "name": "Peter Hu?",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Park St. edge",
+    "lat": 22.4407,
+    "lng": 88.3485,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Asian broth bowls",
+      "pan-fried noodles"
+    ],
+    "mustTryDishes": [
+      "Asian broth bowls",
+      "pan-fried noodles"
+    ],
+    "openHours": "12:00 PM – 1:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-072",
+    "name": "Fabbrica Della Pizza",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Allenby / Hindustan Park",
+    "lat": 22.4949,
+    "lng": 88.3719,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Neapolitan thin-crust pizza",
+      "tiramisu"
+    ],
+    "mustTryDishes": [
+      "Neapolitan thin-crust pizza",
+      "tiramisu"
+    ],
+    "openHours": "12:00 PM – 1:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-073",
+    "name": "Tero Parbon",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Purna Das Rd.",
+    "lat": 22.5111,
+    "lng": 88.3837,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Homestyle Bengali feast",
+      "Morich Mangsho"
+    ],
+    "mustTryDishes": [
+      "Homestyle Bengali feast",
+      "Morich Mangsho"
+    ],
+    "openHours": "12:00 PM – 2:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-074",
+    "name": "Adarsha Hindu Hotel",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Inside Gariahat Market",
+    "lat": 22.5479,
+    "lng": 88.3826,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Pice hotel with freshwater fish thalis"
+    ],
+    "mustTryDishes": [
+      "Pice hotel with freshwater fish thalis"
+    ],
+    "openHours": "10:00 AM – 11:00 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-075",
+    "name": "Tarun Niketan",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Rashbehari",
+    "lat": 22.5158,
+    "lng": 88.3709,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Classic Pice boarding hotel; macher jhol and posto bata"
+    ],
+    "mustTryDishes": [
+      "Classic Pice boarding hotel; macher jhol and posto bata"
+    ],
+    "openHours": "9:30 AM – 10:30 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-076",
+    "name": "Balwant Singh’s Eating House",
+    "category": "DHABA",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Harish Mukherjee Rd.",
+    "lat": 22.4724,
+    "lng": 88.3728,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Doodh Cola",
+      "kesar chai"
+    ],
+    "mustTryDishes": [
+      "Doodh Cola",
+      "kesar chai",
+      "club kachori"
+    ],
+    "openHours": "24 Hours Open",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-077",
+    "name": "Jai Hind Dhaba",
+    "category": "DHABA",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Sarat Bose Rd.",
+    "lat": 22.4911,
+    "lng": 88.3825,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Keema tadka",
+      "butter naan"
+    ],
+    "mustTryDishes": [
+      "Keema tadka",
+      "butter naan",
+      "chicken bharta"
+    ],
+    "openHours": "11:30 AM – 5:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-078",
+    "name": "Bachhan’s Dhaba",
+    "category": "DHABA",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Kalighat / Rashbehari",
+    "lat": 22.505,
+    "lng": 88.3415,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Late night rumali roti",
+      "butter chicken"
+    ],
+    "mustTryDishes": [
+      "Late night rumali roti",
+      "butter chicken"
+    ],
+    "openHours": "12:00 PM – 4:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-079",
+    "name": "Punjabee Rasoi",
+    "category": "DHABA",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Kasba",
+    "lat": 22.5297,
+    "lng": 88.3704,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Sarson ka saag",
+      "makki di roti"
+    ],
+    "mustTryDishes": [
+      "Sarson ka saag",
+      "makki di roti",
+      "Amritsari kulcha"
+    ],
+    "openHours": "12:00 PM – 2:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-080",
+    "name": "Campari",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Gariahat",
+    "lat": 22.5123,
+    "lng": 88.3381,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Best Kolkata Fish Fry",
+      "Chicken Cutlet"
+    ],
+    "mustTryDishes": [
+      "Best Kolkata Fish Fry",
+      "Chicken Cutlet",
+      "Roll"
+    ],
+    "openHours": "4:00 PM – 11:00 PM",
+    "isLateNight": false,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-081",
+    "name": "Bedouin",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Gariahat",
+    "lat": 22.5473,
+    "lng": 88.3745,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Mutton roll",
+      "egg chicken roll"
+    ],
+    "mustTryDishes": [
+      "Mutton roll",
+      "egg chicken roll"
+    ],
+    "openHours": "12:00 PM – 3:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-082",
+    "name": "Kusum Rolls",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Park Street / South",
+    "lat": 22.5067,
+    "lng": 88.3906,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Kathi rolls wrapped in flakey egg paratha"
+    ],
+    "mustTryDishes": [
+      "Kathi rolls wrapped in flakey egg paratha"
+    ],
+    "openHours": "11:00 AM – 4:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-083",
+    "name": "Hot Kati Rolls",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Park St. edge",
+    "lat": 22.5334,
+    "lng": 88.37,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Juicy seekh paratha roll"
+    ],
+    "mustTryDishes": [
+      "Juicy seekh paratha roll"
+    ],
+    "openHours": "11:00 AM – 3:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-084",
+    "name": "Haji Saheb",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Behala Tram Depot",
+    "lat": 22.5107,
+    "lng": 88.3619,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Mughlai rolls",
+      "biryani"
+    ],
+    "mustTryDishes": [
+      "Mughlai rolls",
+      "biryani",
+      "reshmi butter masala"
+    ],
+    "openHours": "12:00 PM – 3:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-085",
+    "name": "Dacres Roll Centre",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Gariahat link",
+    "lat": 22.4938,
+    "lng": 88.3461,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Moghlai porota",
+      "egg chicken devil"
+    ],
+    "mustTryDishes": [
+      "Moghlai porota",
+      "egg chicken devil"
+    ],
+    "openHours": "3:00 PM – 1:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-086",
+    "name": "Maharaja & Maharani",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Sarat Bose Rd.",
+    "lat": 22.475,
+    "lng": 88.3701,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Fluffy hing kachori",
+      "jalebi"
+    ],
+    "mustTryDishes": [
+      "Fluffy hing kachori",
+      "jalebi",
+      "cholar dal"
+    ],
+    "openHours": "6:00 AM – 10:30 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-087",
+    "name": "Tasty Corner",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Mandeville Gardens",
+    "lat": 22.5431,
+    "lng": 88.3916,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Radhaballabhi",
+      "aloor dum"
+    ],
+    "mustTryDishes": [
+      "Radhaballabhi",
+      "aloor dum",
+      "samosa"
+    ],
+    "openHours": "7:00 AM – 10:30 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-088",
+    "name": "Balaram Mullick & Radharaman Mullick",
+    "category": "SWEETS",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Bhowanipore",
+    "lat": 22.4591,
+    "lng": 88.3924,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Baked Rosogolla",
+      "Chocolate Mudpie Sandesh"
+    ],
+    "mustTryDishes": [
+      "Baked Rosogolla",
+      "Chocolate Mudpie Sandesh",
+      "Mishti Doi"
+    ],
+    "openHours": "7:00 AM – 1:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-089",
+    "name": "Jadav Chandra Das",
+    "category": "SWEETS",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Rashbehari Ave.",
+    "lat": 22.5129,
+    "lng": 88.3355,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Authentic Nolen Gur Sandesh and Rasgulla"
+    ],
+    "mustTryDishes": [
+      "Authentic Nolen Gur Sandesh and Rasgulla"
+    ],
+    "openHours": "7:00 AM – 11:00 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-090",
+    "name": "Mithai",
+    "category": "SWEETS",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Park Circus",
+    "lat": 22.528,
+    "lng": 88.3807,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Popular Reddit rec for hot Shingara (samosa) and Kheer Kadam"
+    ],
+    "mustTryDishes": [
+      "Popular Reddit rec for hot Shingara (samosa) and Kheer Kadam"
+    ],
+    "openHours": "7:00 AM – 11:30 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-091",
+    "name": "Ganguram",
+    "category": "SWEETS",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Gariahat",
+    "lat": 22.4943,
+    "lng": 88.3322,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Indrani",
+      "mishti doi"
+    ],
+    "mustTryDishes": [
+      "Indrani",
+      "mishti doi",
+      "radhaballabhi"
+    ],
+    "openHours": "6:30 AM – 11:30 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-092",
+    "name": "Gupta Brothers",
+    "category": "SWEETS",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Elgin Rd. / Lala Lajpat Rai",
+    "lat": 22.4756,
+    "lng": 88.3604,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Rabdi",
+      "Kesaria Jalebi"
+    ],
+    "mustTryDishes": [
+      "Rabdi",
+      "Kesaria Jalebi",
+      "Dhokla"
+    ],
+    "openHours": "7:00 AM – 12:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-south-093",
+    "name": "Dolly’s Tea Shop",
+    "category": "SWEETS",
+    "priceRange": "MID_RANGE",
+    "zone": "SOUTH",
+    "address": "Dakshinapan Shopping Complex",
+    "lat": 22.5348,
+    "lng": 88.3795,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Fruit iced tea",
+      "English muffins"
+    ],
+    "mustTryDishes": [
+      "Fruit iced tea",
+      "English muffins",
+      "Darjeeling muscatel"
+    ],
+    "openHours": "11:00 AM – 9:30 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-094",
+    "name": "Mocambo",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Park Street",
+    "lat": 22.5512,
+    "lng": 88.3576,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Devilled Crab",
+      "Chicken Tetrazzini"
+    ],
+    "mustTryDishes": [
+      "Devilled Crab",
+      "Chicken Tetrazzini",
+      "Fish Florentine"
+    ],
+    "openHours": "11:00 AM – 1:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-095",
+    "name": "Peter Cat",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Park Street",
+    "lat": 22.5539,
+    "lng": 88.3946,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "The iconic Chelo Kebab with buttery rice and fried egg"
+    ],
+    "mustTryDishes": [
+      "The iconic Chelo Kebab with buttery rice and fried egg"
+    ],
+    "openHours": "11:00 AM – 2:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-096",
+    "name": "Trincas",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Park Street",
+    "lat": 22.5513,
+    "lng": 88.3848,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Live retro music",
+      "Ming Room chili chicken"
+    ],
+    "mustTryDishes": [
+      "Live retro music",
+      "Ming Room chili chicken",
+      "cocktails"
+    ],
+    "openHours": "11:30 AM – 2:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-097",
+    "name": "Bar-B-Q",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Park Street",
+    "lat": 22.5621,
+    "lng": 88.3491,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Vintage Chinese and Indian sizzlers"
+    ],
+    "mustTryDishes": [
+      "Vintage Chinese and Indian sizzlers"
+    ],
+    "openHours": "12:00 PM – 2:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-098",
+    "name": "Broadway Hotel & Bar",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Chandni Chowk",
+    "lat": 22.5746,
+    "lng": 88.3494,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Colonial wooden bar",
+      "chilled beer"
+    ],
+    "mustTryDishes": [
+      "Colonial wooden bar",
+      "chilled beer",
+      "roast chicken"
+    ],
+    "openHours": "11:00 AM – 11:30 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-099",
+    "name": "Ping’s Cafe Orient",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Middleton Row",
+    "lat": 22.5547,
+    "lng": 88.3638,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Craft cocktails",
+      "Philadelphia cream-cheese dim sum"
+    ],
+    "mustTryDishes": [
+      "Craft cocktails",
+      "Philadelphia cream-cheese dim sum"
+    ],
+    "openHours": "12:00 PM – 2:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-100",
+    "name": "Carpe Diem",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Park Street",
+    "lat": 22.56,
+    "lng": 88.3621,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Modern pub ambiance",
+      "finger food platters"
+    ],
+    "mustTryDishes": [
+      "Modern pub ambiance",
+      "finger food platters"
+    ],
+    "openHours": "12:00 PM – 2:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-101",
+    "name": "Flurys",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Park Street",
+    "lat": 22.5828,
+    "lng": 88.3897,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Classic English breakfast",
+      "rum balls"
+    ],
+    "mustTryDishes": [
+      "Classic English breakfast",
+      "rum balls",
+      "chocolate pyramid"
+    ],
+    "openHours": "7:30 AM – 1:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-102",
+    "name": "The Bakery at The Lalit Great Eastern",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Hemanta Basu Sarani",
+    "lat": 22.5817,
+    "lng": 88.3607,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Heritage Anglo-Indian pastries",
+      "artisan loaves"
+    ],
+    "mustTryDishes": [
+      "Heritage Anglo-Indian pastries",
+      "artisan loaves"
+    ],
+    "openHours": "8:00 AM – 11:00 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-103",
+    "name": "Saldanha Bakery",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Nawab Abdur Rahman St.",
+    "lat": 22.5755,
+    "lng": 88.3578,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Century-old Goan bakery; Walnut cake",
+      "coconut macaroons"
+    ],
+    "mustTryDishes": [
+      "Century-old Goan bakery; Walnut cake",
+      "coconut macaroons"
+    ],
+    "openHours": "8:00 AM – 8:00 PM (Pre-orders best)",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-104",
+    "name": "Nahoum & Sons",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "New Market",
+    "lat": 22.5493,
+    "lng": 88.389,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Jewish bakery heritage; Rich fruit cake",
+      "lemon tarts"
+    ],
+    "mustTryDishes": [
+      "Jewish bakery heritage; Rich fruit cake",
+      "lemon tarts",
+      "rum pastry"
+    ],
+    "openHours": "9:00 AM – 10:30 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-105",
+    "name": "Milee Droog Cafe & Bistro",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Gorky Sadan link",
+    "lat": 22.5722,
+    "lng": 88.3487,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Russian blini",
+      "borscht"
+    ],
+    "mustTryDishes": [
+      "Russian blini",
+      "borscht",
+      "aromatic coffee"
+    ],
+    "openHours": "11:00 AM – 11:00 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-106",
+    "name": "Cafe Mezzuna",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Forum Mall edge",
+    "lat": 22.5706,
+    "lng": 88.3918,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Thin crust pizzas",
+      "craft sangrias"
+    ],
+    "mustTryDishes": [
+      "Thin crust pizzas",
+      "craft sangrias"
+    ],
+    "openHours": "11:30 AM – 1:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-107",
+    "name": "Tung Nam",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Poddar Court, Tiretti",
+    "lat": 22.5523,
+    "lng": 88.352,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Pork fried wanton",
+      "dry chili pork"
+    ],
+    "mustTryDishes": [
+      "Pork fried wanton",
+      "dry chili pork",
+      "hamchoy soup"
+    ],
+    "openHours": "11:30 AM – 11:30 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-108",
+    "name": "Eau Chew",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Ganesh Chandra Ave",
+    "lat": 22.5604,
+    "lng": 88.3669,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Oldest family-run Chinese",
+      "home of \"Chimney Soup\" and Josephine Noodles"
+    ],
+    "mustTryDishes": [
+      "Oldest family-run Chinese",
+      "home of \"Chimney Soup\" and Josephine Noodles"
+    ],
+    "openHours": "12:00 PM – 11:00 PM",
+    "isLateNight": false,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-109",
+    "name": "Nanking / Sei Vui",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Black Burn Lane, Tiretti",
+    "lat": 22.5506,
+    "lng": 88.3765,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Restored Cantonese pork dishes",
+      "soup noodles"
+    ],
+    "mustTryDishes": [
+      "Restored Cantonese pork dishes",
+      "soup noodles"
+    ],
+    "openHours": "11:00 AM – 10:30 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-110",
+    "name": "Nizam's",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "New Market",
+    "lat": 22.5802,
+    "lng": 88.3839,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "The birthplace of the Kathi Roll (beef",
+      "mutton"
+    ],
+    "mustTryDishes": [
+      "The birthplace of the Kathi Roll (beef",
+      "mutton",
+      "egg roll)"
+    ],
+    "openHours": "11:30 AM – 3:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-111",
+    "name": "Sidheswari Ashram",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Near Janbazar / New Market",
+    "lat": 22.5685,
+    "lng": 88.3774,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Heritage Pice hotel; Kobiraji jhol",
+      "chitol macher muitha"
+    ],
+    "mustTryDishes": [
+      "Heritage Pice hotel; Kobiraji jhol",
+      "chitol macher muitha"
+    ],
+    "openHours": "9:30 AM – 11:30 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-112",
+    "name": "Mancherji’s",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Kyd Street",
+    "lat": 22.553,
+    "lng": 88.3627,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Rare Parsi food joint in town: Dhansak",
+      "salli boti"
+    ],
+    "mustTryDishes": [
+      "Rare Parsi food joint in town: Dhansak",
+      "salli boti"
+    ],
+    "openHours": "11:30 AM – 10:00 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-113",
+    "name": "Amber",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Waterloo Street",
+    "lat": 22.58,
+    "lng": 88.3718,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "North Indian retro; Butter chicken",
+      "mutton raan"
+    ],
+    "mustTryDishes": [
+      "North Indian retro; Butter chicken",
+      "mutton raan"
+    ],
+    "openHours": "12:00 PM – 1:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-114",
+    "name": "Mezban",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Ripon Street",
+    "lat": 22.5779,
+    "lng": 88.3532,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Beef/mutton biryani",
+      "brain masala"
+    ],
+    "mustTryDishes": [
+      "Beef/mutton biryani",
+      "brain masala"
+    ],
+    "openHours": "11:30 AM – 4:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-115",
+    "name": "Sabir’s Hotel",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Chandni Chowk",
+    "lat": 22.5507,
+    "lng": 88.3852,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Legend for Mughlai Rezala (mutton/chicken) and tandoori roti"
+    ],
+    "mustTryDishes": [
+      "Legend for Mughlai Rezala (mutton/chicken) and tandoori roti"
+    ],
+    "openHours": "11:00 AM – 3:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-116",
+    "name": "Chhota Ellaichi",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "CR Avenue / Central",
+    "lat": 22.558,
+    "lng": 88.3726,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Hakka noodles",
+      "budget mixed gravy chow"
+    ],
+    "mustTryDishes": [
+      "Hakka noodles",
+      "budget mixed gravy chow"
+    ],
+    "openHours": "12:00 PM – 12:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-117",
+    "name": "Basera Restaurant & Bar",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "CR Avenue",
+    "lat": 22.5734,
+    "lng": 88.3798,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "North Indian curries",
+      "kebabs"
+    ],
+    "mustTryDishes": [
+      "North Indian curries",
+      "kebabs"
+    ],
+    "openHours": "12:00 PM – 1:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-118",
+    "name": "Rung De Basanti Dhaba",
+    "category": "DHABA",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Central link",
+    "lat": 22.5624,
+    "lng": 88.3665,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Handi gosht",
+      "dilli butter chicken"
+    ],
+    "mustTryDishes": [
+      "Handi gosht",
+      "dilli butter chicken"
+    ],
+    "openHours": "12:00 PM – 2:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-119",
+    "name": "Pawan Dhaba",
+    "category": "DHABA",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Chandni",
+    "lat": 22.5601,
+    "lng": 88.3707,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Tandoori breads",
+      "egg curry"
+    ],
+    "mustTryDishes": [
+      "Tandoori breads",
+      "egg curry",
+      "dal makhani"
+    ],
+    "openHours": "11:00 AM – 2:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-120",
+    "name": "Chowringhee Bar & Restaurant",
+    "category": "DHABA",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Dharmatala",
+    "lat": 22.5765,
+    "lng": 88.358,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Quick beer",
+      "chili chicken"
+    ],
+    "mustTryDishes": [
+      "Quick beer",
+      "chili chicken",
+      "kebabs"
+    ],
+    "openHours": "11:30 AM – 1:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-121",
+    "name": "Hindustan Dhaba",
+    "category": "DHABA",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Bentinck Street",
+    "lat": 22.5549,
+    "lng": 88.3759,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Late-night tadka",
+      "bhurji paratha"
+    ],
+    "mustTryDishes": [
+      "Late-night tadka",
+      "bhurji paratha"
+    ],
+    "openHours": "12:00 PM – 4:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-122",
+    "name": "Chitto Babur Dokan",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Dacres Lane / James Hickey Sarani",
+    "lat": 22.5486,
+    "lng": 88.3496,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Heritage Chicken Stew with butter toast",
+      "fish fry"
+    ],
+    "mustTryDishes": [
+      "Heritage Chicken Stew with butter toast",
+      "fish fry",
+      "khichuri"
+    ],
+    "openHours": "7:00 AM – 12:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-123",
+    "name": "Apanjan Dacres Lane",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "CENTRAL Kolkata",
+    "lat": 22.5595,
+    "lng": 88.3651,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Khichuri bhog",
+      "egg devil"
+    ],
+    "mustTryDishes": [
+      "Khichuri bhog",
+      "egg devil",
+      "mutton chop"
+    ],
+    "openHours": "8:00 AM – 11:00 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-124",
+    "name": "Tiretti Bazaar Morning Chinese Market",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Sun Yat Sen St.",
+    "lat": 22.5688,
+    "lng": 88.3544,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Morning dim sums",
+      "bao buns"
+    ],
+    "mustTryDishes": [
+      "Morning dim sums",
+      "bao buns",
+      "fish ball soup"
+    ],
+    "openHours": "6:00 AM – 9:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-125",
+    "name": "Kalika Chop Corner",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Bowbazar edge",
+    "lat": 22.5548,
+    "lng": 88.3804,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Giant egg devil",
+      "mutton chops"
+    ],
+    "mustTryDishes": [
+      "Giant egg devil",
+      "mutton chops"
+    ],
+    "openHours": "4:00 PM – 11:00 PM",
+    "isLateNight": false,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-126",
+    "name": "Lala Kachori Wala",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Janbazar",
+    "lat": 22.5524,
+    "lng": 88.3555,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Crisp club kachori with aloo curry"
+    ],
+    "mustTryDishes": [
+      "Crisp club kachori with aloo curry"
+    ],
+    "openHours": "6:00 AM – 12:00 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-127",
+    "name": "New Embassy Restaurant",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Dharmatala",
+    "lat": 22.5739,
+    "lng": 88.377,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Nostalgic mutton chop",
+      "liver curry"
+    ],
+    "mustTryDishes": [
+      "Nostalgic mutton chop",
+      "liver curry"
+    ],
+    "openHours": "11:00 AM – 11:00 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-128",
+    "name": "Sangam Roll Centre",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Bowbazar",
+    "lat": 22.5822,
+    "lng": 88.362,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Mutton roll",
+      "reshmi roll"
+    ],
+    "mustTryDishes": [
+      "Mutton roll",
+      "reshmi roll"
+    ],
+    "openHours": "12:00 PM – 2:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-129",
+    "name": "Babu Master Telebhaja",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Chittaranjan Ave",
+    "lat": 22.5765,
+    "lng": 88.3853,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Khasir chorbir chop (goat-fat cutlet)"
+    ],
+    "mustTryDishes": [
+      "Khasir chorbir chop (goat-fat cutlet)"
+    ],
+    "openHours": "4:30 PM – 10:30 PM",
+    "isLateNight": false,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-130",
+    "name": "Poddar Court Fish Finger Corner",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "CENTRAL Kolkata",
+    "lat": 22.5503,
+    "lng": 88.39,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Crispy crumb bhetki fingers with mustard"
+    ],
+    "mustTryDishes": [
+      "Crispy crumb bhetki fingers with mustard"
+    ],
+    "openHours": "3:00 PM – 10:30 PM",
+    "isLateNight": false,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-131",
+    "name": "Deccan Canteen",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "New Market",
+    "lat": 22.5505,
+    "lng": 88.3862,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Street style biryani",
+      "rumali chicken chaap"
+    ],
+    "mustTryDishes": [
+      "Street style biryani",
+      "rumali chicken chaap"
+    ],
+    "openHours": "12:00 PM – 2:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-132",
+    "name": "Badshah Bar & Restaurant",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "New Market",
+    "lat": 22.5624,
+    "lng": 88.3944,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Draft beer",
+      "kathi rolls"
+    ],
+    "mustTryDishes": [
+      "Draft beer",
+      "kathi rolls"
+    ],
+    "openHours": "11:00 AM – 12:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-133",
+    "name": "K.C. Das",
+    "category": "SWEETS",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Esplanade",
+    "lat": 22.571,
+    "lng": 88.3726,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Historic creator of canned Rossogolla and Rasmalai"
+    ],
+    "mustTryDishes": [
+      "Historic creator of canned Rossogolla and Rasmalai"
+    ],
+    "openHours": "7:00 AM – 12:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-134",
+    "name": "Tewari Brothers",
+    "category": "SWEETS",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Burrabazar / Bowbazar",
+    "lat": 22.5688,
+    "lng": 88.3656,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Pure desi ghee Samosa",
+      "Gulab Jamun"
+    ],
+    "mustTryDishes": [
+      "Pure desi ghee Samosa",
+      "Gulab Jamun",
+      "Motichoor Ladoo"
+    ],
+    "openHours": "6:30 AM – 11:30 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-135",
+    "name": "Kaligodam Sweet Shop",
+    "category": "SWEETS",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Mallick St., Burrabazar",
+    "lat": 22.5789,
+    "lng": 88.3572,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Traditional mawa sweets",
+      "rabdi"
+    ],
+    "mustTryDishes": [
+      "Traditional mawa sweets",
+      "rabdi"
+    ],
+    "openHours": "6:30 AM – 10:00 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-136",
+    "name": "Chitpur Famous Malai Cha",
+    "category": "SWEETS",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Chitpur / Nakhoda Lane",
+    "lat": 22.5776,
+    "lng": 88.3895,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Thick layered malai tea in earthen bhar"
+    ],
+    "mustTryDishes": [
+      "Thick layered malai tea in earthen bhar"
+    ],
+    "openHours": "6:00 AM – 3:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-137",
+    "name": "Balaji Samosa & Dosa",
+    "category": "SWEETS",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Bowbazar",
+    "lat": 22.5794,
+    "lng": 88.3752,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Giant Bengali Shingara with cauliflower bits"
+    ],
+    "mustTryDishes": [
+      "Giant Bengali Shingara with cauliflower bits"
+    ],
+    "openHours": "7:00 AM – 10:30 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-central-138",
+    "name": "Bansiwala Sweets",
+    "category": "SWEETS",
+    "priceRange": "MID_RANGE",
+    "zone": "CENTRAL",
+    "address": "Burrabazar",
+    "lat": 22.5589,
+    "lng": 88.343,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Dal kachori",
+      "jalebi"
+    ],
+    "mustTryDishes": [
+      "Dal kachori",
+      "jalebi",
+      "dry fruit sandesh"
+    ],
+    "openHours": "7:00 AM – 11:00 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-139",
+    "name": "Capella",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "Altair Boutique, Sector 5",
+    "lat": 22.4788,
+    "lng": 88.4136,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "High-rise sky bar",
+      "global plates"
+    ],
+    "mustTryDishes": [
+      "High-rise sky bar",
+      "global plates",
+      "cocktails"
+    ],
+    "openHours": "12:00 PM – 2:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-140",
+    "name": "Reflexxion",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "Sector 5, Salt Lake",
+    "lat": 22.4445,
+    "lng": 88.4773,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "DJ dance floor",
+      "long island iced teas"
+    ],
+    "mustTryDishes": [
+      "DJ dance floor",
+      "long island iced teas"
+    ],
+    "openHours": "12:00 PM – 3:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-141",
+    "name": "Raize The Bar",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "Sector 5",
+    "lat": 22.5556,
+    "lng": 88.4791,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "In-house brewed wheat beers",
+      "chicken tikka"
+    ],
+    "mustTryDishes": [
+      "In-house brewed wheat beers",
+      "chicken tikka"
+    ],
+    "openHours": "12:00 PM – 2:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-142",
+    "name": "10 Downing Street",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "Sector 5",
+    "lat": 22.6487,
+    "lng": 88.4255,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "British pub aesthetic",
+      "shepherd's pie"
+    ],
+    "mustTryDishes": [
+      "British pub aesthetic",
+      "shepherd's pie",
+      "beers"
+    ],
+    "openHours": "12:00 PM – 2:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-143",
+    "name": "Urban Desk",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "Salt Lake Sector 1",
+    "lat": 22.5423,
+    "lng": 88.4709,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Rooftop chill zone",
+      "loaded nachos"
+    ],
+    "mustTryDishes": [
+      "Rooftop chill zone",
+      "loaded nachos"
+    ],
+    "openHours": "1:00 PM – 1:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-144",
+    "name": "Seven Kingdom Cafe",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "Salt Lake Sector 1",
+    "lat": 22.5899,
+    "lng": 88.4167,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Cozy book nook",
+      "bubble waffles"
+    ],
+    "mustTryDishes": [
+      "Cozy book nook",
+      "bubble waffles",
+      "thick shakes"
+    ],
+    "openHours": "11:00 AM – 1:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-145",
+    "name": "Arts & Brew",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "Sector 5",
+    "lat": 22.5656,
+    "lng": 88.4186,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Corporate chill café",
+      "pour-overs"
+    ],
+    "mustTryDishes": [
+      "Corporate chill café",
+      "pour-overs",
+      "wraps"
+    ],
+    "openHours": "9:00 AM – 2:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-146",
+    "name": "The Tea Junction",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "City Centre 1, Salt Lake",
+    "lat": 22.479,
+    "lng": 88.4144,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Kesariya kulhad chai",
+      "puff patties"
+    ],
+    "mustTryDishes": [
+      "Kesariya kulhad chai",
+      "puff patties"
+    ],
+    "openHours": "9:00 AM – 1:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-147",
+    "name": "Cafe Ekante",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "Eco Park Island, New Town",
+    "lat": 22.6302,
+    "lng": 88.4748,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Lake-view dining",
+      "traditional snacks"
+    ],
+    "mustTryDishes": [
+      "Lake-view dining",
+      "traditional snacks",
+      "hot cocoa"
+    ],
+    "openHours": "12:00 PM – 11:00 PM",
+    "isLateNight": false,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-148",
+    "name": "Craft Coffee",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "Salt Lake Sector 1",
+    "lat": 22.5918,
+    "lng": 88.4411,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Single-origin manual brews",
+      "French pastries"
+    ],
+    "mustTryDishes": [
+      "Single-origin manual brews",
+      "French pastries"
+    ],
+    "openHours": "8:00 AM – 12:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-149",
+    "name": "Country Road Cafe",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "Kasba / Rajdanga",
+    "lat": 22.6377,
+    "lng": 88.4306,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Artisan coffee",
+      "grilled chicken burgers"
+    ],
+    "mustTryDishes": [
+      "Artisan coffee",
+      "grilled chicken burgers"
+    ],
+    "openHours": "10:00 AM – 12:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-150",
+    "name": "Beijing Restaurant",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "Tangra Chinatown",
+    "lat": 22.5297,
+    "lng": 88.4619,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Golden fried prawns",
+      "Crispy chili lamb"
+    ],
+    "mustTryDishes": [
+      "Golden fried prawns",
+      "Crispy chili lamb",
+      "Pecking duck"
+    ],
+    "openHours": "12:00 PM – 2:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-151",
+    "name": "Golden Joy",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "Tangra",
+    "lat": 22.5815,
+    "lng": 88.4473,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Hakka dim sums",
+      "Schezwan chicken"
+    ],
+    "mustTryDishes": [
+      "Hakka dim sums",
+      "Schezwan chicken",
+      "crab claws"
+    ],
+    "openHours": "11:30 AM – 2:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-152",
+    "name": "Big Boss",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "Tangra Chinatown",
+    "lat": 22.572,
+    "lng": 88.4569,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Classic Chinese banquet",
+      "salt & pepper squid"
+    ],
+    "mustTryDishes": [
+      "Classic Chinese banquet",
+      "salt & pepper squid"
+    ],
+    "openHours": "12:00 PM – 2:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-153",
+    "name": "Kim Ling",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "Tangra",
+    "lat": 22.5163,
+    "lng": 88.4726,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Old Chinatown classic; Manchurian soup",
+      "noodles"
+    ],
+    "mustTryDishes": [
+      "Old Chinatown classic; Manchurian soup",
+      "noodles"
+    ],
+    "openHours": "12:00 PM – 1:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-154",
+    "name": "Ah Leung",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "Tangra lane - Hidden Reddit Gem",
+    "lat": 22.5604,
+    "lng": 88.4302,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Unmarked family joint; Hakka wonton soup noodles"
+    ],
+    "mustTryDishes": [
+      "Unmarked family joint; Hakka wonton soup noodles"
+    ],
+    "openHours": "8:00 AM – 9:00 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-155",
+    "name": "Sun Sen",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "Tangra",
+    "lat": 22.5328,
+    "lng": 88.4107,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Fried wontons",
+      "chicken sweet corn soup"
+    ],
+    "mustTryDishes": [
+      "Fried wontons",
+      "chicken sweet corn soup"
+    ],
+    "openHours": "12:00 PM – 12:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-156",
+    "name": "Kafulok",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "Tangra",
+    "lat": 22.5996,
+    "lng": 88.4149,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Crispy chili chicken",
+      "prawn balls"
+    ],
+    "mustTryDishes": [
+      "Crispy chili chicken",
+      "prawn balls"
+    ],
+    "openHours": "12:00 PM – 1:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-157",
+    "name": "Dum Pukht",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "ITC Sonar, EM Bypass",
+    "lat": 22.5742,
+    "lng": 88.3983,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Royal Awadhi Dum Biryani",
+      "Kakori kebabs"
+    ],
+    "mustTryDishes": [
+      "Royal Awadhi Dum Biryani",
+      "Kakori kebabs"
+    ],
+    "openHours": "12:30 PM – 1:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-158",
+    "name": "Vintage Asia",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "JW Marriott, EM Bypass",
+    "lat": 22.5255,
+    "lng": 88.4103,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Premium pan-Asian dim sum and sushi"
+    ],
+    "mustTryDishes": [
+      "Premium pan-Asian dim sum and sushi"
+    ],
+    "openHours": "12:30 PM – 1:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-159",
+    "name": "Peshawri",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "ITC Sonar",
+    "lat": 22.6439,
+    "lng": 88.3997,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Sikandari Raan",
+      "Dal Bukhara"
+    ],
+    "mustTryDishes": [
+      "Sikandari Raan",
+      "Dal Bukhara",
+      "naan"
+    ],
+    "openHours": "12:30 PM – 1:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-160",
+    "name": "Santa’s Fantasea",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "Salt Lake Sector 1",
+    "lat": 22.5234,
+    "lng": 88.4245,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Tribal & coastal cuisine; Bamboo mutton",
+      "squid fry"
+    ],
+    "mustTryDishes": [
+      "Tribal & coastal cuisine; Bamboo mutton",
+      "squid fry"
+    ],
+    "openHours": "12:00 PM – 2:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-161",
+    "name": "Sharma Dhaba",
+    "category": "DHABA",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "Sector 5, Webel crossing",
+    "lat": 22.4979,
+    "lng": 88.4471,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Late-night chai",
+      "kulhad rabdi"
+    ],
+    "mustTryDishes": [
+      "Late-night chai",
+      "kulhad rabdi",
+      "club kachori"
+    ],
+    "openHours": "24 Hours Open",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-162",
+    "name": "Rang De Basanti Dhaba",
+    "category": "DHABA",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "Salt Lake Sector 5",
+    "lat": 22.6049,
+    "lng": 88.4416,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Ghee roast chicken",
+      "paneer butter masala"
+    ],
+    "mustTryDishes": [
+      "Ghee roast chicken",
+      "paneer butter masala"
+    ],
+    "openHours": "12:00 PM – 3:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-163",
+    "name": "Chai Break",
+    "category": "DHABA",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "Salt Lake Sector 5",
+    "lat": 22.4473,
+    "lng": 88.414,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Hookah lounge",
+      "thin-crust pizza"
+    ],
+    "mustTryDishes": [
+      "Hookah lounge",
+      "thin-crust pizza",
+      "chai flasks"
+    ],
+    "openHours": "11:00 AM – 3:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-164",
+    "name": "Silver Chimney",
+    "category": "DHABA",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "Kasba",
+    "lat": 22.5084,
+    "lng": 88.4783,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Highway-style tandoori chicken",
+      "dal makhani"
+    ],
+    "mustTryDishes": [
+      "Highway-style tandoori chicken",
+      "dal makhani"
+    ],
+    "openHours": "12:00 PM – 2:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-165",
+    "name": "Chowman",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "Salt Lake Sector 4",
+    "lat": 22.5824,
+    "lng": 88.3967,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Kolkata-style chili garlic noodles",
+      "crispy shredded chicken"
+    ],
+    "mustTryDishes": [
+      "Kolkata-style chili garlic noodles",
+      "crispy shredded chicken"
+    ],
+    "openHours": "12:00 PM – 2:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-166",
+    "name": "Sector 5 Street Food Stalls",
+    "category": "STREET_FOOD",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "RDB Cinema lane",
+    "lat": 22.5141,
+    "lng": 88.4359,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Egg rolls",
+      "chicken chowmein"
+    ],
+    "mustTryDishes": [
+      "Egg rolls",
+      "chicken chowmein",
+      "momos"
+    ],
+    "openHours": "10:00 AM – 4:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-167",
+    "name": "Karunamoyee Momo Stalls",
+    "category": "STREET_FOOD",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "Salt Lake",
+    "lat": 22.5125,
+    "lng": 88.4543,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Darjeeling steamed pork/chicken momos with hot red chutney"
+    ],
+    "mustTryDishes": [
+      "Darjeeling steamed pork/chicken momos with hot red chutney"
+    ],
+    "openHours": "3:00 PM – 12:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-168",
+    "name": "Baisakhi Auto Stand Food Corner",
+    "category": "STREET_FOOD",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "Salt Lake",
+    "lat": 22.6413,
+    "lng": 88.3987,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Fish roll",
+      "chicken roll"
+    ],
+    "mustTryDishes": [
+      "Fish roll",
+      "chicken roll",
+      "egg devil"
+    ],
+    "openHours": "4:00 PM – 1:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-169",
+    "name": "Topsia Beef Kebab Alley",
+    "category": "STREET_FOOD",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "Near Topsia bridge",
+    "lat": 22.6004,
+    "lng": 88.4051,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Khiri kebab",
+      "beef boti"
+    ],
+    "mustTryDishes": [
+      "Khiri kebab",
+      "beef boti",
+      "paratha"
+    ],
+    "openHours": "5:00 PM – 3:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-170",
+    "name": "Kasba New Market Rolls",
+    "category": "STREET_FOOD",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "EAST Kolkata",
+    "lat": 22.5676,
+    "lng": 88.4365,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Double chicken kathi rolls"
+    ],
+    "mustTryDishes": [
+      "Double chicken kathi rolls"
+    ],
+    "openHours": "2:00 PM – 2:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-171",
+    "name": "City Centre 1 Food Court",
+    "category": "STREET_FOOD",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "Kund area",
+    "lat": 22.4728,
+    "lng": 88.407,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Fast food pav bhaji",
+      "rolls"
+    ],
+    "mustTryDishes": [
+      "Fast food pav bhaji",
+      "rolls",
+      "corn cups"
+    ],
+    "openHours": "11:00 AM – 1:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-172",
+    "name": "Bikharam Chandmal",
+    "category": "SWEETS",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "Sector 5 / Salt Lake",
+    "lat": 22.5907,
+    "lng": 88.4681,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Rajasthani Pyaaz Kachori",
+      "Jalebi"
+    ],
+    "mustTryDishes": [
+      "Rajasthani Pyaaz Kachori",
+      "Jalebi",
+      "Chaat"
+    ],
+    "openHours": "7:00 AM – 11:30 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-173",
+    "name": "VIP Sweets",
+    "category": "SWEETS",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "Ultadanga/EM Bypass link",
+    "lat": 22.6086,
+    "lng": 88.4281,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Kheer Kadam",
+      "Chanabora"
+    ],
+    "mustTryDishes": [
+      "Kheer Kadam",
+      "Chanabora"
+    ],
+    "openHours": "7:00 AM – 11:00 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-174",
+    "name": "Haldiram’s Bhujiawala",
+    "category": "SWEETS",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "Kasba / Rajdanga",
+    "lat": 22.6261,
+    "lng": 88.4557,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Rajbhog",
+      "Dahi Vada"
+    ],
+    "mustTryDishes": [
+      "Rajbhog",
+      "Dahi Vada",
+      "Chole Bhature"
+    ],
+    "openHours": "8:00 AM – 11:30 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-east-175",
+    "name": "Dutta Mistanna Bhandar",
+    "category": "SWEETS",
+    "priceRange": "MID_RANGE",
+    "zone": "EAST",
+    "address": "Ultadanga / Salt Lake feeder",
+    "lat": 22.5218,
+    "lng": 88.426,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Classic hot breakfast Radhaballabhi with spicy aloor dum"
+    ],
+    "mustTryDishes": [
+      "Classic hot breakfast Radhaballabhi with spicy aloor dum"
+    ],
+    "openHours": "6:30 AM – 10:30 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-176",
+    "name": "Club 29",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "Howrah / Fore Shore Rd.",
+    "lat": 22.5361,
+    "lng": 88.2792,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Riverside cocktails",
+      "tandoori appetizers"
+    ],
+    "mustTryDishes": [
+      "Riverside cocktails",
+      "tandoori appetizers"
+    ],
+    "openHours": "12:00 PM – 1:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-177",
+    "name": "Barbeque Nation",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "Avani Riverside Mall, Shibpur",
+    "lat": 22.4683,
+    "lng": 88.2917,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Live grill buffet",
+      "drinks"
+    ],
+    "mustTryDishes": [
+      "Live grill buffet",
+      "drinks"
+    ],
+    "openHours": "12:00 PM – 12:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-178",
+    "name": "Polo Floatel",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "Strand Road jetty / Hooghly Riverfront",
+    "lat": 22.4425,
+    "lng": 88.2578,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Floating hotel restaurant; Sunset cocktails",
+      "Calcutta fish and chips"
+    ],
+    "mustTryDishes": [
+      "Floating hotel restaurant; Sunset cocktails",
+      "Calcutta fish and chips"
+    ],
+    "openHours": "12:00 PM – 2:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-179",
+    "name": "The Shack Lounge",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "Howrah",
+    "lat": 22.5275,
+    "lng": 88.25,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Finger food",
+      "craft mocktails & beers"
+    ],
+    "mustTryDishes": [
+      "Finger food",
+      "craft mocktails & beers"
+    ],
+    "openHours": "12:00 PM – 1:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-180",
+    "name": "Level 5 Lounge",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "Salkia",
+    "lat": 22.4886,
+    "lng": 88.2549,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Rooftop party zone",
+      "continental snacks"
+    ],
+    "mustTryDishes": [
+      "Rooftop party zone",
+      "continental snacks"
+    ],
+    "openHours": "1:00 PM – 1:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-181",
+    "name": "Babughat Tea Adda",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "Riverfront Promenade",
+    "lat": 22.4937,
+    "lng": 88.3103,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Kullad chai",
+      "lemon tea"
+    ],
+    "mustTryDishes": [
+      "Kullad chai",
+      "lemon tea",
+      "bun maska"
+    ],
+    "openHours": "24 Hours Open",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-182",
+    "name": "Cafe Coffee Day",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "Avani Mall, Howrah",
+    "lat": 22.4998,
+    "lng": 88.302,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Classic cold coffee",
+      "smoked chicken sandwich"
+    ],
+    "mustTryDishes": [
+      "Classic cold coffee",
+      "smoked chicken sandwich"
+    ],
+    "openHours": "10:00 AM – 12:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-183",
+    "name": "Princep Ghat Cafe/Chai Kiosks",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "Strand Rd.",
+    "lat": 22.5154,
+    "lng": 88.2525,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Masala chai",
+      "pav bhaji by the riverbank under Vidyasagar Setu"
+    ],
+    "mustTryDishes": [
+      "Masala chai",
+      "pav bhaji by the riverbank under Vidyasagar Setu"
+    ],
+    "openHours": "5:00 AM – 3:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-184",
+    "name": "The Food Foundry",
+    "category": "CAFE",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "Shibpur",
+    "lat": 22.4838,
+    "lng": 88.2742,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Burgers",
+      "pizzas"
+    ],
+    "mustTryDishes": [
+      "Burgers",
+      "pizzas",
+      "iced lattes"
+    ],
+    "openHours": "11:00 AM – 12:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-185",
+    "name": "India Restaurant",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "Kidderpore / Karl Marx Sarani",
+    "lat": 22.4773,
+    "lng": 88.2846,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Epic Awadhi Biryani",
+      "Mutton Dariyabadi"
+    ],
+    "mustTryDishes": [
+      "Epic Awadhi Biryani",
+      "Mutton Dariyabadi",
+      "Galawati Kebab"
+    ],
+    "openHours": "11:00 AM – 4:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-186",
+    "name": "Royal Bengal Restro",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "Howrah Station Road",
+    "lat": 22.4511,
+    "lng": 88.2516,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Traditional fish thalis",
+      "chingri macher malai curry"
+    ],
+    "mustTryDishes": [
+      "Traditional fish thalis",
+      "chingri macher malai curry"
+    ],
+    "openHours": "11:30 AM – 1:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-187",
+    "name": "Young Bengal Hotel",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "Kidderpore Fancy Market",
+    "lat": 22.5174,
+    "lng": 88.2677,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Century-old Pice hotel; Macher matha",
+      "crab curry"
+    ],
+    "mustTryDishes": [
+      "Century-old Pice hotel; Macher matha",
+      "crab curry"
+    ],
+    "openHours": "10:00 AM – 11:00 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-188",
+    "name": "Shimla Biryani",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "Kidderpore / Garden Reach edge",
+    "lat": 22.5466,
+    "lng": 88.3112,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Biryani",
+      "tikka kebabs"
+    ],
+    "mustTryDishes": [
+      "Biryani",
+      "tikka kebabs",
+      "firni"
+    ],
+    "openHours": "11:00 AM – 4:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-189",
+    "name": "Machhli Baba Fries",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "Howrah",
+    "lat": 22.5381,
+    "lng": 88.2641,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Pure Bhetki Fish Fry",
+      "fish fingers with kasundi"
+    ],
+    "mustTryDishes": [
+      "Pure Bhetki Fish Fry",
+      "fish fingers with kasundi"
+    ],
+    "openHours": "2:00 PM – 12:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-190",
+    "name": "Machranga",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "Shibpur",
+    "lat": 22.5176,
+    "lng": 88.3319,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Traditional Bengali river fish curries (Rui",
+      "Katla"
+    ],
+    "mustTryDishes": [
+      "Traditional Bengali river fish curries (Rui",
+      "Katla",
+      "Ilish)"
+    ],
+    "openHours": "12:00 PM – 12:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-191",
+    "name": "Ghatak’s Restaurant",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "Ramrajatala",
+    "lat": 22.5472,
+    "lng": 88.2658,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Homestyle mutton curry",
+      "luchi thali"
+    ],
+    "mustTryDishes": [
+      "Homestyle mutton curry",
+      "luchi thali"
+    ],
+    "openHours": "11:30 AM – 11:30 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-192",
+    "name": "Kona Express Dhaba",
+    "category": "DHABA",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "Kona Expressway / NH16",
+    "lat": 22.5239,
+    "lng": 88.315,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Midnight highway tarka",
+      "butter roti"
+    ],
+    "mustTryDishes": [
+      "Midnight highway tarka",
+      "butter roti",
+      "chicken bharta"
+    ],
+    "openHours": "24 Hours Open",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-193",
+    "name": "Sher-e-Punjab",
+    "category": "DHABA",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "NH6 / Howrah Outskirts",
+    "lat": 22.478,
+    "lng": 88.2963,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Highway landmark; Dhabe di dal",
+      "chicken kulcha"
+    ],
+    "mustTryDishes": [
+      "Highway landmark; Dhabe di dal",
+      "chicken kulcha"
+    ],
+    "openHours": "24 Hours Open",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-194",
+    "name": "Delhi Dhaba",
+    "category": "DHABA",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "Shibpur",
+    "lat": 22.5365,
+    "lng": 88.3033,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Keema naan",
+      "kadai chicken"
+    ],
+    "mustTryDishes": [
+      "Keema naan",
+      "kadai chicken"
+    ],
+    "openHours": "12:00 PM – 3:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-195",
+    "name": "Balwant Singh’s Dhaba",
+    "category": "DHABA",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "Hastings link",
+    "lat": 22.5116,
+    "lng": 88.3177,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Kesar chai",
+      "aloo paratha"
+    ],
+    "mustTryDishes": [
+      "Kesar chai",
+      "aloo paratha"
+    ],
+    "openHours": "24 Hours Open",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-196",
+    "name": "Howrah Station Comsom Food Plaza",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "WEST Kolkata",
+    "lat": 22.5249,
+    "lng": 88.2876,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Railway-style cutlets",
+      "puri bhaji"
+    ],
+    "mustTryDishes": [
+      "Railway-style cutlets",
+      "puri bhaji",
+      "filter coffee"
+    ],
+    "openHours": "24 Hours Open",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-197",
+    "name": "Princep Ghat Fast Food Kiosks",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "WEST Kolkata",
+    "lat": 22.5188,
+    "lng": 88.2762,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Phuchka",
+      "dahi phuchka"
+    ],
+    "mustTryDishes": [
+      "Phuchka",
+      "dahi phuchka",
+      "churmur along the Ganges"
+    ],
+    "openHours": "2:00 PM – 1:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-198",
+    "name": "Babu Ghat Famous Kachori Wallah",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "WEST Kolkata",
+    "lat": 22.5032,
+    "lng": 88.3148,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Crisp club kachori with tangy urad dal stuffing"
+    ],
+    "mustTryDishes": [
+      "Crisp club kachori with tangy urad dal stuffing"
+    ],
+    "openHours": "6:00 AM – 12:00 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-199",
+    "name": "Kidderpore Fancy Market Beef Kebab Corner",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "WEST Kolkata",
+    "lat": 22.4789,
+    "lng": 88.2502,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Malai beef seekh",
+      "beef roll"
+    ],
+    "mustTryDishes": [
+      "Malai beef seekh",
+      "beef roll"
+    ],
+    "openHours": "4:00 PM – 3:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-200",
+    "name": "Shibpur Mandirtala Roll Counter",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "WEST Kolkata",
+    "lat": 22.5078,
+    "lng": 88.3175,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Kathi roll",
+      "egg chicken roll"
+    ],
+    "mustTryDishes": [
+      "Kathi roll",
+      "egg chicken roll"
+    ],
+    "openHours": "12:00 PM – 2:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-201",
+    "name": "Ramrajatala Samosa Corner",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "WEST Kolkata",
+    "lat": 22.4751,
+    "lng": 88.2941,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Giant Shingara stuffed with seasonal spiced potatoes and peanuts"
+    ],
+    "mustTryDishes": [
+      "Giant Shingara stuffed with seasonal spiced potatoes and peanuts"
+    ],
+    "openHours": "7:00 AM – 10:00 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-202",
+    "name": "Salkia Chowrasta Phuchka Center",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "WEST Kolkata",
+    "lat": 22.5439,
+    "lng": 88.3271,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Gondhoraj lemon-scented tetul jol phuchka"
+    ],
+    "mustTryDishes": [
+      "Gondhoraj lemon-scented tetul jol phuchka"
+    ],
+    "openHours": "3:30 PM – 11:30 PM",
+    "isLateNight": false,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-203",
+    "name": "Salkia Chorchori & Kochuri Stall",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "WEST Kolkata",
+    "lat": 22.4479,
+    "lng": 88.2594,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Traditional morning puri aloor charchari"
+    ],
+    "mustTryDishes": [
+      "Traditional morning puri aloor charchari"
+    ],
+    "openHours": "6:30 AM – 11:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-204",
+    "name": "BBD Bagh / Fairlie Place Chitto Babu Branch",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "WEST Kolkata",
+    "lat": 22.5069,
+    "lng": 88.2565,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Chicken stew",
+      "toast"
+    ],
+    "mustTryDishes": [
+      "Chicken stew",
+      "toast",
+      "fish chop"
+    ],
+    "openHours": "8:00 AM – 10:00 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-205",
+    "name": "Howrah Maidan Mughlai Corner",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "WEST Kolkata",
+    "lat": 22.5232,
+    "lng": 88.2648,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Egg moghlai porota with spicy aloo dum"
+    ],
+    "mustTryDishes": [
+      "Egg moghlai porota with spicy aloo dum"
+    ],
+    "openHours": "3:00 PM – 1:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-206",
+    "name": "Millennium Park Riverfront Kiosks",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "WEST Kolkata",
+    "lat": 22.5381,
+    "lng": 88.2553,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Pav bhaji",
+      "bhelpuri"
+    ],
+    "mustTryDishes": [
+      "Pav bhaji",
+      "bhelpuri",
+      "chowmein"
+    ],
+    "openHours": "1:00 PM – 12:00 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-207",
+    "name": "Hastings Kebab Corner",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "WEST Kolkata",
+    "lat": 22.4939,
+    "lng": 88.3247,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Charcoal grilled chicken reshmi kebab"
+    ],
+    "mustTryDishes": [
+      "Charcoal grilled chicken reshmi kebab"
+    ],
+    "openHours": "5:00 PM – 2:30 AM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-208",
+    "name": "Shibpur Tram Depot Momo Stall",
+    "category": "RESTAURANT",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "WEST Kolkata",
+    "lat": 22.4701,
+    "lng": 88.3293,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Steamed chicken momos with clear broth"
+    ],
+    "mustTryDishes": [
+      "Steamed chicken momos with clear broth"
+    ],
+    "openHours": "4:00 PM – 11:00 PM",
+    "isLateNight": false,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-209",
+    "name": "Kshetranath Sweets",
+    "category": "SWEETS",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "Ramrajatala",
+    "lat": 22.5034,
+    "lng": 88.2914,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Century-old maker of famous Ramrajatala Motichoor Ladoo & Mihidana"
+    ],
+    "mustTryDishes": [
+      "Century-old maker of famous Ramrajatala Motichoor Ladoo & Mihidana"
+    ],
+    "openHours": "6:30 AM – 10:30 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-210",
+    "name": "Ganguram Sweets",
+    "category": "SWEETS",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "Howrah Maidan",
+    "lat": 22.4776,
+    "lng": 88.2533,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Mishti Doi",
+      "Chanar Jilapi"
+    ],
+    "mustTryDishes": [
+      "Mishti Doi",
+      "Chanar Jilapi"
+    ],
+    "openHours": "7:00 AM – 11:00 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-211",
+    "name": "Manna Sweets",
+    "category": "SWEETS",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "Shibpur",
+    "lat": 22.5137,
+    "lng": 88.313,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Traditional Shor Bhaja and Shor Puria"
+    ],
+    "mustTryDishes": [
+      "Traditional Shor Bhaja and Shor Puria"
+    ],
+    "openHours": "7:00 AM – 10:30 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-212",
+    "name": "Giri Sweets",
+    "category": "SWEETS",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "Salkia",
+    "lat": 22.49,
+    "lng": 88.3214,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Giant Pantua and Kacha Golla"
+    ],
+    "mustTryDishes": [
+      "Giant Pantua and Kacha Golla"
+    ],
+    "openHours": "7:00 AM – 10:30 PM",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  },
+  {
+    "id": "food-west-213",
+    "name": "Howrah Station VIP Cha Counter",
+    "category": "SWEETS",
+    "priceRange": "MID_RANGE",
+    "zone": "WEST",
+    "address": "WEST Kolkata",
+    "lat": 22.4495,
+    "lng": 88.3108,
+    "nearestMetroStationId": "station-esplanade",
+    "famousFor": [
+      "Saffron spiced earthen-pot chai"
+    ],
+    "mustTryDishes": [
+      "Saffron spiced earthen-pot chai"
+    ],
+    "openHours": "24 Hours Open",
+    "isLateNight": true,
+    "associatedPandals": [],
+    "sourceUrls": []
+  }
+]

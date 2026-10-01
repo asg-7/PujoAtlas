@@ -1,0 +1,554 @@
+[
+  {
+    "id": "pandal-bagbazar-sarbojanin",
+    "name": "Bagbazar Sarbojanin",
+    "zone": "NORTH",
+    "address": "Bagbazar, Kolkata",
+    "lat": 22.5985,
+    "lng": 88.362,
+    "nearestMetroStationId": "station-sovabazar",
+    "bestTimeToVisit": [
+      "Saptami 04:00 - 07:30 AM (Low Crowd)",
+      "Ashtami 10:00 PM - 01:00 AM (Sandhi Puja - Peak)"
+    ],
+    "bestDays": [
+      "Saptami",
+      "Ashtami",
+      "Navami"
+    ],
+    "isFamous": true,
+    "tags": [
+      "Traditional",
+      "Heritage",
+      "Historical"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "reddit",
+        "url": "https://reddit.com/r/kolkata/comments/xyz123/bagbazar_sarbojanin"
+      }
+    ]
+  },
+  {
+    "id": "pandal-kumartuli-park",
+    "name": "Kumartuli Park",
+    "zone": "NORTH",
+    "address": "Kumartuli, Kolkata",
+    "lat": 22.5954,
+    "lng": 88.3597,
+    "nearestMetroStationId": "station-sovabazar",
+    "bestTimeToVisit": [
+      "Shashthi Night 09:00 PM - 12:00 AM (Opening Night)"
+    ],
+    "bestDays": [
+      "Shashthi",
+      "Saptami",
+      "Ashtami"
+    ],
+    "isFamous": true,
+    "tags": [
+      "Theme-Based",
+      "Artistic"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "instagram",
+        "url": "https://instagram.com/p/xyz123_kumartuli_park"
+      }
+    ]
+  },
+  {
+    "id": "pandal-ahiritola-sarbojanin",
+    "name": "Ahiritola Sarbojanin",
+    "zone": "NORTH",
+    "address": "Ahiritola, Kolkata",
+    "lat": 22.5978,
+    "lng": 88.3555,
+    "nearestMetroStationId": "station-sovabazar",
+    "bestTimeToVisit": [
+      "Saptami 04:00 - 07:30 AM (Low Crowd)"
+    ],
+    "bestDays": [
+      "Saptami",
+      "Ashtami"
+    ],
+    "isFamous": true,
+    "tags": [
+      "Traditional",
+      "Community"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "facebook",
+        "url": "https://facebook.com/ahiritola_sarbojanin"
+      }
+    ]
+  },
+  {
+    "id": "pandal-tala-prattay",
+    "name": "Tala Prattay",
+    "zone": "NORTH",
+    "address": "Tala, Kolkata",
+    "lat": 22.6025,
+    "lng": 88.3674,
+    "nearestMetroStationId": "station-shyambazar",
+    "bestTimeToVisit": [
+      "Ashtami 10:00 PM - 01:00 AM (Sandhi Puja - Peak)"
+    ],
+    "bestDays": [
+      "Ashtami",
+      "Navami"
+    ],
+    "isFamous": true,
+    "tags": [
+      "Theme-Based",
+      "Award-Winning"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "google",
+        "url": "https://google.com/search?q=tala+prattay"
+      }
+    ]
+  },
+  {
+    "id": "pandal-kashi-bose-lane",
+    "name": "Kashi Bose Lane",
+    "zone": "NORTH",
+    "address": "Kashi Bose Lane, Kolkata",
+    "lat": 22.5873,
+    "lng": 88.3607,
+    "nearestMetroStationId": "station-girish-park",
+    "bestTimeToVisit": [
+      "Navami Evening 06:00 - 09:00 PM (Immersion Eve)"
+    ],
+    "bestDays": [
+      "Shashthi",
+      "Saptami",
+      "Ashtami",
+      "Navami"
+    ],
+    "isFamous": true,
+    "tags": [
+      "Theme-Based",
+      "Artistic"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "instagram",
+        "url": "https://instagram.com/p/kashi_bose_lane"
+      }
+    ]
+  },
+  {
+    "id": "pandal-hatibagan-sarbojanin",
+    "name": "Hatibagan Sarbojanin",
+    "zone": "NORTH",
+    "address": "Hatibagan, Kolkata",
+    "lat": 22.5935,
+    "lng": 88.368,
+    "nearestMetroStationId": "station-shyambazar",
+    "bestTimeToVisit": [
+      "Shashthi Night 09:00 PM - 12:00 AM (Opening Night)"
+    ],
+    "bestDays": [
+      "Shashthi",
+      "Saptami",
+      "Ashtami"
+    ],
+    "isFamous": true,
+    "tags": [
+      "Traditional",
+      "Lighting-Famous"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "reddit",
+        "url": "https://reddit.com/r/kolkata/comments/hatibagan"
+      }
+    ]
+  },
+  {
+    "id": "pandal-sovabazar-rajbari",
+    "name": "Sovabazar Rajbari",
+    "zone": "NORTH",
+    "address": "Sovabazar, Kolkata",
+    "lat": 22.5905,
+    "lng": 88.3601,
+    "nearestMetroStationId": "station-sovabazar",
+    "bestTimeToVisit": [
+      "Saptami 04:00 - 07:30 AM (Low Crowd)"
+    ],
+    "bestDays": [
+      "Saptami",
+      "Ashtami",
+      "Navami",
+      "Dashami"
+    ],
+    "isFamous": true,
+    "tags": [
+      "Heritage",
+      "Traditional",
+      "Historical"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "google",
+        "url": "https://google.com/search?q=sovabazar+rajbari"
+      }
+    ]
+  },
+  {
+    "id": "pandal-chaltabagan-lohapatty",
+    "name": "Chaltabagan Lohapatty",
+    "zone": "NORTH",
+    "address": "Amherst Street, Kolkata",
+    "lat": 22.5895,
+    "lng": 88.3645,
+    "nearestMetroStationId": "station-girish-park",
+    "bestTimeToVisit": [
+      "Ashtami 10:00 PM - 01:00 AM (Sandhi Puja - Peak)"
+    ],
+    "bestDays": [
+      "Shashthi",
+      "Ashtami",
+      "Navami"
+    ],
+    "isFamous": true,
+    "tags": [
+      "Theme-Based",
+      "Lighting-Famous"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "facebook",
+        "url": "https://facebook.com/chaltabagan_lohapatty"
+      }
+    ]
+  },
+  {
+    "id": "pandal-bagbazar-milan-sangha",
+    "name": "Bagbazar Milan Sangha",
+    "zone": "NORTH",
+    "address": "Bagbazar, Kolkata",
+    "lat": 22.596,
+    "lng": 88.3638,
+    "nearestMetroStationId": "station-sovabazar",
+    "bestTimeToVisit": [
+      "Navami Evening 06:00 - 09:00 PM (Immersion Eve)"
+    ],
+    "bestDays": [
+      "Saptami",
+      "Ashtami"
+    ],
+    "isFamous": false,
+    "tags": [
+      "Community",
+      "Traditional"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "reddit",
+        "url": "https://reddit.com/r/kolkata/comments/bagbazar_milan_sangha"
+      }
+    ]
+  },
+  {
+    "id": "pandal-paikpara-tarun-sangha",
+    "name": "Paikpara Tarun Sangha",
+    "zone": "NORTH",
+    "address": "Paikpara, Kolkata",
+    "lat": 22.6142,
+    "lng": 88.3782,
+    "nearestMetroStationId": "station-dumdum",
+    "bestTimeToVisit": [
+      "Shashthi Night 09:00 PM - 12:00 AM (Opening Night)"
+    ],
+    "bestDays": [
+      "Shashthi",
+      "Navami"
+    ],
+    "isFamous": false,
+    "tags": [
+      "Theme-Based"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "instagram",
+        "url": "https://instagram.com/p/paikpara_tarun_sangha"
+      }
+    ]
+  },
+  {
+    "id": "pandal-maniktala-chaltabagan",
+    "name": "Maniktala Chaltabagan",
+    "zone": "NORTH",
+    "address": "Maniktala, Kolkata",
+    "lat": 22.5925,
+    "lng": 88.3738,
+    "nearestMetroStationId": "station-girish-park",
+    "bestTimeToVisit": [
+      "Saptami 04:00 - 07:30 AM (Low Crowd)"
+    ],
+    "bestDays": [
+      "Saptami",
+      "Ashtami",
+      "Navami"
+    ],
+    "isFamous": false,
+    "tags": [
+      "Theme-Based",
+      "Lighting-Famous"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "facebook",
+        "url": "https://facebook.com/maniktala_chaltabagan"
+      }
+    ]
+  },
+  {
+    "id": "pandal-hedua-park",
+    "name": "Hedua Park",
+    "zone": "NORTH",
+    "address": "Hedua, Kolkata",
+    "lat": 22.5868,
+    "lng": 88.356,
+    "nearestMetroStationId": "station-girish-park",
+    "bestTimeToVisit": [
+      "Ashtami 10:00 PM - 01:00 AM (Sandhi Puja - Peak)"
+    ],
+    "bestDays": [
+      "Ashtami",
+      "Navami"
+    ],
+    "isFamous": false,
+    "tags": [
+      "Traditional",
+      "Community"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "reddit",
+        "url": "https://reddit.com/r/kolkata/comments/hedua_park"
+      }
+    ]
+  },
+  {
+    "id": "pandal-simla-byayam-samity",
+    "name": "Simla Byayam Samity",
+    "zone": "NORTH",
+    "address": "Simla Street, Kolkata",
+    "lat": 22.5855,
+    "lng": 88.3594,
+    "nearestMetroStationId": "station-girish-park",
+    "bestTimeToVisit": [
+      "Navami Evening 06:00 - 09:00 PM (Immersion Eve)"
+    ],
+    "bestDays": [
+      "Saptami",
+      "Navami"
+    ],
+    "isFamous": false,
+    "tags": [
+      "Historical",
+      "Traditional"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "google",
+        "url": "https://google.com/search?q=simla+byayam+samity"
+      }
+    ]
+  },
+  {
+    "id": "pandal-beadon-street",
+    "name": "Beadon Street",
+    "zone": "NORTH",
+    "address": "Beadon Street, Kolkata",
+    "lat": 22.589,
+    "lng": 88.3632,
+    "nearestMetroStationId": "station-girish-park",
+    "bestTimeToVisit": [
+      "Shashthi Night 09:00 PM - 12:00 AM (Opening Night)"
+    ],
+    "bestDays": [
+      "Shashthi",
+      "Saptami"
+    ],
+    "isFamous": false,
+    "tags": [
+      "Community",
+      "Artistic"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "instagram",
+        "url": "https://instagram.com/p/beadon_street"
+      }
+    ]
+  },
+  {
+    "id": "pandal-nalin-sarkar-street",
+    "name": "Nalin Sarkar Street",
+    "zone": "NORTH",
+    "address": "Hatibagan, Kolkata",
+    "lat": 22.591,
+    "lng": 88.3715,
+    "nearestMetroStationId": "station-shyambazar",
+    "bestTimeToVisit": [
+      "Saptami 04:00 - 07:30 AM (Low Crowd)"
+    ],
+    "bestDays": [
+      "Saptami",
+      "Ashtami"
+    ],
+    "isFamous": false,
+    "tags": [
+      "Theme-Based",
+      "Award-Winning"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "facebook",
+        "url": "https://facebook.com/nalin_sarkar_street"
+      }
+    ]
+  },
+  {
+    "id": "pandal-cossipore-shibmandir",
+    "name": "Cossipore Shibmandir",
+    "zone": "NORTH",
+    "address": "Cossipore, Kolkata",
+    "lat": 22.612,
+    "lng": 88.365,
+    "nearestMetroStationId": "station-dumdum",
+    "bestTimeToVisit": [
+      "Ashtami 10:00 PM - 01:00 AM (Sandhi Puja - Peak)"
+    ],
+    "bestDays": [
+      "Ashtami",
+      "Navami"
+    ],
+    "isFamous": false,
+    "tags": [
+      "Traditional",
+      "Community"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "reddit",
+        "url": "https://reddit.com/r/kolkata/comments/cossipore_shibmandir"
+      }
+    ]
+  },
+  {
+    "id": "pandal-telengabagan",
+    "name": "Telengabagan",
+    "zone": "NORTH",
+    "address": "Ultadanga, Kolkata",
+    "lat": 22.5915,
+    "lng": 88.369,
+    "nearestMetroStationId": "station-shyambazar",
+    "bestTimeToVisit": [
+      "Navami Evening 06:00 - 09:00 PM (Immersion Eve)"
+    ],
+    "bestDays": [
+      "Saptami",
+      "Ashtami",
+      "Navami"
+    ],
+    "isFamous": false,
+    "tags": [
+      "Theme-Based",
+      "Artistic"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "instagram",
+        "url": "https://instagram.com/p/telengabagan"
+      }
+    ]
+  },
+  {
+    "id": "pandal-rajballavpara",
+    "name": "Rajballavpara",
+    "zone": "NORTH",
+    "address": "Bagbazar, Kolkata",
+    "lat": 22.5932,
+    "lng": 88.362,
+    "nearestMetroStationId": "station-sovabazar",
+    "bestTimeToVisit": [
+      "Shashthi Night 09:00 PM - 12:00 AM (Opening Night)"
+    ],
+    "bestDays": [
+      "Shashthi",
+      "Saptami"
+    ],
+    "isFamous": false,
+    "tags": [
+      "Community",
+      "Traditional"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "google",
+        "url": "https://google.com/search?q=rajballavpara+pandal"
+      }
+    ]
+  },
+  {
+    "id": "pandal-baghbazar-sarbojanin-durgatsav",
+    "name": "Baghbazar Sarbojanin Durgatsav",
+    "zone": "NORTH",
+    "address": "Baghbazar, Kolkata",
+    "lat": 22.5988,
+    "lng": 88.359,
+    "nearestMetroStationId": "station-sovabazar",
+    "bestTimeToVisit": [
+      "Saptami 04:00 - 07:30 AM (Low Crowd)"
+    ],
+    "bestDays": [
+      "Saptami",
+      "Ashtami"
+    ],
+    "isFamous": false,
+    "tags": [
+      "Traditional",
+      "Historical"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "reddit",
+        "url": "https://reddit.com/r/kolkata/comments/baghbazar_sarbojanin_durgatsav"
+      }
+    ]
+  },
+  {
+    "id": "pandal-kumartuli-sarbojanin",
+    "name": "Kumartuli Sarbojanin",
+    "zone": "NORTH",
+    "address": "Kumartuli, Kolkata",
+    "lat": 22.597,
+    "lng": 88.3614,
+    "nearestMetroStationId": "station-sovabazar",
+    "bestTimeToVisit": [
+      "Ashtami 10:00 PM - 01:00 AM (Sandhi Puja - Peak)"
+    ],
+    "bestDays": [
+      "Ashtami",
+      "Navami"
+    ],
+    "isFamous": false,
+    "tags": [
+      "Traditional",
+      "Artistic"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "instagram",
+        "url": "https://instagram.com/p/kumartuli_sarbojanin"
+      }
+    ]
+  }
+]
