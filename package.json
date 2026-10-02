@@ -10,7 +10,7 @@
     "dev": "concurrently \"npm:dev:web\" \"npm:dev:api\"",
     "dev:web": "astro dev",
     "dev:api": "tsx watch server/index.ts",
-    "build": "astro build && tsc --noEmit",
+    "build": "astro build --config _astro.config.mjs && tsc --noEmit",
     "preview": "astro preview",
     "check": "astro check && tsc --noEmit"
   },
