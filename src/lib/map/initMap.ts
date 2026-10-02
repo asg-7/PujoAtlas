@@ -36,7 +36,8 @@ export async function initApp() {
   // 2. Load Metro GeoJSON from static assets
   let metroGeoJson: GeoJSON.FeatureCollection | null = null;
   try {
-    const res = await fetch('/data/metro-lines.geojson');
+    const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
+    const res = await fetch(`${base}/data/metro-lines.geojson`);
     if (res.ok) {
       metroGeoJson = await res.json();
     }
