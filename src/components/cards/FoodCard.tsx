@@ -176,21 +176,22 @@ export default function FoodCard({ food, onClose, onNavigate }: FoodCardProps) {
         {/* Direct Google Maps Navigation */}
         <div className="px-4 pb-4">
           <a
-            href={`https://www.google.com/maps/dir/?api=1&destination=${food.lat},${food.lng}&travelmode=driving`}
+            href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(food.name + ', ' + food.address + ', Kolkata')}&travelmode=driving`}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-2 w-full py-3.5 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold rounded-xl text-sm shadow-lg shadow-orange-500/20 hover:from-orange-600 hover:to-amber-600 active:scale-[0.98] transition-all no-underline text-center"
           >
             <span>🧭</span>
-            <span>Open in Google Maps (Directions)</span>
+            <span>Navigate to Spot in Google Maps</span>
           </a>
 
           <div className="flex gap-2 pt-2.5">
             <a
-              href={`https://www.google.com/maps/dir/?api=1&destination=${food.lat},${food.lng}&travelmode=transit`}
+              href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(food.name + ', ' + food.address + ', Kolkata')}&travelmode=transit`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex-1 flex items-center justify-center gap-1.5 py-2 px-2 bg-gray-800/90 hover:bg-gray-700 text-xs font-semibold text-gray-200 rounded-lg border border-gray-700 transition-colors no-underline text-center"
+              title="Navigate via Metro/Bus"
             >
               <span>🚇</span> Transit
             </a>
@@ -199,16 +200,27 @@ export default function FoodCard({ food, onClose, onNavigate }: FoodCardProps) {
               target="_blank"
               rel="noopener noreferrer"
               className="flex-1 flex items-center justify-center gap-1.5 py-2 px-2 bg-gray-800/90 hover:bg-gray-700 text-xs font-semibold text-gray-200 rounded-lg border border-gray-700 transition-colors no-underline text-center"
+              title="Walk to exact entrance pin"
             >
               <span>🚶</span> Walk
             </a>
             <a
-              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(food.name + ', ' + food.address)}`}
+              href={`https://www.google.com/maps/dir/?api=1&destination=${food.lat},${food.lng}&travelmode=driving`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex-1 flex items-center justify-center gap-1.5 py-2 px-2 bg-gray-800/90 hover:bg-gray-700 text-xs font-semibold text-gray-200 rounded-lg border border-gray-700 transition-colors no-underline text-center"
+              title="Exact GPS Coordinates: ${food.lat}, ${food.lng}"
             >
-              <span>📍</span> Place
+              <span>📍</span> GPS Pin
+            </a>
+            <a
+              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(food.name + ' ' + food.address + ' Kolkata')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 flex items-center justify-center gap-1.5 py-2 px-2 bg-gray-800/90 hover:bg-gray-700 text-xs font-semibold text-gray-200 rounded-lg border border-gray-700 transition-colors no-underline text-center"
+              title="View place details and reviews"
+            >
+              <span>🔍</span> Details
             </a>
           </div>
         </div>

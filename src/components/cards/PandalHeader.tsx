@@ -200,21 +200,22 @@ export default function PandalHeader({
         {/* Direct Google Maps Navigation */}
         <div className="px-4 pb-4">
           <a
-            href={`https://www.google.com/maps/dir/?api=1&destination=${pandal.lat},${pandal.lng}&travelmode=driving`}
+            href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(pandal.name + ' Durga Puja, ' + pandal.address + ', Kolkata')}&travelmode=driving`}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-2 w-full py-3.5 bg-gradient-to-r from-amber-500 to-yellow-400 text-gray-950 font-bold rounded-xl text-sm shadow-lg shadow-yellow-500/20 hover:from-amber-400 hover:to-yellow-300 active:scale-[0.98] transition-all no-underline text-center"
           >
             <span>🧭</span>
-            <span>Open in Google Maps (Directions)</span>
+            <span>Navigate to Pandal in Google Maps</span>
           </a>
 
           <div className="flex gap-2 pt-2.5">
             <a
-              href={`https://www.google.com/maps/dir/?api=1&destination=${pandal.lat},${pandal.lng}&travelmode=transit`}
+              href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(pandal.name + ' Durga Puja, ' + pandal.address + ', Kolkata')}&travelmode=transit`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex-1 flex items-center justify-center gap-1.5 py-2 px-2 bg-gray-800/90 hover:bg-gray-700 text-xs font-semibold text-gray-200 rounded-lg border border-gray-700 transition-colors no-underline text-center"
+              title="Navigate via Metro/Bus"
             >
               <span>🚇</span> Metro
             </a>
@@ -223,16 +224,27 @@ export default function PandalHeader({
               target="_blank"
               rel="noopener noreferrer"
               className="flex-1 flex items-center justify-center gap-1.5 py-2 px-2 bg-gray-800/90 hover:bg-gray-700 text-xs font-semibold text-gray-200 rounded-lg border border-gray-700 transition-colors no-underline text-center"
+              title="Walk to exact entrance pin"
             >
               <span>🚶</span> Walk
             </a>
             <a
-              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(pandal.name + ', ' + pandal.address)}`}
+              href={`https://www.google.com/maps/dir/?api=1&destination=${pandal.lat},${pandal.lng}&travelmode=driving`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex-1 flex items-center justify-center gap-1.5 py-2 px-2 bg-gray-800/90 hover:bg-gray-700 text-xs font-semibold text-gray-200 rounded-lg border border-gray-700 transition-colors no-underline text-center"
+              title="Exact GPS Coordinates: ${pandal.lat}, ${pandal.lng}"
             >
-              <span>📍</span> Place
+              <span>📍</span> GPS Pin
+            </a>
+            <a
+              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(pandal.name + ' Durga Puja ' + pandal.address + ' Kolkata')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 flex items-center justify-center gap-1.5 py-2 px-2 bg-gray-800/90 hover:bg-gray-700 text-xs font-semibold text-gray-200 rounded-lg border border-gray-700 transition-colors no-underline text-center"
+              title="View place details and reviews"
+            >
+              <span>🔍</span> Details
             </a>
           </div>
         </div>

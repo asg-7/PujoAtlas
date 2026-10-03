@@ -163,16 +163,24 @@ export class MapLibreDriver implements IMapAdapter {
 
       el.appendChild(inner);
 
-      const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${item.lat},${item.lng}&travelmode=driving`;
+      const destQuery = item.type === 'pandal' ? `${item.name} Durga Puja, Kolkata` : `${item.name}, Kolkata`;
+      const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destQuery)}&travelmode=driving`;
+      const gpsUrl = `https://www.google.com/maps/dir/?api=1&destination=${item.lat},${item.lng}&travelmode=driving`;
+
       const popupHtml = `
-        <div style="font-family: system-ui, -apple-system, sans-serif; padding: 6px 4px; min-width: 175px;">
+        <div style="font-family: system-ui, -apple-system, sans-serif; padding: 6px 4px; min-width: 185px;">
           <div style="font-size: 13px; font-weight: 700; color: #111827; line-height: 1.25; margin-bottom: 3px;">${item.name}</div>
           <div style="font-size: 11px; font-weight: 600; color: #4B5563; margin-bottom: 8px; text-transform: uppercase;">
             ${item.type === 'pandal' ? '🎪 Durga Puja Pandal' : '🍽️ Food Spot'} • <span style="color:${color}; font-weight: 700;">${item.zone || ''}</span>
           </div>
-          <a href="${mapsUrl}" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; justify-content: center; gap: 5px; width: 100%; padding: 6px 10px; background: #2563EB; color: #FFFFFF; font-size: 11px; font-weight: 700; text-decoration: none; border-radius: 6px; box-shadow: 0 2px 4px rgba(37,99,235,0.25);">
-            🧭 Directions in Google Maps ↗
-          </a>
+          <div style="display: flex; gap: 4px;">
+            <a href="${mapsUrl}" target="_blank" rel="noopener noreferrer" style="flex: 2; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 6px 8px; background: #2563EB; color: #FFFFFF; font-size: 11px; font-weight: 700; text-decoration: none; border-radius: 6px; box-shadow: 0 2px 4px rgba(37,99,235,0.25);">
+              🧭 Directions ↗
+            </a>
+            <a href="${gpsUrl}" target="_blank" rel="noopener noreferrer" style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 6px 6px; background: #374151; color: #F3F4F6; font-size: 10px; font-weight: 600; text-decoration: none; border-radius: 6px;" title="Exact coordinates pin">
+              📍 GPS
+            </a>
+          </div>
         </div>
       `;
 
