@@ -4,6 +4,10 @@ import { ZONE_COLORS, METRO_LINE_COLORS } from './MapEngineAdapter';
 import type { Zone } from '../schemas';
 import type { StyleSpecification } from 'maplibre-gl';
 
+const DEFAULT_CARTO_KEY = 'cb1_46w3_1_b8c20a5b160e534febd5654c';
+const rawKey = import.meta.env.PUBLIC_CARTO_API_KEY || DEFAULT_CARTO_KEY;
+const cartoKeyParam = rawKey ? `?key=${rawKey}` : '';
+
 const DARK_STYLE: StyleSpecification = {
   version: 8,
   glyphs: 'https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf',
@@ -11,9 +15,9 @@ const DARK_STYLE: StyleSpecification = {
     'carto-dark': {
       type: 'raster',
       tiles: [
-        'https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
-        'https://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
-        'https://c.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png'
+        `https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png${cartoKeyParam}`,
+        `https://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png${cartoKeyParam}`,
+        `https://c.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png${cartoKeyParam}`
       ],
       tileSize: 256,
       attribution: '© OpenStreetMap contributors, © CARTO'
@@ -99,18 +103,12 @@ export class MapLibreDriver implements IMapAdapter {
     this.items = items;
     this.markerClickHandler = onClick;
 
-    const execute = () => {
-      try {
-        this.addMarkerLayers(items, onClick);
-      } catch (err) {
-        console.error('[map] Error adding marker layers:', err);
-      }
-    };
-
-    if (this.map.isStyleLoaded()) {
-      execute();
+    if (this.map.loaded()) {
+      this.addMarkerLayers(items, onClick);
     } else {
-      this.map.once('load', execute);
+      this.map.once('load', () => {
+        this.addMarkerLayers(items, onClick);
+      });
     }
   }
 
@@ -376,18 +374,12 @@ export class MapLibreDriver implements IMapAdapter {
     if (!this.map) return;
     this.metroGeoJsonData = geoJson;
 
-    const execute = () => {
-      try {
-        this.addMetroLayers(geoJson);
-      } catch (err) {
-        console.error('[map] Error adding metro layers:', err);
-      }
-    };
-
-    if (this.map.isStyleLoaded()) {
-      execute();
+    if (this.map.loaded()) {
+      this.addMetroLayers(geoJson);
     } else {
-      this.map.once('load', execute);
+      this.map.once('load', () => {
+        this.addMetroLayers(geoJson);
+      });
     }
   }
 
