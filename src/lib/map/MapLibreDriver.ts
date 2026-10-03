@@ -4,10 +4,6 @@ import { ZONE_COLORS, METRO_LINE_COLORS } from './MapEngineAdapter';
 import type { Zone } from '../schemas';
 import type { StyleSpecification } from 'maplibre-gl';
 
-const DEFAULT_CARTO_KEY = 'cb1_46w3_1_b8c20a5b160e534febd5654c';
-const rawKey = import.meta.env.PUBLIC_CARTO_API_KEY || DEFAULT_CARTO_KEY;
-const cartoKey = rawKey ? `?key=${rawKey}` : '';
-
 const DARK_STYLE: StyleSpecification = {
   version: 8,
   glyphs: 'https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf',
@@ -15,9 +11,9 @@ const DARK_STYLE: StyleSpecification = {
     'carto-dark': {
       type: 'raster',
       tiles: [
-        `https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png${cartoKey}`,
-        `https://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png${cartoKey}`,
-        `https://c.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png${cartoKey}`
+        'https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
+        'https://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
+        'https://c.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png'
       ],
       tileSize: 256,
       attribution: '© OpenStreetMap contributors, © CARTO'
@@ -36,7 +32,7 @@ const DARK_STYLE: StyleSpecification = {
 
 /**
  * MapLibre GL JS driver — high-performance WebGL2 vector map renderer.
- * Hardware-accelerated 60fps rendering with dynamic zone dimming and metro layer.
+ * Hardware-accelerated rendering with reactive zone dimming and metro layer.
  */
 export class MapLibreDriver implements IMapAdapter {
   private map: maplibregl.Map | null = null;
@@ -44,9 +40,8 @@ export class MapLibreDriver implements IMapAdapter {
   private metroVisible = true;
   private items: MarkerItem[] = [];
   private activeZone: Zone | 'ALL' = 'ALL';
-  private hoveredPandalId: string | number | null = null;
-  private hoveredFoodId: string | number | null = null;
   private markerClickHandler: ((id: string, type: 'pandal' | 'food' | 'station') => void) | null = null;
+  private metroGeoJsonData: GeoJSON.FeatureCollection | null = null;
 
   async init(
     container: HTMLElement,
@@ -88,7 +83,8 @@ export class MapLibreDriver implements IMapAdapter {
 
     // Zoom change event
     this.map.on('zoomend', () => {
-      const zoom = this.map!.getZoom();
+      if (!this.map) return;
+      const zoom = this.map.getZoom();
       for (const cb of this.zoomCallbacks) {
         cb(zoom);
       }
@@ -103,19 +99,18 @@ export class MapLibreDriver implements IMapAdapter {
     this.items = items;
     this.markerClickHandler = onClick;
 
-    const setup = () => {
-      if (!this.map) return;
+    const execute = () => {
       try {
         this.addMarkerLayers(items, onClick);
       } catch (err) {
-        console.warn('[map] Error adding marker layers:', err);
+        console.error('[map] Error adding marker layers:', err);
       }
     };
 
     if (this.map.isStyleLoaded()) {
-      setup();
+      execute();
     } else {
-      this.map.once('styledata', setup);
+      this.map.once('load', execute);
     }
   }
 
@@ -131,7 +126,6 @@ export class MapLibreDriver implements IMapAdapter {
       .filter((i) => i.type === 'pandal')
       .map((p) => ({
         type: 'Feature',
-        id: p.id,
         properties: {
           id: p.id,
           name: p.name,
@@ -148,7 +142,6 @@ export class MapLibreDriver implements IMapAdapter {
       .filter((i) => i.type === 'food')
       .map((f) => ({
         type: 'Feature',
-        id: f.id,
         properties: {
           id: f.id,
           name: f.name,
@@ -162,48 +155,44 @@ export class MapLibreDriver implements IMapAdapter {
       }));
 
     // 2. Add Sources
-    this.map.addSource('pandals-src', {
-      type: 'geojson',
-      data: {
-        type: 'FeatureCollection',
-        features: pandalFeatures,
-      },
-      promoteId: 'id',
-    });
+    if (!this.map.getSource('pandals-src')) {
+      this.map.addSource('pandals-src', {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: pandalFeatures,
+        },
+      });
+    }
 
-    this.map.addSource('food-src', {
-      type: 'geojson',
-      data: {
-        type: 'FeatureCollection',
-        features: foodFeatures,
-      },
-      promoteId: 'id',
-    });
+    if (!this.map.getSource('food-src')) {
+      this.map.addSource('food-src', {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: foodFeatures,
+        },
+      });
+    }
 
     // 3. Add Pandal Dots Layer (Circle Layer with Zone Colors & Zoom Radius)
-    this.map.addLayer({
-      id: 'pandal-dots',
-      type: 'circle',
-      source: 'pandals-src',
-      layout: {
-        'circle-sort-key': 0,
-      },
-      paint: {
-        'circle-color': [
-          'match',
-          ['get', 'zone'],
-          'NORTH', ZONE_COLORS.NORTH,
-          'SOUTH', ZONE_COLORS.SOUTH,
-          'CENTRAL', ZONE_COLORS.CENTRAL,
-          'EAST', ZONE_COLORS.EAST,
-          'WEST', ZONE_COLORS.WEST,
-          '#E11D48',
-        ],
-        'circle-radius': [
-          'case',
-          ['boolean', ['feature-state', 'hover'], false],
-          12,
-          [
+    if (!this.map.getLayer('pandal-dots')) {
+      this.map.addLayer({
+        id: 'pandal-dots',
+        type: 'circle',
+        source: 'pandals-src',
+        paint: {
+          'circle-color': [
+            'match',
+            ['get', 'zone'],
+            'NORTH', ZONE_COLORS.NORTH,
+            'SOUTH', ZONE_COLORS.SOUTH,
+            'CENTRAL', ZONE_COLORS.CENTRAL,
+            'EAST', ZONE_COLORS.EAST,
+            'WEST', ZONE_COLORS.WEST,
+            '#E11D48',
+          ],
+          'circle-radius': [
             'interpolate',
             ['linear'],
             ['zoom'],
@@ -211,38 +200,32 @@ export class MapLibreDriver implements IMapAdapter {
             12, 5.5,
             15, 9,
           ],
-        ],
-        'circle-opacity': 0.95,
-        'circle-stroke-color': '#0B0E14',
-        'circle-stroke-width': 1.5,
-        'circle-stroke-opacity': 0.9,
-      },
-    });
+          'circle-opacity': 0.95,
+          'circle-stroke-color': '#0B0E14',
+          'circle-stroke-width': 1.5,
+          'circle-stroke-opacity': 0.9,
+        },
+      });
+    }
 
     // 4. Add Food Dots Layer (Circle Layer with Distinct White Border)
-    this.map.addLayer({
-      id: 'food-dots',
-      type: 'circle',
-      source: 'food-src',
-      layout: {
-        'circle-sort-key': 0,
-      },
-      paint: {
-        'circle-color': [
-          'match',
-          ['get', 'zone'],
-          'NORTH', ZONE_COLORS.NORTH,
-          'SOUTH', ZONE_COLORS.SOUTH,
-          'CENTRAL', ZONE_COLORS.CENTRAL,
-          'EAST', ZONE_COLORS.EAST,
-          'WEST', ZONE_COLORS.WEST,
-          '#F59E0B',
-        ],
-        'circle-radius': [
-          'case',
-          ['boolean', ['feature-state', 'hover'], false],
-          11,
-          [
+    if (!this.map.getLayer('food-dots')) {
+      this.map.addLayer({
+        id: 'food-dots',
+        type: 'circle',
+        source: 'food-src',
+        paint: {
+          'circle-color': [
+            'match',
+            ['get', 'zone'],
+            'NORTH', ZONE_COLORS.NORTH,
+            'SOUTH', ZONE_COLORS.SOUTH,
+            'CENTRAL', ZONE_COLORS.CENTRAL,
+            'EAST', ZONE_COLORS.EAST,
+            'WEST', ZONE_COLORS.WEST,
+            '#F59E0B',
+          ],
+          'circle-radius': [
             'interpolate',
             ['linear'],
             ['zoom'],
@@ -250,73 +233,27 @@ export class MapLibreDriver implements IMapAdapter {
             12, 4.5,
             15, 7.5,
           ],
-        ],
-        'circle-opacity': 1.0,
-        'circle-stroke-color': '#FFFFFF',
-        'circle-stroke-width': 2.0,
-        'circle-stroke-opacity': 0.95,
-      },
-    });
+          'circle-opacity': 1.0,
+          'circle-stroke-color': '#FFFFFF',
+          'circle-stroke-width': 2.0,
+          'circle-stroke-opacity': 0.95,
+        },
+      });
+    }
 
-    // 5. Hover Handlers with feature-state (Smooth 60fps GPU hover)
-    this.map.on('mousemove', 'pandal-dots', (e) => {
-      if (!this.map) return;
-      this.map.getCanvas().style.cursor = 'pointer';
-      const id = e.features?.[0]?.id;
-      if (id === undefined || id === this.hoveredPandalId) return;
-      if (this.hoveredPandalId !== null) {
-        this.map.setFeatureState(
-          { source: 'pandals-src', id: this.hoveredPandalId },
-          { hover: false }
-        );
-      }
-      this.hoveredPandalId = id;
-      this.map.setFeatureState(
-        { source: 'pandals-src', id: this.hoveredPandalId },
-        { hover: true }
-      );
+    // 5. Cursor Handlers
+    this.map.on('mouseenter', 'pandal-dots', () => {
+      if (this.map) this.map.getCanvas().style.cursor = 'pointer';
     });
-
     this.map.on('mouseleave', 'pandal-dots', () => {
-      if (!this.map) return;
-      this.map.getCanvas().style.cursor = '';
-      if (this.hoveredPandalId !== null) {
-        this.map.setFeatureState(
-          { source: 'pandals-src', id: this.hoveredPandalId },
-          { hover: false }
-        );
-        this.hoveredPandalId = null;
-      }
+      if (this.map) this.map.getCanvas().style.cursor = '';
     });
 
-    this.map.on('mousemove', 'food-dots', (e) => {
-      if (!this.map) return;
-      this.map.getCanvas().style.cursor = 'pointer';
-      const id = e.features?.[0]?.id;
-      if (id === undefined || id === this.hoveredFoodId) return;
-      if (this.hoveredFoodId !== null) {
-        this.map.setFeatureState(
-          { source: 'food-src', id: this.hoveredFoodId },
-          { hover: false }
-        );
-      }
-      this.hoveredFoodId = id;
-      this.map.setFeatureState(
-        { source: 'food-src', id: this.hoveredFoodId },
-        { hover: true }
-      );
+    this.map.on('mouseenter', 'food-dots', () => {
+      if (this.map) this.map.getCanvas().style.cursor = 'pointer';
     });
-
     this.map.on('mouseleave', 'food-dots', () => {
-      if (!this.map) return;
-      this.map.getCanvas().style.cursor = '';
-      if (this.hoveredFoodId !== null) {
-        this.map.setFeatureState(
-          { source: 'food-src', id: this.hoveredFoodId },
-          { hover: false }
-        );
-        this.hoveredFoodId = null;
-      }
+      if (this.map) this.map.getCanvas().style.cursor = '';
     });
 
     // 6. Click Handlers
@@ -340,18 +277,19 @@ export class MapLibreDriver implements IMapAdapter {
 
   clearMarkers(): void {
     if (!this.map) return;
-    const style = this.map.getStyle();
-    if (!style?.layers) return;
-
-    if (this.map.getLayer('pandal-dots')) this.map.removeLayer('pandal-dots');
-    if (this.map.getLayer('food-dots')) this.map.removeLayer('food-dots');
-    if (this.map.getSource('pandals-src')) this.map.removeSource('pandals-src');
-    if (this.map.getSource('food-src')) this.map.removeSource('food-src');
+    try {
+      if (this.map.getLayer('pandal-dots')) this.map.removeLayer('pandal-dots');
+      if (this.map.getLayer('food-dots')) this.map.removeLayer('food-dots');
+      if (this.map.getSource('pandals-src')) this.map.removeSource('pandals-src');
+      if (this.map.getSource('food-src')) this.map.removeSource('food-src');
+    } catch (e) {
+      console.warn('[map] Error clearing markers:', e);
+    }
   }
 
   /**
    * Zone selection & translucent dimming:
-   * Selected zone remains bright & sorted on top; others fade to ~16% opacity.
+   * Selected zone remains bright; other zones fade to ~16% opacity.
    */
   setActiveZone(zone: Zone | 'ALL'): void {
     if (!this.map) return;
@@ -360,40 +298,34 @@ export class MapLibreDriver implements IMapAdapter {
     const isAll = zone === 'ALL';
     const matchZone = ['==', ['get', 'zone'], zone];
 
-    if (this.map.getLayer('pandal-dots')) {
-      this.map.setPaintProperty(
-        'pandal-dots',
-        'circle-opacity',
-        isAll ? 0.95 : (['case', matchZone, 0.95, 0.16] as any)
-      );
-      this.map.setPaintProperty(
-        'pandal-dots',
-        'circle-stroke-opacity',
-        isAll ? 0.9 : (['case', matchZone, 0.9, 0.1] as any)
-      );
-      this.map.setLayoutProperty(
-        'pandal-dots',
-        'circle-sort-key',
-        isAll ? 0 : (['case', matchZone, 1, 0] as any)
-      );
-    }
+    try {
+      if (this.map.getLayer('pandal-dots')) {
+        this.map.setPaintProperty(
+          'pandal-dots',
+          'circle-opacity',
+          isAll ? 0.95 : (['case', matchZone, 0.95, 0.16] as any)
+        );
+        this.map.setPaintProperty(
+          'pandal-dots',
+          'circle-stroke-opacity',
+          isAll ? 0.9 : (['case', matchZone, 0.9, 0.1] as any)
+        );
+      }
 
-    if (this.map.getLayer('food-dots')) {
-      this.map.setPaintProperty(
-        'food-dots',
-        'circle-opacity',
-        isAll ? 1.0 : (['case', matchZone, 1.0, 0.18] as any)
-      );
-      this.map.setPaintProperty(
-        'food-dots',
-        'circle-stroke-opacity',
-        isAll ? 0.9 : (['case', matchZone, 0.9, 0.1] as any)
-      );
-      this.map.setLayoutProperty(
-        'food-dots',
-        'circle-sort-key',
-        isAll ? 0 : (['case', matchZone, 1, 0] as any)
-      );
+      if (this.map.getLayer('food-dots')) {
+        this.map.setPaintProperty(
+          'food-dots',
+          'circle-opacity',
+          isAll ? 1.0 : (['case', matchZone, 1.0, 0.18] as any)
+        );
+        this.map.setPaintProperty(
+          'food-dots',
+          'circle-stroke-opacity',
+          isAll ? 0.95 : (['case', matchZone, 0.95, 0.1] as any)
+        );
+      }
+    } catch (e) {
+      console.warn('[map] Error setting active zone paint property:', e);
     }
   }
 
@@ -427,31 +359,35 @@ export class MapLibreDriver implements IMapAdapter {
     if (!this.map) return;
     const vis = visible ? 'visible' : 'none';
 
-    if (layer === 'pandals' && this.map.getLayer('pandal-dots')) {
-      this.map.setLayoutProperty('pandal-dots', 'visibility', vis);
-    } else if (layer === 'food' && this.map.getLayer('food-dots')) {
-      this.map.setLayoutProperty('food-dots', 'visibility', vis);
-    } else if (layer === 'metro') {
-      this.toggleMetroOverlay(visible);
+    try {
+      if (layer === 'pandals' && this.map.getLayer('pandal-dots')) {
+        this.map.setLayoutProperty('pandal-dots', 'visibility', vis);
+      } else if (layer === 'food' && this.map.getLayer('food-dots')) {
+        this.map.setLayoutProperty('food-dots', 'visibility', vis);
+      } else if (layer === 'metro') {
+        this.toggleMetroOverlay(visible);
+      }
+    } catch (e) {
+      console.warn('[map] Error toggling layer visibility:', e);
     }
   }
 
   renderMetroLines(geoJson: GeoJSON.FeatureCollection): void {
     if (!this.map) return;
+    this.metroGeoJsonData = geoJson;
 
-    const setup = () => {
-      if (!this.map) return;
+    const execute = () => {
       try {
         this.addMetroLayers(geoJson);
       } catch (err) {
-        console.warn('[map] Error adding metro layers:', err);
+        console.error('[map] Error adding metro layers:', err);
       }
     };
 
     if (this.map.isStyleLoaded()) {
-      setup();
+      execute();
     } else {
-      this.map.once('styledata', setup);
+      this.map.once('load', execute);
     }
   }
 
@@ -470,94 +406,106 @@ export class MapLibreDriver implements IMapAdapter {
       const sourceId = `metro-line-${props['id']}`;
       const layerId = `metro-layer-${props['id']}`;
 
-      this.map.addSource(sourceId, {
-        type: 'geojson',
-        data: line as GeoJSON.Feature,
-      });
+      if (!this.map.getSource(sourceId)) {
+        this.map.addSource(sourceId, {
+          type: 'geojson',
+          data: line as GeoJSON.Feature,
+        });
+      }
 
       // Dark under-casing for stark contrast against basemap
-      this.map.addLayer({
-        id: `${layerId}-casing`,
-        type: 'line',
-        source: sourceId,
-        paint: {
-          'line-color': '#0B0E14',
-          'line-width': ['interpolate', ['linear'], ['zoom'], 10, 5, 15, 12],
-          'line-opacity': 0.85,
-        },
-        layout: {
-          'line-cap': 'round',
-          'line-join': 'round',
-        },
-      });
+      if (!this.map.getLayer(`${layerId}-casing`)) {
+        this.map.addLayer({
+          id: `${layerId}-casing`,
+          type: 'line',
+          source: sourceId,
+          paint: {
+            'line-color': '#0B0E14',
+            'line-width': ['interpolate', ['linear'], ['zoom'], 10, 5, 15, 12],
+            'line-opacity': 0.85,
+          },
+          layout: {
+            'line-cap': 'round',
+            'line-join': 'round',
+          },
+        });
+      }
 
       // Vibrant metro line
+      if (!this.map.getLayer(layerId)) {
+        this.map.addLayer({
+          id: layerId,
+          type: 'line',
+          source: sourceId,
+          paint: {
+            'line-color': color,
+            'line-width': ['interpolate', ['linear'], ['zoom'], 10, 2.8, 15, 6],
+            'line-opacity': 0.95,
+          },
+          layout: {
+            'line-cap': 'round',
+            'line-join': 'round',
+          },
+        });
+      }
+    }
+
+    // 2. Add Station Nodes
+    if (!this.map.getSource('metro-stations-src')) {
+      this.map.addSource('metro-stations-src', {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: stations,
+        } as GeoJSON.FeatureCollection,
+      });
+    }
+
+    if (!this.map.getLayer('metro-stations')) {
       this.map.addLayer({
-        id: layerId,
-        type: 'line',
-        source: sourceId,
+        id: 'metro-stations',
+        type: 'circle',
+        source: 'metro-stations-src',
+        minzoom: 10,
         paint: {
-          'line-color': color,
-          'line-width': ['interpolate', ['linear'], ['zoom'], 10, 2.8, 15, 6],
-          'line-opacity': 0.95,
-        },
-        layout: {
-          'line-cap': 'round',
-          'line-join': 'round',
+          'circle-color': '#FFFFFF',
+          'circle-stroke-color': '#0B0E14',
+          'circle-stroke-width': 2,
+          'circle-radius': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            10,
+            2.5,
+            15,
+            ['case', ['boolean', ['get', 'isInterchange'], false], 7.5, 5],
+          ],
         },
       });
     }
 
-    // 2. Add Station Nodes
-    this.map.addSource('metro-stations-src', {
-      type: 'geojson',
-      data: {
-        type: 'FeatureCollection',
-        features: stations,
-      } as GeoJSON.FeatureCollection,
-    });
-
-    this.map.addLayer({
-      id: 'metro-stations',
-      type: 'circle',
-      source: 'metro-stations-src',
-      minzoom: 10,
-      paint: {
-        'circle-color': '#FFFFFF',
-        'circle-stroke-color': '#0B0E14',
-        'circle-stroke-width': 2,
-        'circle-radius': [
-          'interpolate',
-          ['linear'],
-          ['zoom'],
-          10,
-          2.5,
-          15,
-          ['case', ['boolean', ['get', 'isInterchange'], false], 7.5, 5],
-        ],
-      },
-    });
-
     // 3. Station Labels (Appear as user zooms in at minzoom: 11)
-    this.map.addLayer({
-      id: 'metro-labels',
-      type: 'symbol',
-      source: 'metro-stations-src',
-      minzoom: 11,
-      layout: {
-        'text-field': ['get', 'name'],
-        'text-size': ['interpolate', ['linear'], ['zoom'], 11, 10, 15, 13],
-        'text-anchor': 'left',
-        'text-offset': [0.85, 0],
-        'text-optional': true,
-        'symbol-sort-key': ['case', ['boolean', ['get', 'isInterchange'], false], 0, 1] as any,
-      },
-      paint: {
-        'text-color': '#F3F4F6',
-        'text-halo-color': '#0B0E14',
-        'text-halo-width': 2,
-      },
-    });
+    if (!this.map.getLayer('metro-labels')) {
+      this.map.addLayer({
+        id: 'metro-labels',
+        type: 'symbol',
+        source: 'metro-stations-src',
+        minzoom: 11,
+        layout: {
+          'text-field': ['get', 'name'],
+          'text-font': ['Noto Sans Regular'],
+          'text-size': ['interpolate', ['linear'], ['zoom'], 11, 10, 15, 13],
+          'text-anchor': 'left',
+          'text-offset': [0.85, 0],
+          'text-optional': true,
+        },
+        paint: {
+          'text-color': '#F3F4F6',
+          'text-halo-color': '#0B0E14',
+          'text-halo-width': 2,
+        },
+      });
+    }
 
     // 4. Station Click Popup
     this.map.on('click', 'metro-stations', (e) => {
@@ -620,54 +568,62 @@ export class MapLibreDriver implements IMapAdapter {
 
     const zoneBounds = this.getZoneBounds(zone);
 
-    this.map.addSource(sourceId, {
-      type: 'geojson',
-      data: {
-        type: 'Feature',
-        properties: { zone },
-        geometry: {
-          type: 'Polygon',
-          coordinates: [zoneBounds],
+    try {
+      this.map.addSource(sourceId, {
+        type: 'geojson',
+        data: {
+          type: 'Feature',
+          properties: { zone },
+          geometry: {
+            type: 'Polygon',
+            coordinates: [zoneBounds],
+          },
+        } as GeoJSON.Feature,
+      });
+
+      this.map.addLayer({
+        id: layerId,
+        type: 'fill',
+        source: sourceId,
+        paint: {
+          'fill-color': color,
+          'fill-opacity': 0.12,
         },
-      } as GeoJSON.Feature,
-    });
+      });
 
-    this.map.addLayer({
-      id: layerId,
-      type: 'fill',
-      source: sourceId,
-      paint: {
-        'fill-color': color,
-        'fill-opacity': 0.12,
-      },
-    });
-
-    this.map.addLayer({
-      id: `${layerId}-border`,
-      type: 'line',
-      source: sourceId,
-      paint: {
-        'line-color': color,
-        'line-width': 2,
-        'line-opacity': 0.6,
-      },
-    });
+      this.map.addLayer({
+        id: `${layerId}-border`,
+        type: 'line',
+        source: sourceId,
+        paint: {
+          'line-color': color,
+          'line-width': 2,
+          'line-opacity': 0.6,
+        },
+      });
+    } catch (e) {
+      console.warn('[map] Error adding zone highlight:', e);
+    }
   }
 
   clearZoneHighlights(): void {
     if (!this.map) return;
-    const style = this.map.getStyle();
-    if (!style?.layers) return;
+    try {
+      const style = this.map.getStyle();
+      if (!style?.layers) return;
 
-    for (const layer of [...style.layers]) {
-      if (layer.id.startsWith('zone-highlight-')) {
-        this.map.removeLayer(layer.id);
+      for (const layer of [...style.layers]) {
+        if (layer.id.startsWith('zone-highlight-')) {
+          this.map.removeLayer(layer.id);
+        }
       }
-    }
-    for (const sourceId of Object.keys(style.sources ?? {})) {
-      if (sourceId.startsWith('zone-highlight-')) {
-        this.map.removeSource(sourceId);
+      for (const sourceId of Object.keys(style.sources ?? {})) {
+        if (sourceId.startsWith('zone-highlight-')) {
+          this.map.removeSource(sourceId);
+        }
       }
+    } catch (e) {
+      console.warn('[map] Error clearing zone highlights:', e);
     }
   }
 
@@ -706,18 +662,22 @@ export class MapLibreDriver implements IMapAdapter {
 
   private removeMetroLayers(): void {
     if (!this.map) return;
-    const style = this.map.getStyle();
-    if (!style?.layers) return;
+    try {
+      const style = this.map.getStyle();
+      if (!style?.layers) return;
 
-    for (const layer of [...style.layers]) {
-      if (layer.id.startsWith('metro-')) {
-        this.map.removeLayer(layer.id);
+      for (const layer of [...style.layers]) {
+        if (layer.id.startsWith('metro-')) {
+          this.map.removeLayer(layer.id);
+        }
       }
-    }
-    for (const sourceId of Object.keys(style.sources ?? {})) {
-      if (sourceId.startsWith('metro-')) {
-        this.map.removeSource(sourceId);
+      for (const sourceId of Object.keys(style.sources ?? {})) {
+        if (sourceId.startsWith('metro-')) {
+          this.map.removeSource(sourceId);
+        }
       }
+    } catch (e) {
+      console.warn('[map] Error removing metro layers:', e);
     }
   }
 
