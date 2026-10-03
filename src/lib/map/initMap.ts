@@ -66,53 +66,35 @@ export async function initApp() {
     });
   });
 
-  // 4. Render Active Markers
-  const renderActiveMarkers = () => {
-    const state = useMapStore.getState();
+  // 4. Initial Marker Render (all markers loaded into GPU vector layer)
+  mapAdapter.renderMarkers(allMarkers, (id, type) => {
+    useMapStore.getState().selectEntity(id, type);
+  });
 
-    const visibleMarkers = allMarkers.filter((m) => {
-      if (state.activeZone !== 'ALL' && m.zone !== state.activeZone) return false;
-      if (m.type === 'pandal' && !state.activeLayers.pandals) return false;
-      if (m.type === 'food' && !state.activeLayers.food) return false;
-      return true;
-    });
-
-    mapAdapter.renderMarkers(visibleMarkers, (id, type) => {
-      useMapStore.getState().selectEntity(id, type);
-    });
-
-    mapAdapter.toggleMetroOverlay(state.activeLayers.metro);
-
-    if (state.activeZone !== 'ALL') {
-      mapAdapter.highlightZone(state.activeZone);
-    } else {
-      mapAdapter.clearZoneHighlights();
-    }
-  };
-
-  renderActiveMarkers();
+  // Apply initial active zone and layer visibility
+  const initialState = useMapStore.getState();
+  mapAdapter.setActiveZone(initialState.activeZone);
+  mapAdapter.toggleLayer('pandals', initialState.activeLayers.pandals);
+  mapAdapter.toggleLayer('food', initialState.activeLayers.food);
+  mapAdapter.toggleLayer('metro', initialState.activeLayers.metro);
 
   // 5. Subscribe to Zustand store changes for Reactive Map Updates
   useMapStore.subscribe((state, prevState) => {
-    let needsReRender = false;
-
+    // Reactive Zone Dimming: Dim non-active zones to translucent ~16% opacity
     if (state.activeZone !== prevState.activeZone) {
-      needsReRender = true;
+      mapAdapter.setActiveZone(state.activeZone);
+      mapAdapter.fitZone(state.activeZone);
     }
 
-    if (
-      state.activeLayers.pandals !== prevState.activeLayers.pandals ||
-      state.activeLayers.food !== prevState.activeLayers.food
-    ) {
-      needsReRender = true;
+    // Reactive Layer Toggles
+    if (state.activeLayers.pandals !== prevState.activeLayers.pandals) {
+      mapAdapter.toggleLayer('pandals', state.activeLayers.pandals);
     }
-
+    if (state.activeLayers.food !== prevState.activeLayers.food) {
+      mapAdapter.toggleLayer('food', state.activeLayers.food);
+    }
     if (state.activeLayers.metro !== prevState.activeLayers.metro) {
-      mapAdapter.toggleMetroOverlay(state.activeLayers.metro);
-    }
-
-    if (needsReRender) {
-      renderActiveMarkers();
+      mapAdapter.toggleLayer('metro', state.activeLayers.metro);
     }
 
     // Fly to selected entity
@@ -126,14 +108,12 @@ export async function initApp() {
 
   // 6. Listen to custom window events for Zone FlyTo
   window.addEventListener('map:flyToZone', (e: Event) => {
-    const customEvent = e as CustomEvent<{ zone: string }>;
+    const customEvent = e as CustomEvent<{ zone: any }>;
     const zone = customEvent.detail?.zone;
-    if (zone === 'NORTH') mapAdapter.flyTo([88.37, 22.61], 13);
-    else if (zone === 'SOUTH') mapAdapter.flyTo([88.36, 22.51], 13);
-    else if (zone === 'CENTRAL') mapAdapter.flyTo([88.36, 22.56], 14);
-    else if (zone === 'EAST') mapAdapter.flyTo([88.42, 22.58], 13);
-    else if (zone === 'WEST') mapAdapter.flyTo([88.30, 22.49], 13);
-    else if (zone === 'ALL') mapAdapter.flyTo([88.3639, 22.5726], 12);
+    if (zone) {
+      mapAdapter.setActiveZone(zone);
+      mapAdapter.fitZone(zone);
+    }
   });
 
   window.addEventListener('resize', () => mapAdapter.resize());

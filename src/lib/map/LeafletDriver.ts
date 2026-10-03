@@ -133,12 +133,48 @@ export class LeafletDriver implements IMapAdapter {
         .bindPopup(popupHtml, { closeButton: false, offset: L.point(0, -10) })
         .on('click', () => onClick(item.id, item.type));
 
+      this.markerInstances.push({ marker, item });
       this.markerLayer.addLayer(marker);
     }
   }
 
+  private markerInstances: Array<{ marker: L.Marker; item: MarkerItem }> = [];
+
   clearMarkers(): void {
     this.markerLayer.clearLayers();
+    this.markerInstances = [];
+  }
+
+  setActiveZone(zone: Zone | 'ALL'): void {
+    for (const { marker, item } of this.markerInstances) {
+      if (zone === 'ALL' || item.zone === zone) {
+        marker.setOpacity(1.0);
+      } else {
+        marker.setOpacity(0.18);
+      }
+    }
+  }
+
+  fitZone(zone: Zone | 'ALL'): void {
+    if (!this.map) return;
+    if (zone === 'ALL') {
+      this.map.flyTo([22.5726, 88.3639], 12);
+      return;
+    }
+    const bounds = this.getZoneBounds(zone);
+    this.map.fitBounds(bounds.map(([lng, lat]) => [lat, lng] as L.LatLngTuple));
+  }
+
+  toggleLayer(layer: 'pandals' | 'food' | 'metro', visible: boolean): void {
+    if (layer === 'metro') {
+      this.toggleMetroOverlay(visible);
+      return;
+    }
+    for (const { marker, item } of this.markerInstances) {
+      if (item.type === (layer === 'pandals' ? 'pandal' : 'food')) {
+        marker.setOpacity(visible ? 1.0 : 0);
+      }
+    }
   }
 
   renderMetroLines(geoJson: GeoJSON.FeatureCollection): void {

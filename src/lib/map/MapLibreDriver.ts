@@ -2,7 +2,6 @@ import * as maplibregl from 'maplibre-gl';
 import type { IMapAdapter, MarkerItem } from './MapEngineAdapter';
 import { ZONE_COLORS, METRO_LINE_COLORS } from './MapEngineAdapter';
 import type { Zone } from '../schemas';
-
 import type { StyleSpecification } from 'maplibre-gl';
 
 const DEFAULT_CARTO_KEY = 'cb1_46w3_1_b8c20a5b160e534febd5654c';
@@ -36,14 +35,57 @@ const DARK_STYLE: StyleSpecification = {
 };
 
 /**
+ * Generate a rounded badge canvas image for food spots.
+ */
+function addFoodBadgeImage(map: maplibregl.Map, id: string, color: string) {
+  if (map.hasImage(id)) return;
+  const s = 48;
+  const canvas = document.createElement('canvas');
+  canvas.width = s;
+  canvas.height = s;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
+  // Outer rounded rect
+  ctx.fillStyle = color;
+  ctx.strokeStyle = '#FFFFFF';
+  ctx.lineWidth = 4;
+  ctx.beginPath();
+  if (ctx.roundRect) {
+    ctx.roundRect(4, 4, s - 8, s - 8, 12);
+  } else {
+    ctx.rect(4, 4, s - 8, s - 8);
+  }
+  ctx.fill();
+  ctx.stroke();
+
+  // White inner circle glyph
+  ctx.fillStyle = '#FFFFFF';
+  ctx.beginPath();
+  ctx.arc(s / 2, s / 2, 7, 0, Math.PI * 2);
+  ctx.fill();
+
+  // Dark dot inside
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.arc(s / 2, s / 2, 3, 0, Math.PI * 2);
+  ctx.fill();
+
+  const imgData = ctx.getImageData(0, 0, s, s);
+  map.addImage(id, imgData, { pixelRatio: 2 });
+}
+
+/**
  * MapLibre GL JS driver — high-performance WebGL2 vector map renderer.
- * Implements IMapAdapter with hardware-accelerated 60fps rendering.
+ * Hardware-accelerated 60fps rendering with dynamic zone dimming and metro layer.
  */
 export class MapLibreDriver implements IMapAdapter {
   private map: maplibregl.Map | null = null;
-  private markers: maplibregl.Marker[] = [];
   private zoomCallbacks: Array<(zoom: number) => void> = [];
   private metroVisible = true;
+  private items: MarkerItem[] = [];
+  private activeZone: Zone | 'ALL' = 'ALL';
+  private hoveredPandalId: string | number | null = null;
 
   async init(
     container: HTMLElement,
@@ -59,8 +101,8 @@ export class MapLibreDriver implements IMapAdapter {
       zoom: options.zoom,
       attributionControl: { compact: true },
       maxBounds: [
-        [88.20, 22.40], // SW corner
-        [88.55, 22.70], // NE corner
+        [88.15, 22.35], // SW corner
+        [88.58, 22.75], // NE corner
       ],
     });
 
@@ -93,140 +135,280 @@ export class MapLibreDriver implements IMapAdapter {
     onClick: (id: string, type: 'pandal' | 'food' | 'station') => void
   ): void {
     if (!this.map) return;
+    this.items = items;
     this.clearMarkers();
 
-    for (const item of items) {
-      const color = item.color ?? this.getMarkerColor(item);
-
-      // Root element passed to MapLibre — MapLibre controls transform translate on this element.
-      // Explicit dimensions allow MapLibre to calculate correct anchor offsets.
-      // NEVER set position: relative on el directly, as it disrupts MapLibre's absolute coordinate positioning!
-      const el = document.createElement('div');
-      el.className = `pujo-marker pujo-marker-${item.type}`;
-      el.style.cursor = 'pointer';
-      el.style.width = item.type === 'pandal' ? '28px' : '24px';
-      el.style.height = item.type === 'pandal' ? '34px' : '24px';
-
-      // Inner element handles visual presentation, hover animations, and SVG glyphs
-      const inner = document.createElement('div');
-      inner.className = 'pujo-marker-inner';
-      inner.style.width = '100%';
-      inner.style.height = '100%';
-
-      if (item.type === 'pandal') {
-        // Distinct festive Durga Puja pandal pin with temple arch / Kalash motif
-        inner.style.background = 'linear-gradient(135deg, #E11D48 0%, #9F1239 100%)';
-        inner.style.border = '2px solid #FCD34D';
-        inner.style.borderRadius = '50% 50% 50% 0';
-        inner.style.transform = 'rotate(-45deg)';
-        inner.style.boxShadow = '0 4px 10px rgba(225, 29, 72, 0.5)';
-        inner.style.display = 'flex';
-        inner.style.alignItems = 'center';
-        inner.style.justifyContent = 'center';
-        inner.style.transition = 'transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease';
-        inner.innerHTML = `
-          <div style="transform: rotate(45deg); display: flex; align-items: center; justify-content: center;">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2v2M10 4h4M12 4c-3 3-5 5-5 9h10c0-4-2-6-5-9z"/>
-              <path d="M5 13v8M19 13v8M9 21v-4a3 3 0 0 1 6 0v4M4 21h16"/>
-            </svg>
-          </div>
-        `;
-      } else {
-        // Distinct food place badge colored dynamically by region (zone) with cutlery glyph
-        inner.style.background = color;
-        inner.style.border = '2px solid #FFFFFF';
-        inner.style.borderRadius = '50%';
-        inner.style.boxShadow = `0 2px 8px ${color}99`;
-        inner.style.display = 'flex';
-        inner.style.alignItems = 'center';
-        inner.style.justifyContent = 'center';
-        inner.style.transition = 'transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease';
-        inner.innerHTML = `
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 2v6a3 3 0 0 1-3 3 3 3 0 0 1-3-3V2M15 11v11M5 2v7M8 2v7M2 2v7a3 3 0 0 0 3 3v10"/>
-          </svg>
-        `;
-      }
-
-      inner.addEventListener('mouseenter', () => {
-        inner.style.transform = item.type === 'pandal' ? 'rotate(-45deg) scale(1.25)' : 'scale(1.3)';
-        inner.style.boxShadow = item.type === 'pandal' ? '0 6px 14px rgba(225, 29, 72, 0.7)' : `0 4px 12px ${color}DD`;
-      });
-      inner.addEventListener('mouseleave', () => {
-        inner.style.transform = item.type === 'pandal' ? 'rotate(-45deg) scale(1)' : 'scale(1)';
-        inner.style.boxShadow = item.type === 'pandal' ? '0 4px 10px rgba(225, 29, 72, 0.5)' : `0 2px 8px ${color}99`;
-      });
-
-      el.appendChild(inner);
-
-      const destQuery = item.type === 'pandal' ? `${item.name} Durga Puja, Kolkata` : `${item.name}, Kolkata`;
-      const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destQuery)}&travelmode=driving`;
-      const gpsUrl = `https://www.google.com/maps/dir/?api=1&destination=${item.lat},${item.lng}&travelmode=driving`;
-
-      const popupHtml = `
-        <div style="font-family: system-ui, -apple-system, sans-serif; padding: 6px 4px; min-width: 185px;">
-          <div style="font-size: 13px; font-weight: 700; color: #111827; line-height: 1.25; margin-bottom: 3px;">${item.name}</div>
-          <div style="font-size: 11px; font-weight: 600; color: #4B5563; margin-bottom: 8px; text-transform: uppercase;">
-            ${item.type === 'pandal' ? '🎪 Durga Puja Pandal' : '🍽️ Food Spot'} • <span style="color:${color}; font-weight: 700;">${item.zone || ''}</span>
-          </div>
-          <div style="display: flex; gap: 4px;">
-            <a href="${mapsUrl}" target="_blank" rel="noopener noreferrer" style="flex: 2; display: flex; align-items: center; justify-content: center; gap: 4px; padding: 6px 8px; background: #2563EB; color: #FFFFFF; font-size: 11px; font-weight: 700; text-decoration: none; border-radius: 6px; box-shadow: 0 2px 4px rgba(37,99,235,0.25);">
-              🧭 Directions ↗
-            </a>
-            <a href="${gpsUrl}" target="_blank" rel="noopener noreferrer" style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 6px 6px; background: #374151; color: #F3F4F6; font-size: 10px; font-weight: 600; text-decoration: none; border-radius: 6px;" title="Exact coordinates pin">
-              📍 GPS
-            </a>
-          </div>
-        </div>
-      `;
-
-      const marker = new maplibregl.Marker({
-        element: el,
-        anchor: item.type === 'pandal' ? 'bottom' : 'center',
-      })
-        .setLngLat([item.lng, item.lat])
-        .setPopup(
-          new maplibregl.Popup({
-            offset: item.type === 'pandal' ? [0, -32] : [0, -12],
-            closeButton: false,
-          }).setHTML(popupHtml)
-        )
-        .addTo(this.map!);
-
-      el.addEventListener('click', () => onClick(item.id, item.type));
-      this.markers.push(marker);
+    // Register food badge images
+    for (const [zone, color] of Object.entries(ZONE_COLORS)) {
+      addFoodBadgeImage(this.map, `food-${zone}`, color);
     }
+    addFoodBadgeImage(this.map, 'food-default', '#F59E0B');
+
+    // 1. Separate Pandals and Food into GeoJSON Features
+    const pandalFeatures: GeoJSON.Feature[] = items
+      .filter((i) => i.type === 'pandal')
+      .map((p) => ({
+        type: 'Feature',
+        id: p.id,
+        properties: {
+          id: p.id,
+          name: p.name,
+          zone: p.zone || 'NORTH',
+          type: 'pandal',
+        },
+        geometry: {
+          type: 'Point',
+          coordinates: [p.lng, p.lat],
+        },
+      }));
+
+    const foodFeatures: GeoJSON.Feature[] = items
+      .filter((i) => i.type === 'food')
+      .map((f) => ({
+        type: 'Feature',
+        id: f.id,
+        properties: {
+          id: f.id,
+          name: f.name,
+          zone: f.zone || 'NORTH',
+          type: 'food',
+        },
+        geometry: {
+          type: 'Point',
+          coordinates: [f.lng, f.lat],
+        },
+      }));
+
+    // 2. Add Sources
+    this.map.addSource('pandals-src', {
+      type: 'geojson',
+      data: {
+        type: 'FeatureCollection',
+        features: pandalFeatures,
+      },
+      promoteId: 'id',
+    });
+
+    this.map.addSource('food-src', {
+      type: 'geojson',
+      data: {
+        type: 'FeatureCollection',
+        features: foodFeatures,
+      },
+      promoteId: 'id',
+    });
+
+    // 3. Add Pandal Dots Layer (Circle Layer with Zone Matching & Zoom Radius)
+    this.map.addLayer({
+      id: 'pandal-dots',
+      type: 'circle',
+      source: 'pandals-src',
+      layout: {
+        'circle-sort-key': 0,
+      },
+      paint: {
+        'circle-color': [
+          'match',
+          ['get', 'zone'],
+          'NORTH', ZONE_COLORS.NORTH,
+          'SOUTH', ZONE_COLORS.SOUTH,
+          'CENTRAL', ZONE_COLORS.CENTRAL,
+          'EAST', ZONE_COLORS.EAST,
+          'WEST', ZONE_COLORS.WEST,
+          '#E11D48',
+        ],
+        'circle-radius': [
+          'interpolate',
+          ['linear'],
+          ['zoom'],
+          9,
+          ['case', ['boolean', ['feature-state', 'hover'], false], 6, 3.2],
+          12,
+          ['case', ['boolean', ['feature-state', 'hover'], false], 9, 5],
+          15,
+          ['case', ['boolean', ['feature-state', 'hover'], false], 14, 8],
+        ],
+        'circle-opacity': 0.95,
+        'circle-stroke-color': '#0B0E14',
+        'circle-stroke-width': 1.5,
+        'circle-stroke-opacity': 0.9,
+      },
+    });
+
+    // 4. Add Food Badges Layer (Symbol Layer)
+    this.map.addLayer({
+      id: 'food-badges',
+      type: 'symbol',
+      source: 'food-src',
+      layout: {
+        'icon-image': ['concat', 'food-', ['get', 'zone']],
+        'icon-size': ['interpolate', ['linear'], ['zoom'], 10, 0.45, 15, 0.75],
+        'icon-allow-overlap': true,
+      },
+      paint: {
+        'icon-opacity': 1,
+      },
+    });
+
+    // 5. Hover Handlers with feature-state (Smooth 60fps GPU hover)
+    this.map.on('mousemove', 'pandal-dots', (e) => {
+      if (!this.map) return;
+      this.map.getCanvas().style.cursor = 'pointer';
+      const id = e.features?.[0]?.id;
+      if (id === undefined || id === this.hoveredPandalId) return;
+      if (this.hoveredPandalId !== null) {
+        this.map.setFeatureState(
+          { source: 'pandals-src', id: this.hoveredPandalId },
+          { hover: false }
+        );
+      }
+      this.hoveredPandalId = id;
+      this.map.setFeatureState(
+        { source: 'pandals-src', id: this.hoveredPandalId },
+        { hover: true }
+      );
+    });
+
+    this.map.on('mouseleave', 'pandal-dots', () => {
+      if (!this.map) return;
+      this.map.getCanvas().style.cursor = '';
+      if (this.hoveredPandalId !== null) {
+        this.map.setFeatureState(
+          { source: 'pandals-src', id: this.hoveredPandalId },
+          { hover: false }
+        );
+        this.hoveredPandalId = null;
+      }
+    });
+
+    this.map.on('mouseenter', 'food-badges', () => {
+      if (this.map) this.map.getCanvas().style.cursor = 'pointer';
+    });
+    this.map.on('mouseleave', 'food-badges', () => {
+      if (this.map) this.map.getCanvas().style.cursor = '';
+    });
+
+    // 6. Click Handlers
+    this.map.on('click', 'pandal-dots', (e) => {
+      const f = e.features?.[0];
+      if (f?.properties?.id) {
+        onClick(f.properties.id, 'pandal');
+      }
+    });
+
+    this.map.on('click', 'food-badges', (e) => {
+      const f = e.features?.[0];
+      if (f?.properties?.id) {
+        onClick(f.properties.id, 'food');
+      }
+    });
+
+    // Apply active zone filter state if already set
+    this.setActiveZone(this.activeZone);
   }
 
   clearMarkers(): void {
-    for (const m of this.markers) {
-      m.remove();
+    if (!this.map) return;
+    const style = this.map.getStyle();
+    if (!style?.layers) return;
+
+    if (this.map.getLayer('pandal-dots')) this.map.removeLayer('pandal-dots');
+    if (this.map.getLayer('food-badges')) this.map.removeLayer('food-badges');
+    if (this.map.getSource('pandals-src')) this.map.removeSource('pandals-src');
+    if (this.map.getSource('food-src')) this.map.removeSource('food-src');
+  }
+
+  /**
+   * Zone selection & translucent dimming:
+   * Selected zone remains bright & sorted on top; others fade to ~16% opacity.
+   */
+  setActiveZone(zone: Zone | 'ALL'): void {
+    if (!this.map) return;
+    this.activeZone = zone;
+
+    const match = ['==', ['get', 'zone'], zone];
+    const fadeCircle = (on: number, off: number): any =>
+      zone !== 'ALL' ? ['case', match, on, off] : on;
+    const fadeIcon = (on: number, off: number): any =>
+      zone !== 'ALL' ? ['case', match, on, off] : on;
+
+    if (this.map.getLayer('pandal-dots')) {
+      this.map.setPaintProperty('pandal-dots', 'circle-opacity', fadeCircle(0.95, 0.16));
+      this.map.setPaintProperty('pandal-dots', 'circle-stroke-opacity', fadeCircle(0.9, 0.1));
+      this.map.setLayoutProperty(
+        'pandal-dots',
+        'circle-sort-key',
+        (zone !== 'ALL' ? ['case', match, 1, 0] : 0) as any
+      );
     }
-    this.markers = [];
+
+    if (this.map.getLayer('food-badges')) {
+      this.map.setPaintProperty('food-badges', 'icon-opacity', fadeIcon(1.0, 0.18));
+      this.map.setLayoutProperty(
+        'food-badges',
+        'symbol-sort-key',
+        (zone !== 'ALL' ? ['case', match, 1, 0] : 0) as any
+      );
+    }
+  }
+
+  /**
+   * Frame the selected zone's pandals.
+   */
+  fitZone(zone: Zone | 'ALL'): void {
+    if (!this.map) return;
+    if (zone === 'ALL') {
+      this.map.flyTo({
+        center: [88.3639, 22.5726],
+        zoom: 12,
+        speed: 1.2,
+        curve: 1.2,
+        essential: true,
+      });
+      return;
+    }
+
+    const pts = this.items.filter((p) => p.type === 'pandal' && p.zone === zone);
+    if (!pts.length) return;
+    const bounds = new maplibregl.LngLatBounds();
+    pts.forEach((p) => bounds.extend([p.lng, p.lat]));
+    this.map.fitBounds(bounds, { padding: 60, maxZoom: 14.5, duration: 800 });
+  }
+
+  /**
+   * Toggle individual layer visibility (pandals, food, metro).
+   */
+  toggleLayer(layer: 'pandals' | 'food' | 'metro', visible: boolean): void {
+    if (!this.map) return;
+    const vis = visible ? 'visible' : 'none';
+
+    if (layer === 'pandals' && this.map.getLayer('pandal-dots')) {
+      this.map.setLayoutProperty('pandal-dots', 'visibility', vis);
+    } else if (layer === 'food' && this.map.getLayer('food-badges')) {
+      this.map.setLayoutProperty('food-badges', 'visibility', vis);
+    } else if (layer === 'metro') {
+      this.toggleMetroOverlay(visible);
+    }
   }
 
   renderMetroLines(geoJson: GeoJSON.FeatureCollection): void {
     if (!this.map) return;
 
-    // Guard: style must be loaded before adding sources and layers
     if (!this.map.isStyleLoaded()) {
       this.map.once('load', () => this.renderMetroLines(geoJson));
       return;
     }
 
-    // Remove existing metro layers
     this.removeMetroLayers();
 
-    // Separate lines and stations
     const lines = geoJson.features.filter((f) => f.geometry.type === 'LineString');
     const stations = geoJson.features.filter((f) => f.geometry.type === 'Point');
 
-    // Add line sources and layers
+    // 1. Line Sources & Dual-Layer Rendering (Dark casing + colored center line)
     for (const line of lines) {
       const props = line.properties as Record<string, string>;
       const code = props['code'] as keyof typeof METRO_LINE_COLORS;
-      const color = METRO_LINE_COLORS[code] ?? props['colorHex'] ?? '#FFFFFF';
+      const color = METRO_LINE_COLORS[code] ?? props['colorHex'] ?? '#38BDF8';
       const sourceId = `metro-line-${props['id']}`;
       const layerId = `metro-layer-${props['id']}`;
 
@@ -235,27 +417,30 @@ export class MapLibreDriver implements IMapAdapter {
         data: line as GeoJSON.Feature,
       });
 
-      // Glow effect (wider, high-visibility neon outline)
+      // Dark under-casing for stark contrast against basemap
       this.map.addLayer({
-        id: `${layerId}-glow`,
+        id: `${layerId}-casing`,
         type: 'line',
         source: sourceId,
         paint: {
-          'line-color': color,
-          'line-width': 10,
-          'line-opacity': 0.4,
-          'line-blur': 2.5,
+          'line-color': '#0B0E14',
+          'line-width': ['interpolate', ['linear'], ['zoom'], 10, 5, 15, 12],
+          'line-opacity': 0.85,
+        },
+        layout: {
+          'line-cap': 'round',
+          'line-join': 'round',
         },
       });
 
-      // Main metro line
+      // Vibrant metro line
       this.map.addLayer({
         id: layerId,
         type: 'line',
         source: sourceId,
         paint: {
           'line-color': color,
-          'line-width': 4.5,
+          'line-width': ['interpolate', ['linear'], ['zoom'], 10, 2.8, 15, 6],
           'line-opacity': 0.95,
         },
         layout: {
@@ -265,8 +450,8 @@ export class MapLibreDriver implements IMapAdapter {
       });
     }
 
-    // Add station points
-    this.map.addSource('metro-stations', {
+    // 2. Add Station Nodes
+    this.map.addSource('metro-stations-src', {
       type: 'geojson',
       data: {
         type: 'FeatureCollection',
@@ -275,19 +460,49 @@ export class MapLibreDriver implements IMapAdapter {
     });
 
     this.map.addLayer({
-      id: 'metro-stations-layer',
+      id: 'metro-stations',
       type: 'circle',
-      source: 'metro-stations',
+      source: 'metro-stations-src',
+      minzoom: 10,
       paint: {
-        'circle-radius': 5.5,
         'circle-color': '#FFFFFF',
-        'circle-stroke-width': 2.5,
-        'circle-stroke-color': ['get', 'lineColorHex'],
+        'circle-stroke-color': '#0B0E14',
+        'circle-stroke-width': 2,
+        'circle-radius': [
+          'interpolate',
+          ['linear'],
+          ['zoom'],
+          10,
+          2.5,
+          15,
+          ['case', ['boolean', ['get', 'isInterchange'], false], 7.5, 5],
+        ],
       },
     });
 
-    // Interactive station click popup
-    this.map.on('click', 'metro-stations-layer', (e) => {
+    // 3. Station Labels (Appear as user zooms in at minzoom: 11)
+    this.map.addLayer({
+      id: 'metro-labels',
+      type: 'symbol',
+      source: 'metro-stations-src',
+      minzoom: 11,
+      layout: {
+        'text-field': ['get', 'name'],
+        'text-size': ['interpolate', ['linear'], ['zoom'], 11, 10, 15, 13],
+        'text-anchor': 'left',
+        'text-offset': [0.85, 0],
+        'text-optional': true,
+        'symbol-sort-key': ['case', ['boolean', ['get', 'isInterchange'], false], 0, 1],
+      },
+      paint: {
+        'text-color': '#F3F4F6',
+        'text-halo-color': '#0B0E14',
+        'text-halo-width': 2,
+      },
+    });
+
+    // 4. Station Click Popup
+    this.map.on('click', 'metro-stations', (e) => {
       const feature = e.features?.[0];
       if (!feature || !this.map) return;
       const props = feature.properties as any;
@@ -295,44 +510,24 @@ export class MapLibreDriver implements IMapAdapter {
       new maplibregl.Popup({ offset: 10, closeButton: true })
         .setLngLat(coords)
         .setHTML(`
-          <div style="font-family: system-ui, -apple-system, sans-serif; padding: 6px 4px; min-width: 140px;">
+          <div style="font-family: system-ui, -apple-system, sans-serif; padding: 6px 4px; min-width: 150px;">
             <div style="font-size: 13px; font-weight: 700; color: #111827;">🚇 ${props.name}</div>
             <div style="font-size: 11px; font-weight: 600; color: ${props.lineColorHex || '#2563EB'}; margin-top: 3px;">
               ${props.lineName || 'Metro Station'}
             </div>
-            <div style="font-size: 10px; color: #6B7280; margin-top: 2px;">${props.zone ? props.zone + ' Kolkata' : ''}</div>
+            ${props.isInterchange ? '<div style="font-size: 10px; font-weight: 700; color: #D97706; margin-top: 2px;">★ Interchange Station</div>' : ''}
           </div>
         `)
         .addTo(this.map);
     });
 
-    this.map.on('mouseenter', 'metro-stations-layer', () => {
+    this.map.on('mouseenter', 'metro-stations', () => {
       if (this.map) this.map.getCanvas().style.cursor = 'pointer';
     });
-    this.map.on('mouseleave', 'metro-stations-layer', () => {
+    this.map.on('mouseleave', 'metro-stations', () => {
       if (this.map) this.map.getCanvas().style.cursor = '';
     });
 
-    // Station labels with crisp black halo for dark map contrast
-    this.map.addLayer({
-      id: 'metro-stations-labels',
-      type: 'symbol',
-      source: 'metro-stations',
-      layout: {
-        'text-field': ['get', 'name'],
-        'text-size': 11,
-        'text-offset': [0, 1.4],
-        'text-anchor': 'top',
-        'text-optional': true,
-      },
-      paint: {
-        'text-color': '#FFFFFF',
-        'text-halo-color': '#000000',
-        'text-halo-width': 2,
-      },
-    });
-
-    // Apply visibility state if metro layer was toggled off
     if (!this.metroVisible) {
       this.toggleMetroOverlay(false);
     }
@@ -365,7 +560,6 @@ export class MapLibreDriver implements IMapAdapter {
     const sourceId = `zone-highlight-${zone}`;
     const layerId = `zone-highlight-layer-${zone}`;
 
-    // Zone approximate bounds (matching zones.geojson)
     const zoneBounds = this.getZoneBounds(zone);
 
     this.map.addSource(sourceId, {
@@ -386,7 +580,7 @@ export class MapLibreDriver implements IMapAdapter {
       source: sourceId,
       paint: {
         'fill-color': color,
-        'fill-opacity': 0.15,
+        'fill-opacity': 0.12,
       },
     });
 
@@ -421,7 +615,6 @@ export class MapLibreDriver implements IMapAdapter {
 
   flyTo(coords: [number, number], zoom?: number): void {
     if (!this.map) return;
-    // Auto-detect coordinate order: Kolkata Longitude is ~88.x, Latitude is ~22.x
     const lng = coords[0] > 50 ? coords[0] : coords[1];
     const lat = coords[0] > 50 ? coords[1] : coords[0];
     this.map.flyTo({
@@ -447,17 +640,10 @@ export class MapLibreDriver implements IMapAdapter {
 
   destroy(): void {
     this.clearMarkers();
+    this.removeMetroLayers();
     this.map?.remove();
     this.map = null;
     this.zoomCallbacks = [];
-  }
-
-  // --- Private helpers ---
-
-  private getMarkerColor(item: MarkerItem): string {
-    if (item.type === 'station') return '#FFFFFF';
-    if (item.zone) return ZONE_COLORS[item.zone];
-    return item.type === 'pandal' ? '#FFD700' : '#FF9800';
   }
 
   private removeMetroLayers(): void {
