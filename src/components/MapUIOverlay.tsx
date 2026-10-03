@@ -68,7 +68,7 @@ export default function MapUIOverlay({ initialPandals = [], initialFood = [] }: 
       {/* Top Header & Navigation Section */}
       <div className="pt-3 pb-2 space-y-2 pointer-events-auto bg-gradient-to-b from-[var(--chalk)] via-[var(--chalk)]/80 to-transparent">
         {/* Brand Header */}
-        <div className="flex items-center justify-between px-4 max-w-xl mx-auto">
+        <div className="flex items-center justify-between px-4 max-w-2xl mx-auto w-full">
           <div className="flex items-baseline gap-2">
             <h1 className="font-display font-bold text-xl sm:text-2xl text-[var(--ink)] tracking-tight">
               Pujo Atlas
@@ -78,33 +78,32 @@ export default function MapUIOverlay({ initialPandals = [], initialFood = [] }: 
             </span>
           </div>
 
-          {/* Din / Raat Theme Switch */}
-          <button
-            onClick={toggleTheme}
-            className="chip cursor-pointer hover:bg-[var(--chalk-3)] transition-all select-none"
-            title="দিন / রাত মোড পরিবর্তন করুন"
-          >
-            <span>{isRaat ? '🌙 রাত (Raat)' : '☀️ দিন (Din)'}</span>
-          </button>
+          <div className="flex items-center gap-2">
+            {/* Trending Button at Top RHS */}
+            <button
+              onClick={() => setTrendingOpen(true)}
+              className="chip cursor-pointer hover:bg-[var(--chalk-3)] transition-all select-none text-xs font-semibold flex items-center gap-1 border border-[var(--geru)]/40 text-[var(--ink)]"
+              title="জনপ্রিয় পুজো ও খাবারের তালিকা"
+            >
+              <span>🔥</span>
+              <span>জনপ্রিয় (Trending)</span>
+            </button>
+
+            {/* Din / Raat Theme Switch */}
+            <button
+              onClick={toggleTheme}
+              className="chip cursor-pointer hover:bg-[var(--chalk-3)] transition-all select-none text-xs font-semibold"
+              title="দিন / রাত মোড পরিবর্তন করুন"
+            >
+              <span>{isRaat ? '🌙 রাত' : '☀️ দিন'}</span>
+            </button>
+          </div>
         </div>
 
         {/* Search & Filter Controls */}
         <SearchBar />
         <FilterPills />
       </div>
-
-      {/* Bottom Floating Buttons (if no entity is selected) */}
-      {!selectedEntity && (
-        <div className="p-4 flex justify-end pointer-events-auto max-w-xl mx-auto w-full">
-          <button
-            onClick={() => setTrendingOpen(true)}
-            className="btn btn-primary px-4 py-2.5 rounded-full shadow-xl flex items-center gap-2 text-sm font-display font-bold tracking-wide"
-          >
-            <span>🔥</span>
-            <span>জনপ্রিয় পুজো (Trending)</span>
-          </button>
-        </div>
-      )}
 
       {/* Overlays / Drawers */}
       <div className="pointer-events-auto">

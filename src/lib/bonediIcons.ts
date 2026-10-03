@@ -43,44 +43,69 @@ export const metroSvg = (fill = '#3D4A5C') => `<svg xmlns="http://www.w3.org/200
 <circle cx="19.4" cy="28.3" r="1.9" fill="#F8F5EE"/><circle cx="28.6" cy="28.3" r="1.9" fill="#F8F5EE"/>
 </svg>`;
 
-export async function addSvg(map: Map, id: string, svg: string): Promise<void> {
+/**
+ * Converts SVG to crisp 2x ImageData and registers into MapLibre sprite atlas.
+ */
+export async function addSvg(map: Map, id: string, svg: string, width = 48, height = 48): Promise<void> {
   if (map.hasImage(id)) return;
-  if (typeof window === 'undefined' || typeof Image === 'undefined') return;
+  if (typeof window === 'undefined') return;
 
-  const img = new Image();
-  img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
-  await new Promise<void>((resolve, reject) => {
-    img.onload = () => resolve();
-    img.onerror = () => reject(new Error(`Failed to load SVG icon ${id}`));
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      try {
+        const canvas = document.createElement('canvas');
+        canvas.width = width * 2;
+        canvas.height = height * 2;
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+          ctx.drawImage(img, 0, 0, width * 2, height * 2);
+          const imgData = ctx.getImageData(0, 0, width * 2, height * 2);
+          if (!map.hasImage(id)) {
+            map.addImage(id, imgData, { pixelRatio: 2 });
+          }
+        }
+      } catch (err) {
+        console.warn('Error adding image to map:', id, err);
+      }
+      resolve();
+    };
+    img.onerror = () => {
+      console.warn('Failed to load SVG icon:', id);
+      resolve();
+    };
+    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
   });
-  if (!map.hasImage(id)) {
-    map.addImage(id, img, { pixelRatio: 2 }); // 48px bitmap → crisp 24px on retina displays
-  }
 }
 
 export async function registerBonediIcons(
   map: Map,
   zones: Record<string, { colour?: string; color?: string }>
 ): Promise<void> {
-  const jobs: Promise<void>[] = [addSvg(map, 'metro-station', metroSvg())];
+  const jobs: Promise<void>[] = [
+    addSvg(map, 'metro-station', metroSvg(), 48, 48),
+    addSvg(map, 'metro-station-interchange', metroSvg('#3D4A5C'), 48, 48),
+    addSvg(map, 'pandal-default', pandalSvg('#B5513A'), 48, 58),
+    addSvg(map, 'food-default', foodSvg('#B8892F'), 48, 48),
+  ];
 
   for (const [key, z] of Object.entries(zones)) {
     const col = z.colour || z.color || '#B5513A';
-    // Register both uppercase and lowercase keys to ensure no mismatch
-    jobs.push(addSvg(map, `pandal-${key}`, pandalSvg(col)));
-    jobs.push(addSvg(map, `pandal-${key.toLowerCase()}`, pandalSvg(col)));
-    jobs.push(addSvg(map, `pandal-${key.toUpperCase()}`, pandalSvg(col)));
+    jobs.push(addSvg(map, `pandal-${key}`, pandalSvg(col), 48, 58));
+    jobs.push(addSvg(map, `pandal-${key.toLowerCase()}`, pandalSvg(col), 48, 58));
+    jobs.push(addSvg(map, `pandal-${key.toUpperCase()}`, pandalSvg(col), 48, 58));
 
-    jobs.push(addSvg(map, `food-${key}`, foodSvg(col)));
-    jobs.push(addSvg(map, `food-${key.toLowerCase()}`, foodSvg(col)));
-    jobs.push(addSvg(map, `food-${key.toUpperCase()}`, foodSvg(col)));
+    jobs.push(addSvg(map, `food-${key}`, foodSvg(col), 48, 48));
+    jobs.push(addSvg(map, `food-${key.toLowerCase()}`, foodSvg(col), 48, 48));
+    jobs.push(addSvg(map, `food-${key.toUpperCase()}`, foodSvg(col), 48, 48));
   }
 
   await Promise.all(jobs);
 }
 
 /**
- * Swap dots → pins at close zoom, add steaming food katori badges, add station signs.
+ * Add custom SVG icon layers (Arch Pins, Food Katori Badges, Metro Signs).
  */
 export function upgradeToIcons(
   map: Map,
@@ -88,27 +113,42 @@ export function upgradeToIcons(
 ): void {
   const labelsAbove = map.getLayer('metro-station-labels') ? 'metro-station-labels' : undefined;
 
-  // 1. Pandal Dots: Visible up to zoom 14.5
-  if (map.getLayer('pandal-dots')) {
-    map.setLayerZoomRange('pandal-dots', 0, 14.5);
-  }
-
-  // 2. Pandal Pins: Arch pin with Bangla Chala roof glyph at zoom >= 14.2
+  // 1. Pandal Arch Pins: Visible from zoom 10.5 with responsive scaling
   if (!map.getLayer('pandal-pins') && map.getSource('pandals-src')) {
     map.addLayer(
       {
         id: 'pandal-pins',
         type: 'symbol',
         source: 'pandals-src',
-        minzoom: 14.2,
+        minzoom: 10.5,
         layout: {
-          'icon-image': ['concat', 'pandal-', ['downcase', ['get', 'zone']]],
-          'icon-anchor': 'bottom', // tip sits exactly on the geographic coordinate
-          'icon-size': ['interpolate', ['linear'], ['zoom'], 14.2, 0.75, 16, 0.95, 18, 1.25],
+          'icon-image': [
+            'coalesce',
+            ['image', ['concat', 'pandal-', ['downcase', ['get', 'zone']]]],
+            ['image', 'pandal-default'],
+          ],
+          'icon-anchor': 'bottom',
+          'icon-size': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            11, 0.45,
+            13, 0.65,
+            15, 0.90,
+            18, 1.25,
+          ],
           'icon-allow-overlap': true,
+          'icon-ignore-placement': true,
           'text-field': ['get', 'name'],
           'text-font': ['Noto Sans Regular'],
-          'text-size': ['interpolate', ['linear'], ['zoom'], 14.2, 10, 16, 12, 18, 14],
+          'text-size': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            13.5, 10,
+            16, 12,
+            18, 14,
+          ],
           'text-anchor': 'top',
           'text-offset': [0, 0.4],
           'text-optional': true,
@@ -123,23 +163,32 @@ export function upgradeToIcons(
     );
   }
 
-  // 3. Food Badges: Distinct round katori badges
-  if (map.getLayer('food-dots')) {
-    map.setLayerZoomRange('food-dots', 0, 14.0);
-  }
-
+  // 2. Food Badges: Distinct round katori badges from zoom 11.0
   if (!map.getLayer('food-badges') && map.getSource('food-src')) {
     map.addLayer(
       {
         id: 'food-badges',
         type: 'symbol',
         source: 'food-src',
-        minzoom: 13.8,
+        minzoom: 11.0,
         layout: {
-          'icon-image': ['concat', 'food-', ['downcase', ['get', 'zone']]],
+          'icon-image': [
+            'coalesce',
+            ['image', ['concat', 'food-', ['downcase', ['get', 'zone']]]],
+            ['image', 'food-default'],
+          ],
           'icon-anchor': 'center',
-          'icon-size': ['interpolate', ['linear'], ['zoom'], 13.8, 0.65, 16, 0.85, 18, 1.1],
+          'icon-size': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            11, 0.40,
+            13, 0.58,
+            15, 0.80,
+            18, 1.10,
+          ],
           'icon-allow-overlap': true,
+          'icon-ignore-placement': true,
           'text-field': ['get', 'name'],
           'text-font': ['Noto Sans Regular'],
           'text-size': 11,
@@ -157,19 +206,26 @@ export function upgradeToIcons(
     );
   }
 
-  // 4. Metro Interchange Station Icons (Rounded-Square Station Signs)
+  // 3. Metro Station Signs: Rounded-Square Train Signs from zoom 11.5
   if (!map.getLayer('metro-icons') && map.getSource('metro-stations-src')) {
     map.addLayer(
       {
         id: 'metro-icons',
         type: 'symbol',
         source: 'metro-stations-src',
-        minzoom: 13.0,
-        filter: ['any', ['==', ['get', 'isInterchange'], true], ['==', ['get', 'interchange'], true]],
+        minzoom: 11.5,
         layout: {
           'icon-image': 'metro-station',
-          'icon-size': ['interpolate', ['linear'], ['zoom'], 13.0, 0.65, 16, 0.85],
+          'icon-size': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            11.5, 0.45,
+            14, 0.70,
+            16, 0.90,
+          ],
           'icon-allow-overlap': true,
+          'icon-ignore-placement': true,
         },
       },
       labelsAbove
@@ -207,14 +263,14 @@ export function dimPins(map: Map, zone: string | null): void {
   const matchZone = ['==', ['upcase', ['get', 'zone']], (zone || '').toUpperCase()];
 
   if (map.getLayer('pandal-pins')) {
-    map.setPaintProperty('pandal-pins', 'icon-opacity', isAll ? 1.0 : (['case', matchZone, 1.0, 0.2] as any));
-    map.setPaintProperty('pandal-pins', 'text-opacity', isAll ? 1.0 : (['case', matchZone, 1.0, 0.2] as any));
+    map.setPaintProperty('pandal-pins', 'icon-opacity', isAll ? 1.0 : (['case', matchZone, 1.0, 0.22] as any));
+    map.setPaintProperty('pandal-pins', 'text-opacity', isAll ? 1.0 : (['case', matchZone, 1.0, 0.22] as any));
     map.setLayoutProperty('pandal-pins', 'symbol-sort-key', isAll ? 0 : (['case', matchZone, 1, 0] as any));
   }
 
   if (map.getLayer('food-badges')) {
-    map.setPaintProperty('food-badges', 'icon-opacity', isAll ? 1.0 : (['case', matchZone, 1.0, 0.2] as any));
-    map.setPaintProperty('food-badges', 'text-opacity', isAll ? 1.0 : (['case', matchZone, 1.0, 0.2] as any));
+    map.setPaintProperty('food-badges', 'icon-opacity', isAll ? 1.0 : (['case', matchZone, 1.0, 0.22] as any));
+    map.setPaintProperty('food-badges', 'text-opacity', isAll ? 1.0 : (['case', matchZone, 1.0, 0.22] as any));
     map.setLayoutProperty('food-badges', 'symbol-sort-key', isAll ? 0 : (['case', matchZone, 1, 0] as any));
   }
 }

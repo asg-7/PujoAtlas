@@ -188,106 +188,9 @@ export class MapLibreDriver implements IMapAdapter {
       });
     }
 
-    // 3. Add Pandal Dots Layer (Circle Layer with Zone Colors for low zoom <= 14.5)
-    if (!this.map.getLayer('pandal-dots')) {
-      this.map.addLayer({
-        id: 'pandal-dots',
-        type: 'circle',
-        source: 'pandals-src',
-        maxzoom: 14.5,
-        paint: {
-          'circle-color': [
-            'match',
-            ['get', 'zone'],
-            'NORTH', ZONE_COLORS.NORTH,
-            'SOUTH', ZONE_COLORS.SOUTH,
-            'CENTRAL', ZONE_COLORS.CENTRAL,
-            'EAST', ZONE_COLORS.EAST,
-            'WEST', ZONE_COLORS.WEST,
-            '#B5513A',
-          ],
-          'circle-radius': [
-            'interpolate',
-            ['linear'],
-            ['zoom'],
-            9, 4,
-            12, 6,
-            14.5, 9,
-          ],
-          'circle-opacity': 0.95,
-          'circle-stroke-color': '#0B0E14',
-          'circle-stroke-width': 1.5,
-          'circle-stroke-opacity': 0.9,
-        },
-      });
-    }
-
-    // 4. Add Food Dots Layer (Circle Layer for low zoom <= 14.0)
-    if (!this.map.getLayer('food-dots')) {
-      this.map.addLayer({
-        id: 'food-dots',
-        type: 'circle',
-        source: 'food-src',
-        maxzoom: 14.0,
-        paint: {
-          'circle-color': [
-            'match',
-            ['get', 'zone'],
-            'NORTH', ZONE_COLORS.NORTH,
-            'SOUTH', ZONE_COLORS.SOUTH,
-            'CENTRAL', ZONE_COLORS.CENTRAL,
-            'EAST', ZONE_COLORS.EAST,
-            'WEST', ZONE_COLORS.WEST,
-            '#B8892F',
-          ],
-          'circle-radius': [
-            'interpolate',
-            ['linear'],
-            ['zoom'],
-            9, 3,
-            12, 4.5,
-            14, 7,
-          ],
-          'circle-opacity': 1.0,
-          'circle-stroke-color': '#FFFFFF',
-          'circle-stroke-width': 1.8,
-          'circle-stroke-opacity': 0.95,
-        },
-      });
-    }
-
-    // 5. Upgrade and add custom SVG icon layers (Arch Pins, Food Katori Badges, Metro Signs)
+    // 3. Add custom SVG icon layers (Arch Pins, Food Katori Badges, Metro Signs)
     upgradeToIcons(this.map, {
       onSelect: (id, type) => onClick(id, type),
-    });
-
-    // 6. Dot Clicks & Cursors
-    this.map.on('mouseenter', 'pandal-dots', () => {
-      if (this.map) this.map.getCanvas().style.cursor = 'pointer';
-    });
-    this.map.on('mouseleave', 'pandal-dots', () => {
-      if (this.map) this.map.getCanvas().style.cursor = '';
-    });
-
-    this.map.on('mouseenter', 'food-dots', () => {
-      if (this.map) this.map.getCanvas().style.cursor = 'pointer';
-    });
-    this.map.on('mouseleave', 'food-dots', () => {
-      if (this.map) this.map.getCanvas().style.cursor = '';
-    });
-
-    this.map.on('click', 'pandal-dots', (e) => {
-      const f = e.features?.[0];
-      if (f?.properties?.id) {
-        onClick(f.properties.id, 'pandal');
-      }
-    });
-
-    this.map.on('click', 'food-dots', (e) => {
-      const f = e.features?.[0];
-      if (f?.properties?.id) {
-        onClick(f.properties.id, 'food');
-      }
     });
 
     // Apply active zone filter state if already set
@@ -298,9 +201,7 @@ export class MapLibreDriver implements IMapAdapter {
     if (!this.map) return;
     try {
       if (this.map.getLayer('pandal-pins')) this.map.removeLayer('pandal-pins');
-      if (this.map.getLayer('pandal-dots')) this.map.removeLayer('pandal-dots');
       if (this.map.getLayer('food-badges')) this.map.removeLayer('food-badges');
-      if (this.map.getLayer('food-dots')) this.map.removeLayer('food-dots');
       if (this.map.getSource('pandals-src')) this.map.removeSource('pandals-src');
       if (this.map.getSource('food-src')) this.map.removeSource('food-src');
     } catch (e) {
@@ -310,42 +211,14 @@ export class MapLibreDriver implements IMapAdapter {
 
   /**
    * Zone selection & translucent dimming:
-   * Selected zone remains bright; other zones fade to ~16% opacity.
+   * Selected zone remains bright; other zones fade to ~22% opacity.
    */
   setActiveZone(zone: Zone | 'ALL'): void {
     if (!this.map) return;
     this.activeZone = zone;
-
     const isAll = zone === 'ALL';
-    const matchZone = ['==', ['get', 'zone'], zone];
 
     try {
-      if (this.map.getLayer('pandal-dots')) {
-        this.map.setPaintProperty(
-          'pandal-dots',
-          'circle-opacity',
-          isAll ? 0.95 : (['case', matchZone, 0.95, 0.16] as any)
-        );
-        this.map.setPaintProperty(
-          'pandal-dots',
-          'circle-stroke-opacity',
-          isAll ? 0.9 : (['case', matchZone, 0.9, 0.1] as any)
-        );
-      }
-
-      if (this.map.getLayer('food-dots')) {
-        this.map.setPaintProperty(
-          'food-dots',
-          'circle-opacity',
-          isAll ? 1.0 : (['case', matchZone, 1.0, 0.18] as any)
-        );
-        this.map.setPaintProperty(
-          'food-dots',
-          'circle-stroke-opacity',
-          isAll ? 0.95 : (['case', matchZone, 0.95, 0.1] as any)
-        );
-      }
-
       // Dim pins & badges using bonediIcons helper
       dimPins(this.map, isAll ? null : zone);
     } catch (e) {
