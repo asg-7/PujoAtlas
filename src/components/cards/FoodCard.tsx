@@ -1,8 +1,6 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 import type { FoodEntity, Zone } from '../../lib/schemas';
 import { ZONE_COLORS } from '../../lib/map/MapEngineAdapter';
-import { navigateToDestination, TRAVEL_MODE_META } from '../../lib/navigation';
-import type { TravelMode } from '../../lib/navigation';
 
 interface FoodCardProps {
   food: FoodEntity;
@@ -11,11 +9,11 @@ interface FoodCardProps {
 }
 
 const ZONE_LABELS: Record<Zone, string> = {
-  NORTH: 'North',
-  SOUTH: 'South',
-  CENTRAL: 'Central',
-  EAST: 'East',
-  WEST: 'West',
+  NORTH: 'North Kolkata',
+  SOUTH: 'South Kolkata',
+  CENTRAL: 'Central Kolkata',
+  EAST: 'East Kolkata',
+  WEST: 'West Kolkata',
 };
 
 const CATEGORY_META: Record<FoodEntity['category'], { label: string; icon: string }> = {
@@ -23,24 +21,22 @@ const CATEGORY_META: Record<FoodEntity['category'], { label: string; icon: strin
   CAFE: { label: 'Cafe', icon: '☕' },
   DHABA: { label: 'Dhaba', icon: '🥘' },
   STREET_FOOD: { label: 'Street Food', icon: '🌯' },
-  SWEETS: { label: 'Sweets', icon: '🧁' },
+  SWEETS: { label: 'Sweets & Desserts', icon: '🧁' },
 };
 
 const PRICE_MAP: Record<FoodEntity['priceRange'], string> = {
-  BUDGET: '₹',
-  MID_RANGE: '₹₹',
-  PREMIUM: '₹₹₹',
+  BUDGET: '₹ (সাশ্রয়ী)',
+  MID_RANGE: '₹₹ (মাঝারি)',
+  PREMIUM: '₹₹₹ (প্রিমিয়াম)',
 };
 
-export default function FoodCard({ food, onClose, onNavigate }: FoodCardProps) {
-  const [showNavOptions, setShowNavOptions] = useState(false);
+export default function FoodCard({ food, onClose }: FoodCardProps) {
   const sheetRef = useRef<HTMLDivElement>(null);
-  const dragRef = useRef({ startY: 0, currentY: 0, isDragging: false });
+  const dragRef = useRef({ startY: 0, isDragging: false });
 
-  const meta = CATEGORY_META[food.category];
-  const zoneColor = ZONE_COLORS[food.zone];
+  const meta = CATEGORY_META[food.category] || { label: 'Food Spot', icon: '🍽️' };
+  const zoneColor = ZONE_COLORS[food.zone] || '#B8892F';
 
-  // --- Drag gesture handling ---
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     dragRef.current.startY = e.touches[0].clientY;
     dragRef.current.isDragging = true;
@@ -61,7 +57,7 @@ export default function FoodCard({ food, onClose, onNavigate }: FoodCardProps) {
 
     if (deltaY > 150) {
       sheetRef.current.style.transform = 'translateY(100%)';
-      setTimeout(onClose, 300);
+      setTimeout(onClose, 260);
     } else {
       sheetRef.current.style.transform = 'translateY(0)';
     }
@@ -77,151 +73,113 @@ export default function FoodCard({ food, onClose, onNavigate }: FoodCardProps) {
     }
   }, []);
 
-  const handleNavigate = (mode: TravelMode) => {
-    navigateToDestination(food.id, food.lat, food.lng, mode);
-    setShowNavOptions(false);
-  };
-
   return (
     <div
       ref={sheetRef}
-      className="fixed bottom-0 left-0 right-0 z-50 transition-transform duration-300 ease-out"
+      className="fixed bottom-0 left-0 right-0 z-50 transition-transform duration-300 ease-out max-w-xl mx-auto"
       style={{ transform: 'translateY(100%)' }}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
       {/* Backdrop */}
-      <div className="absolute inset-0 -top-screen" onClick={onClose} />
+      <div className="fixed inset-0 -top-full bg-black/40 backdrop-blur-[2px]" onClick={onClose} />
 
-      {/* Sheet */}
-      <div className="relative bg-pujo-card rounded-t-2xl shadow-2xl max-h-[85vh] overflow-y-auto border-t-4" style={{ borderColor: zoneColor }}>
-        {/* Drag handle */}
-        <div className="flex justify-center pt-3 pb-2 cursor-grab active:cursor-grabbing">
-          <div className="w-10 h-1 bg-gray-600 rounded-full" />
+      {/* Thaal Sheet with Paper surface and Nimantran styling */}
+      <div className="relative thaal paper paper-2 max-h-[85vh] overflow-y-auto shadow-2xl">
+        {/* Lal-par decorative top border */}
+        <div className="lal-par-top w-full pt-2">
+          <div className="flex justify-center pb-2 cursor-grab active:cursor-grabbing">
+            <div className="w-12 h-1 bg-[var(--control-border)] rounded-full opacity-60" />
+          </div>
         </div>
 
-        {/* Header */}
-        <div className="px-4 pb-3">
-          <div className="flex items-start justify-between gap-3">
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 mb-1.5 flex-wrap">
-                <span className="px-2 py-0.5 text-[10px] font-bold bg-gray-800 text-gray-200 rounded flex items-center gap-1">
-                  <span>{meta.icon}</span> {meta.label}
-                </span>
-                <span className="text-[10px] font-bold text-green-400 bg-green-900/30 px-1.5 py-0.5 rounded">
-                  {PRICE_MAP[food.priceRange]}
-                </span>
-                <span
-                  className="px-1.5 py-0.5 text-[10px] font-bold rounded"
-                  style={{ color: zoneColor, backgroundColor: `${zoneColor}20` }}
-                >
-                  {ZONE_LABELS[food.zone]}
-                </span>
-                {food.isLateNight && (
-                  <span className="px-1.5 py-0.5 text-[10px] font-bold bg-purple-900/40 text-purple-300 rounded border border-purple-800/50 flex items-center gap-1">
-                    <span>🌙</span> Late Night
+        {/* Card Body */}
+        <div className="p-4 sm:p-5 space-y-4">
+          <div className="nimantran paper paper-3">
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex-1 min-w-0 space-y-1">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span
+                    className="px-2.5 py-0.5 text-[11px] font-semibold rounded-sm text-white tracking-wider uppercase"
+                    style={{ backgroundColor: zoneColor }}
+                  >
+                    {ZONE_LABELS[food.zone]}
                   </span>
-                )}
+                  <span className="chip text-[10px]">
+                    {meta.icon} {meta.label}
+                  </span>
+                  <span className="text-[11px] font-semibold text-[var(--brass-text)]">
+                    {PRICE_MAP[food.priceRange]}
+                  </span>
+                </div>
+
+                <h2 className="text-xl sm:text-2xl font-display font-bold text-[var(--ink)] tracking-tight leading-tight mt-1">
+                  {food.name}
+                </h2>
+                <p className="text-xs sm:text-sm text-[var(--ink-2)] flex items-center gap-1">
+                  <span>📍</span>
+                  <span>{food.address}</span>
+                </p>
               </div>
-              <h2 className="text-xl font-bold text-white truncate flex items-center gap-2">
-                {food.name}
-                {food.rating && <span className="text-sm font-medium text-gray-400">★ {food.rating}</span>}
-              </h2>
-              <p className="text-sm text-gray-400 mt-0.5">{food.address}</p>
-            </div>
-            <button
-              onClick={onClose}
-              className="p-1.5 text-gray-400 hover:text-white hover:bg-gray-700 rounded-lg transition-colors"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
-        </div>
 
-        {/* Timing */}
-        <div className="px-4 mb-3">
-          <div className="flex items-center gap-2 text-sm text-gray-300 bg-gray-800/50 p-2 rounded-lg border border-gray-700/50">
-            <span>🕒</span>
-            <span className="font-medium">{food.openHours}</span>
-          </div>
-        </div>
-
-        {/* Famous For & Dishes */}
-        <div className="px-4 mb-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
-          <div>
-            <p className="text-xs text-gray-500 uppercase tracking-wider mb-1.5 font-semibold">Famous For</p>
-            <div className="flex flex-wrap gap-1.5">
-              {food.famousFor.map((item) => (
-                <span key={item} className="px-2 py-1 text-xs bg-gray-800 text-gray-300 rounded-md">
-                  {item}
-                </span>
-              ))}
+              <button
+                onClick={onClose}
+                className="btn min-h-[36px] w-[36px] p-0 rounded-full border-[var(--control-border)] text-[var(--ink)] hover:bg-[var(--chalk)] shrink-0"
+                aria-label="Close"
+              >
+                ✕
+              </button>
             </div>
           </div>
-          <div>
-            <p className="text-xs text-gray-500 uppercase tracking-wider mb-1.5 font-semibold">Must Try Dishes</p>
-            <div className="flex flex-wrap gap-1.5">
-              {food.mustTryDishes.map((dish) => (
-                <span key={dish} className="px-2 py-1 text-xs bg-orange-900/20 text-orange-200 border border-orange-800/30 rounded-md">
-                  {dish}
-                </span>
-              ))}
+
+          {/* Famous for / Must try dishes */}
+          {food.mustTryDishes && food.mustTryDishes.length > 0 && (
+            <div className="space-y-1.5">
+              <div className="meta text-[var(--geru-text)] flex items-center gap-1.5">
+                <span>✨</span>
+                <span>অবশ্যই চেখে দেখুন (Must-Try Specialties)</span>
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {food.mustTryDishes.map((dish) => (
+                  <span key={dish} className="chip text-xs bg-[var(--chalk-3)] text-[var(--ink)] border-[var(--control-border)]">
+                    🍴 {dish}
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
-        </div>
+          )}
 
-        {/* Direct Google Maps Navigation */}
-        <div className="px-4 pb-4">
-          <a
-            href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(food.name + ', ' + food.address + ', Kolkata')}&travelmode=driving`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full py-3.5 bg-gradient-to-r from-orange-500 to-amber-500 text-white font-bold rounded-xl text-sm shadow-lg shadow-orange-500/20 hover:from-orange-600 hover:to-amber-600 active:scale-[0.98] transition-all no-underline text-center"
-          >
-            <span>🧭</span>
-            <span>Navigate to Spot in Google Maps</span>
-          </a>
+          {/* Direct Directions */}
+          <div className="pt-2 space-y-2">
+            <a
+              href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(food.name + ', ' + food.address + ', Kolkata')}&travelmode=driving`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-primary w-full py-3 text-sm font-bold shadow-md tracking-wide flex items-center justify-center gap-2 no-underline"
+            >
+              <span>🧭</span>
+              <span>গুগল ম্যাপে পৌঁছান (Get Directions)</span>
+            </a>
 
-          <div className="flex gap-2 pt-2.5">
-            <a
-              href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(food.name + ', ' + food.address + ', Kolkata')}&travelmode=transit`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 flex items-center justify-center gap-1.5 py-2 px-2 bg-gray-800/90 hover:bg-gray-700 text-xs font-semibold text-gray-200 rounded-lg border border-gray-700 transition-colors no-underline text-center"
-              title="Navigate via Metro/Bus"
-            >
-              <span>🚇</span> Transit
-            </a>
-            <a
-              href={`https://www.google.com/maps/dir/?api=1&destination=${food.lat},${food.lng}&travelmode=walking`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 flex items-center justify-center gap-1.5 py-2 px-2 bg-gray-800/90 hover:bg-gray-700 text-xs font-semibold text-gray-200 rounded-lg border border-gray-700 transition-colors no-underline text-center"
-              title="Walk to exact entrance pin"
-            >
-              <span>🚶</span> Walk
-            </a>
-            <a
-              href={`https://www.google.com/maps/dir/?api=1&destination=${food.lat},${food.lng}&travelmode=driving`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 flex items-center justify-center gap-1.5 py-2 px-2 bg-gray-800/90 hover:bg-gray-700 text-xs font-semibold text-gray-200 rounded-lg border border-gray-700 transition-colors no-underline text-center"
-              title="Exact GPS Coordinates: ${food.lat}, ${food.lng}"
-            >
-              <span>📍</span> GPS Pin
-            </a>
-            <a
-              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(food.name + ' ' + food.address + ' Kolkata')}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 flex items-center justify-center gap-1.5 py-2 px-2 bg-gray-800/90 hover:bg-gray-700 text-xs font-semibold text-gray-200 rounded-lg border border-gray-700 transition-colors no-underline text-center"
-              title="View place details and reviews"
-            >
-              <span>🔍</span> Details
-            </a>
+            <div className="flex gap-2">
+              <a
+                href={`https://www.google.com/maps/dir/?api=1&destination=${food.lat},${food.lng}&travelmode=walking`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn flex-1 py-2 text-xs no-underline text-center"
+              >
+                <span>🚶</span> Walk
+              </a>
+              <a
+                href={`https://www.google.com/maps/dir/?api=1&destination=${food.lat},${food.lng}&travelmode=driving`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn flex-1 py-2 text-xs no-underline text-center"
+              >
+                <span>📍</span> GPS Pin
+              </a>
+            </div>
           </div>
         </div>
       </div>

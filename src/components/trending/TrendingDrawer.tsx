@@ -10,10 +10,6 @@ interface TrendingEntity {
   data: any;
 }
 
-/**
- * T-22: Trending Venues Drawer.
- * Displays real-time trending spots based on the backend heuristic algorithm.
- */
 export default function TrendingDrawer() {
   const { isTrendingOpen, setTrendingOpen, selectEntity, pandals, food } = useMapStore();
   const [trending, setTrending] = useState<TrendingEntity[]>([]);
@@ -39,10 +35,9 @@ export default function TrendingDrawer() {
         }
       }
     } catch (e) {
-      // Fall through to local fallback
+      // Fallback to in-memory list
     }
 
-    // Local fallback from loaded data
     const topPandals: TrendingEntity[] = pandals
       .filter((p) => p.isFamous)
       .slice(0, 6)
@@ -80,66 +75,69 @@ export default function TrendingDrawer() {
     <div className="fixed inset-0 z-50 flex items-end sm:items-center sm:justify-center">
       {/* Backdrop */}
       <div 
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity"
+        className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
         onClick={() => setTrendingOpen(false)}
       />
 
-      {/* Drawer Content */}
+      {/* Thaal Drawer */}
       <div 
         ref={sheetRef}
-        className="relative w-full sm:w-96 bg-gray-900 rounded-t-3xl sm:rounded-3xl shadow-2xl max-h-[85vh] flex flex-col transform transition-transform animate-slideUp"
+        className="relative w-full sm:w-[420px] thaal paper paper-2 shadow-2xl max-h-[85vh] flex flex-col transform transition-transform animate-slideUp"
       >
-        <div className="flex items-center justify-between p-5 border-b border-gray-800">
+        <div className="flex items-center justify-between p-4 border-b border-[var(--border)]">
           <div className="flex items-center gap-2">
             <span className="text-xl">🔥</span>
-            <h2 className="text-lg font-bold text-white">Trending Now</h2>
+            <div>
+              <h2 className="text-lg font-display font-bold text-[var(--ink)]">জনপ্রিয় আকর্ষণ (Trending Now)</h2>
+              <p className="text-xs text-[var(--ink-3)]">এই মুহূর্তে সর্বাধিক দর্শনার্থীদের পছন্দ</p>
+            </div>
           </div>
           <button 
             onClick={() => setTrendingOpen(false)}
-            className="p-2 bg-gray-800 hover:bg-gray-700 rounded-full text-gray-400 transition-colors"
+            className="btn min-h-[32px] w-[32px] p-0 rounded-full border-[var(--control-border)] text-[var(--ink)] hover:bg-[var(--chalk)] shrink-0"
+            aria-label="Close"
           >
             ✕
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-4 space-y-3 hide-scrollbar">
+        <div className="flex-1 overflow-y-auto p-4 space-y-2.5 hide-scrollbar">
           {isLoading ? (
             <div className="flex justify-center p-8">
-              <div className="w-8 h-8 border-4 border-gray-700 border-t-pujo-gold rounded-full animate-spin" />
+              <div className="w-8 h-8 border-3 border-[var(--border)] border-t-[var(--geru)] rounded-full animate-spin" />
             </div>
           ) : trending.length === 0 ? (
-            <div className="text-center text-gray-500 py-8">No trending data available.</div>
+            <div className="text-center text-[var(--ink-3)] py-8 font-display italic">কোনো তথ্য নেই</div>
           ) : (
             trending.map((item, index) => (
               <button
                 key={item.entityId}
                 onClick={() => handleSelect(item)}
-                className="w-full flex items-center gap-4 p-3 bg-gray-800/50 hover:bg-gray-800 rounded-xl border border-gray-700/50 transition-colors text-left group"
+                className="w-full flex items-center gap-3.5 p-3 rounded-lg bg-[var(--chalk-3)] hover:bg-[var(--chalk)] border border-[var(--border)] transition-all text-left group"
               >
                 <div className={`
-                  flex-none w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm
-                  ${index === 0 ? 'bg-yellow-500/20 text-yellow-500 border border-yellow-500/30' : 
-                    index === 1 ? 'bg-gray-300/20 text-gray-300 border border-gray-300/30' :
-                    index === 2 ? 'bg-amber-700/20 text-amber-600 border border-amber-700/30' :
-                    'bg-gray-800 text-gray-500'
+                  flex-none w-7 h-7 rounded-full flex items-center justify-center font-display font-bold text-xs
+                  ${index === 0 ? 'bg-[var(--geru)] text-white shadow-sm' : 
+                    index === 1 ? 'bg-[var(--brass)] text-white' :
+                    index === 2 ? 'bg-[var(--neel)] text-white' :
+                    'bg-[var(--chalk-2)] text-[var(--ink-2)] border border-[var(--control-border)]'
                   }
                 `}>
                   {index + 1}
                 </div>
                 
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-bold text-white truncate group-hover:text-pujo-gold transition-colors">
+                  <p className="text-sm font-display font-bold text-[var(--ink)] truncate group-hover:text-[var(--geru-text)] transition-colors">
                     {item.name}
                   </p>
-                  <p className="text-xs text-gray-400 capitalize">
-                    {item.type} {item.data?.zone ? `• ${item.data.zone}` : ''}
+                  <p className="text-[11px] text-[var(--ink-3)] flex items-center gap-1.5 mt-0.5">
+                    <span>{item.type === 'pandal' ? '🏛️ মণ্ডপ' : '🍽️ আহার'}</span>
+                    {item.data?.zone && <span>• {item.data.zone}</span>}
                   </p>
                 </div>
 
-                <div className="flex-none text-gray-600 group-hover:text-gray-400 transition-colors">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
+                <div className="flex-none text-[var(--ink-3)] group-hover:text-[var(--ink)] transition-colors">
+                  →
                 </div>
               </button>
             ))

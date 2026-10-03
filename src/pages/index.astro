@@ -1,20 +1,21 @@
 ---
 import MapUIOverlay from '../components/MapUIOverlay';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import '../styles/tokens.css';
 ---
 
-<html lang="en">
+<html lang="en" data-theme="raat">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Pujo Pathfinder</title>
+		<title>Pujo Atlas | কলকাতার সেরা দুর্গোৎসব পরিক্রমা</title>
         <style>
-            body, html { margin: 0; padding: 0; overflow: hidden; width: 100%; height: 100%; background: #111; }
+            body, html { margin: 0; padding: 0; overflow: hidden; width: 100%; height: 100%; background: var(--chalk); }
         </style>
 	</head>
-	<body class="bg-gray-900 text-white font-sans overflow-hidden w-full h-full relative">
+	<body class="font-body overflow-hidden w-full h-full relative selection:bg-geru selection:text-shankha">
 		
         <!-- Map Container -->
         <div id="map-container" class="absolute inset-0 z-0 w-full h-full"></div>

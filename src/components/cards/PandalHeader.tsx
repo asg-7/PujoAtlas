@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import type { PandalEntity, Zone } from '../../lib/schemas';
 import { ZONE_COLORS } from '../../lib/map/MapEngineAdapter';
-import { navigateToDestination, TRAVEL_MODE_META } from '../../lib/navigation';
+import { navigateToDestination } from '../../lib/navigation';
 import type { TravelMode } from '../../lib/navigation';
 
 interface PandalHeaderProps {
@@ -12,19 +12,12 @@ interface PandalHeaderProps {
   onNavigate?: (lat: number, lng: number) => void;
 }
 
-const ZONE_LABELS: Record<Zone, string> = {
-  NORTH: 'North Kolkata',
-  SOUTH: 'South Kolkata',
-  CENTRAL: 'Central Kolkata',
-  EAST: 'East Kolkata',
-  WEST: 'West Kolkata',
-};
-
-const PLATFORM_ICONS: Record<string, string> = {
-  reddit: '🔗',
-  instagram: '📸',
-  google: '📍',
-  facebook: '👥',
+const ZONE_LABELS: Record<Zone, { en: string; bn: string }> = {
+  NORTH:   { en: 'North Kolkata',   bn: 'উত্তর কলকাতা' },
+  SOUTH:   { en: 'South Kolkata',   bn: 'দক্ষিণ কলকাতা' },
+  CENTRAL: { en: 'Central Kolkata', bn: 'মধ্য কলকাতা' },
+  EAST:    { en: 'East Kolkata',    bn: 'পূর্ব কলকাতা / সল্টলেক' },
+  WEST:    { en: 'West Kolkata',    bn: 'পশ্চিম কলকাতা / বেহালা' },
 };
 
 export default function PandalHeader({
@@ -32,16 +25,12 @@ export default function PandalHeader({
   metroStationName,
   metroWalkingMinutes,
   onClose,
-  onNavigate,
 }: PandalHeaderProps) {
-  const [isExpanded, setIsExpanded] = useState(true);
-  const [showNavOptions, setShowNavOptions] = useState(false);
   const sheetRef = useRef<HTMLDivElement>(null);
-  const dragRef = useRef({ startY: 0, currentY: 0, isDragging: false });
+  const dragRef = useRef({ startY: 0, isDragging: false });
 
-  const zoneColor = ZONE_COLORS[pandal.zone];
+  const zoneColor = ZONE_COLORS[pandal.zone] || '#B5513A';
 
-  // --- Drag gesture handling for bottom sheet ---
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
     dragRef.current.startY = e.touches[0].clientY;
     dragRef.current.isDragging = true;
@@ -62,7 +51,7 @@ export default function PandalHeader({
 
     if (deltaY > 150) {
       sheetRef.current.style.transform = 'translateY(100%)';
-      setTimeout(onClose, 300);
+      setTimeout(onClose, 260);
     } else {
       sheetRef.current.style.transform = 'translateY(0)';
     }
@@ -78,174 +67,160 @@ export default function PandalHeader({
     }
   }, []);
 
-  const handleNavigate = (mode: TravelMode) => {
-    navigateToDestination(pandal.id, pandal.lat, pandal.lng, mode);
-    setShowNavOptions(false);
-  };
+  const zoneInfo = ZONE_LABELS[pandal.zone] || { en: 'Kolkata', bn: 'কলকাতা' };
 
   return (
     <div
       ref={sheetRef}
-      className="fixed bottom-0 left-0 right-0 z-50 transition-transform duration-300 ease-out"
+      className="fixed bottom-0 left-0 right-0 z-50 transition-transform duration-300 ease-out max-w-xl mx-auto"
       style={{ transform: 'translateY(100%)' }}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Backdrop */}
-      <div className="absolute inset-0 -top-screen" onClick={onClose} />
+      {/* Backdrop for easy tap-out */}
+      <div className="fixed inset-0 -top-full bg-black/40 backdrop-blur-[2px]" onClick={onClose} />
 
-      {/* Sheet */}
-      <div className="relative bg-pujo-card rounded-t-2xl shadow-2xl max-h-[85vh] overflow-y-auto">
-        {/* Drag handle */}
-        <div className="flex justify-center pt-3 pb-2 cursor-grab active:cursor-grabbing">
-          <div className="w-10 h-1 bg-gray-600 rounded-full" />
+      {/* Thaal Sheet with Paper surface and Nimantran styling */}
+      <div className="relative thaal paper paper-2 max-h-[85vh] overflow-y-auto shadow-2xl">
+        {/* Lal-par decorative top border */}
+        <div className="lal-par-top w-full pt-2">
+          {/* Drag handle */}
+          <div className="flex justify-center pb-2 cursor-grab active:cursor-grabbing">
+            <div className="w-12 h-1 bg-[var(--control-border)] rounded-full opacity-60" />
+          </div>
         </div>
 
-        {/* Header */}
-        <div className="px-4 pb-3">
-          <div className="flex items-start justify-between gap-3">
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 mb-1">
-                <span
-                  className="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider rounded-full text-white"
-                  style={{ backgroundColor: zoneColor }}
-                >
-                  {ZONE_LABELS[pandal.zone]}
-                </span>
-                {pandal.isFamous && (
-                  <span className="px-2 py-0.5 text-[10px] font-bold bg-pujo-gold text-black rounded-full">
-                    ⭐ Famous
+        {/* Invitation Card Body */}
+        <div className="p-4 sm:p-5 space-y-4">
+          {/* Top Header Row */}
+          <div className="nimantran paper paper-3">
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex-1 min-w-0 space-y-1">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span
+                    className="px-2.5 py-0.5 text-[11px] font-semibold rounded-sm text-white tracking-wider uppercase"
+                    style={{ backgroundColor: zoneColor }}
+                  >
+                    {zoneInfo.en} • {zoneInfo.bn}
+                  </span>
+                  {pandal.isFamous && (
+                    <span className="chip text-[10px]">
+                      ⭐ ঐতিহাসিক / খ্যাতনামা
+                    </span>
+                  )}
+                </div>
+
+                <h2 className="text-xl sm:text-2xl font-display font-bold text-[var(--ink)] tracking-tight leading-tight mt-1">
+                  {pandal.name}
+                </h2>
+                <p className="text-xs sm:text-sm text-[var(--ink-2)] flex items-center gap-1">
+                  <span>📍</span>
+                  <span>{pandal.address}</span>
+                </p>
+              </div>
+
+              <button
+                onClick={onClose}
+                className="btn min-h-[36px] w-[36px] p-0 rounded-full border-[var(--control-border)] text-[var(--ink)] hover:bg-[var(--chalk)] shrink-0"
+                aria-label="Close"
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Metro Connectivity Badge */}
+            {metroStationName && (
+              <div className="mt-3 pt-3 border-t border-[var(--border)] flex items-center justify-between text-xs text-[var(--ink-2)]">
+                <div className="flex items-center gap-2">
+                  <span className="text-base">🚇</span>
+                  <div>
+                    <span className="font-semibold text-[var(--ink)]">{metroStationName}</span>
+                    <span className="text-[var(--ink-3)] ml-1">মেট্রো স্টেশন</span>
+                  </div>
+                </div>
+                {metroWalkingMinutes !== undefined && (
+                  <span className="meta text-[var(--neel)] font-bold">
+                    🚶 {metroWalkingMinutes} min walk
                   </span>
                 )}
               </div>
-              <h2 className="text-xl font-bold text-white truncate">{pandal.name}</h2>
-              <p className="text-sm text-gray-400 mt-0.5">{pandal.address}</p>
+            )}
+          </div>
+
+          {/* Crowd Timings & Visiting Windows */}
+          {pandal.bestTimeToVisit && pandal.bestTimeToVisit.length > 0 && (
+            <div className="space-y-1.5">
+              <div className="meta text-[var(--geru-text)] flex items-center gap-1.5">
+                <span>🕒</span>
+                <span>সেরা দর্শনের সময় (Visiting Hours & Crowd Windows)</span>
+              </div>
+              <div className="space-y-1">
+                {pandal.bestTimeToVisit.map((time, idx) => (
+                  <div
+                    key={idx}
+                    className="p-2.5 rounded bg-[var(--chalk-3)] border border-[var(--border)] text-xs text-[var(--ink)] flex items-center justify-between"
+                  >
+                    <span>{time}</span>
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-[var(--geru)]/15 text-[var(--geru-text)]">
+                      পরামর্শ
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
-            <button
-              onClick={onClose}
-              className="p-1.5 text-gray-400 hover:text-white hover:bg-gray-700 rounded-lg transition-colors"
-              aria-label="Close"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
-        </div>
+          )}
 
-        {/* Metro proximity */}
-        {metroStationName && (
-          <div className="mx-4 mb-3 px-3 py-2 bg-gray-800/60 rounded-lg flex items-center gap-2">
-            <span className="text-lg">🚇</span>
-            <div>
-              <p className="text-sm text-white font-medium">{metroStationName}</p>
-              {metroWalkingMinutes !== undefined && (
-                <p className="text-xs text-gray-400">{metroWalkingMinutes} min walk</p>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* Tags */}
-        {pandal.tags.length > 0 && (
-          <div className="px-4 mb-3 flex flex-wrap gap-1.5">
-            {pandal.tags.map((tag) => (
-              <span
-                key={tag}
-                className="px-2 py-0.5 text-[11px] bg-gray-800 text-gray-300 rounded-full border border-gray-700"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        )}
-
-        {/* Best days */}
-        <div className="px-4 mb-3">
-          <p className="text-xs text-gray-500 uppercase tracking-wider mb-1.5">Best Days</p>
-          <div className="flex flex-wrap gap-1.5">
-            {pandal.bestDays.map((day) => (
-              <span
-                key={day}
-                className="px-2 py-1 text-xs font-medium bg-pujo-gold/10 text-pujo-gold border border-pujo-gold/20 rounded-md"
-              >
-                {day}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* Social proof chips */}
-        {pandal.sourceUrls.length > 0 && (
-          <div className="px-4 mb-3">
-            <p className="text-xs text-gray-500 uppercase tracking-wider mb-1.5">Community Sources</p>
-            <div className="flex flex-wrap gap-2">
-              {pandal.sourceUrls.map((source, i) => (
-                <a
-                  key={i}
-                  href={source.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 px-2.5 py-1 text-xs bg-gray-800 hover:bg-gray-700 text-gray-300 rounded-full border border-gray-700 transition-colors"
-                >
-                  <span>{PLATFORM_ICONS[source.platform] ?? '🔗'}</span>
-                  <span className="capitalize">{source.platform}</span>
-                </a>
+          {/* Tags */}
+          {pandal.tags && pandal.tags.length > 0 && (
+            <div className="flex flex-wrap gap-1.5 pt-1">
+              {pandal.tags.map((tag) => (
+                <span key={tag} className="chip text-[10px]">
+                  #{tag}
+                </span>
               ))}
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Direct Google Maps Navigation */}
-        <div className="px-4 pb-4">
-          <a
-            href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(pandal.name + ' Durga Puja, ' + pandal.address + ', Kolkata')}&travelmode=driving`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 w-full py-3.5 bg-gradient-to-r from-amber-500 to-yellow-400 text-gray-950 font-bold rounded-xl text-sm shadow-lg shadow-yellow-500/20 hover:from-amber-400 hover:to-yellow-300 active:scale-[0.98] transition-all no-underline text-center"
-          >
-            <span>🧭</span>
-            <span>Navigate to Pandal in Google Maps</span>
-          </a>
+          {/* Action CTAs */}
+          <div className="pt-2 space-y-2">
+            <a
+              href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(pandal.name + ' Durga Puja, ' + pandal.address + ', Kolkata')}&travelmode=driving`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-primary w-full py-3 text-sm font-bold shadow-md tracking-wide flex items-center justify-center gap-2 no-underline"
+            >
+              <span>🧭</span>
+              <span>গুগল ম্যাপে মণ্ডপ দর্শন করুন (Directions)</span>
+            </a>
 
-          <div className="flex gap-2 pt-2.5">
-            <a
-              href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(pandal.name + ' Durga Puja, ' + pandal.address + ', Kolkata')}&travelmode=transit`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 flex items-center justify-center gap-1.5 py-2 px-2 bg-gray-800/90 hover:bg-gray-700 text-xs font-semibold text-gray-200 rounded-lg border border-gray-700 transition-colors no-underline text-center"
-              title="Navigate via Metro/Bus"
-            >
-              <span>🚇</span> Metro
-            </a>
-            <a
-              href={`https://www.google.com/maps/dir/?api=1&destination=${pandal.lat},${pandal.lng}&travelmode=walking`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 flex items-center justify-center gap-1.5 py-2 px-2 bg-gray-800/90 hover:bg-gray-700 text-xs font-semibold text-gray-200 rounded-lg border border-gray-700 transition-colors no-underline text-center"
-              title="Walk to exact entrance pin"
-            >
-              <span>🚶</span> Walk
-            </a>
-            <a
-              href={`https://www.google.com/maps/dir/?api=1&destination=${pandal.lat},${pandal.lng}&travelmode=driving`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 flex items-center justify-center gap-1.5 py-2 px-2 bg-gray-800/90 hover:bg-gray-700 text-xs font-semibold text-gray-200 rounded-lg border border-gray-700 transition-colors no-underline text-center"
-              title="Exact GPS Coordinates: ${pandal.lat}, ${pandal.lng}"
-            >
-              <span>📍</span> GPS Pin
-            </a>
-            <a
-              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(pandal.name + ' Durga Puja ' + pandal.address + ' Kolkata')}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex-1 flex items-center justify-center gap-1.5 py-2 px-2 bg-gray-800/90 hover:bg-gray-700 text-xs font-semibold text-gray-200 rounded-lg border border-gray-700 transition-colors no-underline text-center"
-              title="View place details and reviews"
-            >
-              <span>🔍</span> Details
-            </a>
+            <div className="grid grid-cols-3 gap-2">
+              <a
+                href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(pandal.name + ' Durga Puja, ' + pandal.address + ', Kolkata')}&travelmode=transit`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn py-2 text-xs no-underline text-center"
+              >
+                <span>🚇</span> Metro
+              </a>
+              <a
+                href={`https://www.google.com/maps/dir/?api=1&destination=${pandal.lat},${pandal.lng}&travelmode=walking`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn py-2 text-xs no-underline text-center"
+              >
+                <span>🚶</span> Walk
+              </a>
+              <a
+                href={`https://www.google.com/maps/dir/?api=1&destination=${pandal.lat},${pandal.lng}&travelmode=driving`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn py-2 text-xs no-underline text-center"
+                title="Exact GPS Pin"
+              >
+                <span>📍</span> GPS Pin
+              </a>
+            </div>
           </div>
         </div>
       </div>

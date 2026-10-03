@@ -11,8 +11,7 @@ interface SearchResult {
 }
 
 /**
- * T-20: Unified Fuzzy Search System.
- * Debounced search across pandals, food, and metro stations.
+ * Bonedi-Bari Styled Search System with paper surface and serif typography.
  */
 export default function SearchBar() {
   const [query, setQuery] = useState('');
@@ -28,7 +27,6 @@ export default function SearchBar() {
   const food = useMapStore((s) => s.food);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  // Close dropdown on outside click
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
@@ -39,7 +37,6 @@ export default function SearchBar() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Instant in-memory search
   useEffect(() => {
     if (query.trim().length < 2) {
       setResults({ pandals: [], food: [] });
@@ -85,7 +82,7 @@ export default function SearchBar() {
   const hasResults = results.pandals.length > 0 || results.food.length > 0;
 
   return (
-    <div ref={wrapperRef} className="relative w-full max-w-md mx-auto z-40">
+    <div ref={wrapperRef} className="relative w-full max-w-md mx-auto z-40 px-3">
       <div className="relative">
         <input
           type="text"
@@ -95,58 +92,58 @@ export default function SearchBar() {
             setIsOpen(true);
           }}
           onFocus={() => setIsOpen(true)}
-          placeholder="Search pandals, food, metro..."
-          className="w-full bg-gray-900/90 text-white placeholder-gray-400 border border-gray-700/50 rounded-2xl py-3 pl-11 pr-4 shadow-lg backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-pujo-gold/50 transition-all"
+          placeholder="সন্ধান করুন: মণ্ডপ, রেস্তোরাঁ, মেট্রো..."
+          className="w-full bg-[var(--chalk-2)] text-[var(--ink)] placeholder-[var(--ink-3)] border border-[var(--control-border)] rounded-full py-2.5 pl-10 pr-4 shadow-md focus:outline-none focus:border-[var(--geru-text)] focus:ring-1 focus:ring-[var(--geru)] transition-all font-body text-sm"
         />
-        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">
+        <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--ink-2)]">
           {isSearching ? (
-            <div className="w-4 h-4 border-2 border-gray-400 border-t-pujo-gold rounded-full animate-spin" />
+            <div className="w-4 h-4 border-2 border-[var(--ink-3)] border-t-[var(--geru)] rounded-full animate-spin" />
           ) : (
-            <span>🔍</span>
+            <span className="text-sm">🔍</span>
           )}
         </div>
       </div>
 
       {/* Dropdown Results */}
       {isOpen && query.length >= 2 && (
-        <div className="absolute top-full mt-2 w-full bg-gray-900/95 backdrop-blur-xl border border-gray-700 rounded-xl shadow-2xl overflow-hidden">
+        <div className="absolute top-full left-3 right-3 mt-1.5 paper paper-2 border border-[var(--control-border)] rounded-xl shadow-2xl overflow-hidden z-50">
           {!hasResults && !isSearching ? (
-            <div className="p-4 text-center text-gray-400 text-sm">
-              No results found for "{query}"
+            <div className="p-4 text-center text-[var(--ink-3)] text-sm font-display italic">
+              কোনো তথ্য পাওয়া যায়নি "{query}"
             </div>
           ) : (
-            <div className="max-h-[60vh] overflow-y-auto hide-scrollbar py-2">
+            <div className="max-h-[55vh] overflow-y-auto hide-scrollbar py-2 divide-y divide-[var(--border)]">
               {results.pandals.length > 0 && (
-                <div className="mb-2">
-                  <div className="px-3 py-1 text-[10px] font-bold text-gray-500 uppercase tracking-wider">
-                    Pandals
+                <div className="pb-1">
+                  <div className="px-3.5 py-1 meta text-[var(--geru-text)]">
+                    🏛️ দুর্গোৎসব মণ্ডপ ({results.pandals.length})
                   </div>
                   {results.pandals.map((p) => (
                     <button
                       key={p.id}
                       onClick={() => handleSelect(p.id, 'pandal')}
-                      className="w-full text-left px-4 py-2.5 hover:bg-gray-800 transition-colors flex flex-col"
+                      className="w-full text-left px-4 py-2 hover:bg-[var(--chalk-3)] transition-colors flex flex-col"
                     >
-                      <span className="text-sm font-semibold text-white">{p.name}</span>
-                      <span className="text-xs text-gray-400 truncate">{p.address}</span>
+                      <span className="text-sm font-display font-semibold text-[var(--ink)]">{p.name}</span>
+                      <span className="text-xs text-[var(--ink-3)] truncate">{p.address}</span>
                     </button>
                   ))}
                 </div>
               )}
               
               {results.food.length > 0 && (
-                <div>
-                  <div className="px-3 py-1 text-[10px] font-bold text-gray-500 uppercase tracking-wider">
-                    Food & Drink
+                <div className="pt-1">
+                  <div className="px-3.5 py-1 meta text-[var(--brass-text)]">
+                    🍽️ জনপ্রিয় আহার ও মিষ্টি ({results.food.length})
                   </div>
                   {results.food.map((f) => (
                     <button
                       key={f.id}
                       onClick={() => handleSelect(f.id, 'food')}
-                      className="w-full text-left px-4 py-2.5 hover:bg-gray-800 transition-colors flex flex-col"
+                      className="w-full text-left px-4 py-2 hover:bg-[var(--chalk-3)] transition-colors flex flex-col"
                     >
-                      <span className="text-sm font-semibold text-white">{f.name}</span>
-                      <span className="text-xs text-gray-400 truncate">{f.address}</span>
+                      <span className="text-sm font-display font-semibold text-[var(--ink)]">{f.name}</span>
+                      <span className="text-xs text-[var(--ink-3)] truncate">{f.address}</span>
                     </button>
                   ))}
                 </div>

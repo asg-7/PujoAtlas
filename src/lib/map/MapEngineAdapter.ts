@@ -67,14 +67,14 @@ export interface IMapAdapter {
 }
 
 /**
- * Zone color palette matching Kolkata reference map.
+ * Zone color palette matching Kolkata Bonedi-Bari theme.
  */
 export const ZONE_COLORS: Record<Zone, string> = {
-  NORTH: '#A855F7',   // Vibrant Purple (Bagbazar, Shyambazar, Kumartuli)
-  SOUTH: '#EAB308',   // Vibrant Warm Gold (Gariahat, Ballygunge, Kalighat)
-  CENTRAL: '#EF4444', // Vibrant Coral Red (College Sq, Bowbazar, Md Ali Park)
-  EAST: '#38BDF8',    // Vibrant Sky Blue (Salt Lake, Lake Town, EM Bypass)
-  WEST: '#14B8A6',    // Vibrant Teal (Behala, Howrah, Khidderpore)
+  NORTH: '#4A6A8A',   // Slate Indigo (Bagbazar, Shyambazar, Kumartuli)
+  SOUTH: '#B8892F',   // Ochre Brass (Gariahat, Ballygunge, Kalighat)
+  CENTRAL: '#B5513A', // Terracotta Brick (College Sq, Bowbazar, Md Ali Park)
+  EAST: '#4F8A83',    // Muted Teal (Salt Lake, Lake Town, EM Bypass)
+  WEST: '#7E5A7E',    // Deep Plum (Behala, Howrah, Khidderpore)
 };
 
 /**
