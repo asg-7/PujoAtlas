@@ -48,10 +48,13 @@ export class MapLibreDriver implements IMapAdapter {
     container: HTMLElement,
     options: { center: [number, number]; zoom: number }
   ): Promise<void> {
+    const initLng = options.center[0] > 50 ? options.center[0] : options.center[1];
+    const initLat = options.center[0] > 50 ? options.center[1] : options.center[0];
+
     this.map = new maplibregl.Map({
       container,
       style: DARK_STYLE,
-      center: [options.center[1], options.center[0]], // MapLibre uses [lng, lat]
+      center: [initLng, initLat],
       zoom: options.zoom,
       attributionControl: { compact: true },
       maxBounds: [
@@ -94,32 +97,89 @@ export class MapLibreDriver implements IMapAdapter {
     for (const item of items) {
       const color = item.color ?? this.getMarkerColor(item);
 
+      // Root element passed to MapLibre — MapLibre controls transform translate on this element.
+      // NEVER apply scale or transform to el directly to prevent displacement bugs!
       const el = document.createElement('div');
-      el.className = 'pujo-marker';
-      el.style.cssText = `
-        width: ${item.type === 'station' ? '10px' : '14px'};
-        height: ${item.type === 'station' ? '10px' : '14px'};
-        background: ${color};
-        border: 2px solid #fff;
-        border-radius: 50%;
-        cursor: pointer;
-        box-shadow: 0 0 6px ${color}80;
-        transition: transform 0.15s ease;
+      el.className = `pujo-marker pujo-marker-${item.type}`;
+      el.style.cssText = 'cursor: pointer; position: relative;';
+
+      // Inner element handles hover animations, scaling, and custom SVG styling
+      const inner = document.createElement('div');
+      inner.className = 'pujo-marker-inner';
+
+      if (item.type === 'pandal') {
+        // Distinct festive pandal pin with temple arch / Kalash motif
+        inner.style.cssText = `
+          width: 26px;
+          height: 30px;
+          background: linear-gradient(135deg, #EF4444 0%, #B91C1C 100%);
+          border: 2px solid #FCD34D;
+          border-radius: 13px 13px 13px 3px;
+          transform: rotate(-45deg);
+          box-shadow: 0 4px 10px rgba(239, 68, 68, 0.45);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+        `;
+        inner.innerHTML = `
+          <div style="transform: rotate(45deg); display: flex; align-items: center; justify-content: center;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L4 9v12h16V9L12 2z"/>
+              <path d="M9 21v-7a3 3 0 0 1 6 0v7"/>
+              <circle cx="12" cy="5" r="1" fill="#FFFFFF"/>
+            </svg>
+          </div>
+        `;
+      } else {
+        // Distinct food place badge colored by region (zone)
+        inner.style.cssText = `
+          width: 22px;
+          height: 22px;
+          background: ${color};
+          border: 2px solid #FFFFFF;
+          border-radius: 50%;
+          box-shadow: 0 2px 8px ${color}99;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+        `;
+        inner.innerHTML = `
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 2v6a3 3 0 0 1-3 3 3 3 0 0 1-3-3V2M15 11v11M5 2v7M8 2v7M2 2v7a3 3 0 0 0 3 3v10"/>
+          </svg>
+        `;
+      }
+
+      inner.addEventListener('mouseenter', () => {
+        inner.style.transform = item.type === 'pandal' ? 'rotate(-45deg) scale(1.3)' : 'scale(1.35)';
+        inner.style.boxShadow = `0 6px 14px ${item.type === 'pandal' ? 'rgba(239, 68, 68, 0.7)' : color + 'CC'}`;
+      });
+      inner.addEventListener('mouseleave', () => {
+        inner.style.transform = item.type === 'pandal' ? 'rotate(-45deg) scale(1)' : 'scale(1)';
+        inner.style.boxShadow = item.type === 'pandal' ? '0 4px 10px rgba(239, 68, 68, 0.45)' : `0 2px 8px ${color}99`;
+      });
+
+      el.appendChild(inner);
+
+      const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${item.lat},${item.lng}&travelmode=driving`;
+      const popupHtml = `
+        <div style="font-family: system-ui, -apple-system, sans-serif; padding: 6px 4px; min-width: 175px;">
+          <div style="font-size: 13px; font-weight: 700; color: #111827; line-height: 1.25; margin-bottom: 3px;">${item.name}</div>
+          <div style="font-size: 11px; font-weight: 600; color: #4B5563; margin-bottom: 8px; text-transform: uppercase;">
+            ${item.type === 'pandal' ? '🎪 Durga Puja Pandal' : '🍽️ Food Spot'} • <span style="color:${color}; font-weight: 700;">${item.zone || ''}</span>
+          </div>
+          <a href="${mapsUrl}" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; justify-content: center; gap: 5px; width: 100%; padding: 6px 10px; background: #2563EB; color: #FFFFFF; font-size: 11px; font-weight: 700; text-decoration: none; border-radius: 6px; box-shadow: 0 2px 4px rgba(37,99,235,0.25);">
+            🧭 Directions in Google Maps ↗
+          </a>
+        </div>
       `;
-      el.addEventListener('mouseenter', () => {
-        el.style.transform = 'scale(1.4)';
-      });
-      el.addEventListener('mouseleave', () => {
-        el.style.transform = 'scale(1)';
-      });
 
       const marker = new maplibregl.Marker({ element: el })
         .setLngLat([item.lng, item.lat])
         .setPopup(
-          new maplibregl.Popup({ offset: 12, closeButton: false }).setHTML(
-            `<div style="font-size:13px;font-weight:600;color:#111">${item.name}</div>
-             <div style="font-size:11px;color:#666;text-transform:capitalize">${item.type}</div>`
-          )
+          new maplibregl.Popup({ offset: item.type === 'pandal' ? 16 : 12, closeButton: false }).setHTML(popupHtml)
         )
         .addTo(this.map!);
 
@@ -158,28 +218,28 @@ export class MapLibreDriver implements IMapAdapter {
         data: line as GeoJSON.Feature,
       });
 
-      // Glow effect (wider, transparent)
+      // Glow effect (wider, high-visibility neon outline)
       this.map.addLayer({
         id: `${layerId}-glow`,
         type: 'line',
         source: sourceId,
         paint: {
           'line-color': color,
-          'line-width': 8,
-          'line-opacity': 0.25,
-          'line-blur': 4,
+          'line-width': 10,
+          'line-opacity': 0.35,
+          'line-blur': 3,
         },
       });
 
-      // Main line
+      // Main metro line
       this.map.addLayer({
         id: layerId,
         type: 'line',
         source: sourceId,
         paint: {
           'line-color': color,
-          'line-width': 3,
-          'line-opacity': 0.9,
+          'line-width': 4.5,
+          'line-opacity': 0.95,
         },
         layout: {
           'line-cap': 'round',
@@ -202,29 +262,29 @@ export class MapLibreDriver implements IMapAdapter {
       type: 'circle',
       source: 'metro-stations',
       paint: {
-        'circle-radius': 5,
+        'circle-radius': 6,
         'circle-color': '#FFFFFF',
-        'circle-stroke-width': 2,
+        'circle-stroke-width': 2.5,
         'circle-stroke-color': ['get', 'lineColorHex'],
       },
     });
 
-    // Station labels
+    // Station labels with crisp black halo for dark map contrast
     this.map.addLayer({
       id: 'metro-stations-labels',
       type: 'symbol',
       source: 'metro-stations',
       layout: {
         'text-field': ['get', 'name'],
-        'text-size': 10,
+        'text-size': 11,
         'text-offset': [0, 1.4],
         'text-anchor': 'top',
         'text-optional': true,
       },
       paint: {
-        'text-color': '#CCCCCC',
+        'text-color': '#FFFFFF',
         'text-halo-color': '#000000',
-        'text-halo-width': 1,
+        'text-halo-width': 2,
       },
     });
   }
@@ -308,11 +368,15 @@ export class MapLibreDriver implements IMapAdapter {
 
   flyTo(coords: [number, number], zoom?: number): void {
     if (!this.map) return;
+    // Auto-detect coordinate order: Kolkata Longitude is ~88.x, Latitude is ~22.x
+    const lng = coords[0] > 50 ? coords[0] : coords[1];
+    const lat = coords[0] > 50 ? coords[1] : coords[0];
     this.map.flyTo({
-      center: [coords[1], coords[0]], // [lng, lat]
-      zoom: zoom ?? this.map.getZoom(),
-      speed: 1.5,
+      center: [lng, lat],
+      zoom: zoom ?? Math.max(this.map.getZoom(), 15),
+      speed: 1.4,
       curve: 1.2,
+      essential: true,
     });
   }
 

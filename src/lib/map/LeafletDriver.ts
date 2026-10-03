@@ -63,27 +63,66 @@ export class LeafletDriver implements IMapAdapter {
 
     for (const item of items) {
       const color = item.color ?? this.getMarkerColor(item);
-      const size = item.type === 'station' ? 8 : 12;
+      const isPandal = item.type === 'pandal';
+
+      const html = isPandal
+        ? `<div style="
+            width: 24px;
+            height: 28px;
+            background: linear-gradient(135deg, #EF4444, #B91C1C);
+            border: 2px solid #FCD34D;
+            border-radius: 12px 12px 12px 2px;
+            transform: rotate(-45deg);
+            box-shadow: 0 4px 10px rgba(239, 68, 68, 0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          ">
+            <div style="transform: rotate(45deg); display: flex; align-items: center; justify-content: center;">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2L4 9v12h16V9L12 2z"/>
+                <path d="M9 21v-7a3 3 0 0 1 6 0v7"/>
+              </svg>
+            </div>
+          </div>`
+        : `<div style="
+            width: 20px;
+            height: 20px;
+            background: ${color};
+            border: 2px solid #FFFFFF;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px ${color}99;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          ">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 2v6a3 3 0 0 1-3 3 3 3 0 0 1-3-3V2M15 11v11M5 2v7M8 2v7M2 2v7a3 3 0 0 0 3 3v10"/>
+            </svg>
+          </div>`;
 
       const icon = L.divIcon({
         className: 'pujo-leaflet-marker',
-        html: `<div style="
-          width:${size}px;height:${size}px;
-          background:${color};
-          border:2px solid #fff;
-          border-radius:50%;
-          box-shadow:0 0 6px ${color}80;
-        "></div>`,
-        iconSize: [size + 4, size + 4],
-        iconAnchor: [(size + 4) / 2, (size + 4) / 2],
+        html,
+        iconSize: isPandal ? [24, 28] : [20, 20],
+        iconAnchor: isPandal ? [12, 28] : [10, 10],
       });
 
+      const mapsUrl = `https://www.google.com/maps/dir/?api=1&destination=${item.lat},${item.lng}&travelmode=driving`;
+      const popupHtml = `
+        <div style="font-family: system-ui, -apple-system, sans-serif; padding: 4px; min-width: 170px;">
+          <div style="font-size: 13px; font-weight: 700; color: #111827; margin-bottom: 2px;">${item.name}</div>
+          <div style="font-size: 11px; font-weight: 600; color: #4B5563; margin-bottom: 6px; text-transform: uppercase;">
+            ${item.type === 'pandal' ? '🎪 Durga Puja Pandal' : '🍽️ Food Spot'} • <span style="color:${color}; font-weight: 700;">${item.zone || ''}</span>
+          </div>
+          <a href="${mapsUrl}" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; justify-content: center; gap: 4px; width: 100%; padding: 5px 8px; background: #2563EB; color: #FFFFFF; font-size: 11px; font-weight: 700; text-decoration: none; border-radius: 6px;">
+            🧭 Directions in Google Maps ↗
+          </a>
+        </div>
+      `;
+
       const marker = L.marker([item.lat, item.lng], { icon })
-        .bindPopup(
-          `<div style="font-size:13px;font-weight:600">${item.name}</div>
-           <div style="font-size:11px;color:#666;text-transform:capitalize">${item.type}</div>`,
-          { closeButton: false, offset: L.point(0, -6) }
-        )
+        .bindPopup(popupHtml, { closeButton: false, offset: L.point(0, -10) })
         .on('click', () => onClick(item.id, item.type));
 
       this.markerLayer.addLayer(marker);
@@ -193,7 +232,9 @@ export class LeafletDriver implements IMapAdapter {
 
   flyTo(coords: [number, number], zoom?: number): void {
     if (!this.map) return;
-    this.map.flyTo(coords, zoom ?? this.map.getZoom(), {
+    const lng = coords[0] > 50 ? coords[0] : coords[1];
+    const lat = coords[0] > 50 ? coords[1] : coords[0];
+    this.map.flyTo([lat, lng], zoom ?? Math.max(this.map.getZoom(), 15), {
       duration: 1.2,
     });
   }

@@ -56,7 +56,7 @@ export async function initApp() {
       lat: p.lat,
       lng: p.lng,
       zone: p.zone,
-      color: ZONE_COLORS[p.zone] || '#EF4444',
+      color: '#E11D48', // Festive Durga Puja Vermilion
     });
   });
 
@@ -68,9 +68,15 @@ export async function initApp() {
       lat: f.lat,
       lng: f.lng,
       zone: f.zone,
-      color: '#F59E0B',
+      color: ZONE_COLORS[f.zone] || '#F59E0B', // Food color matches region/zone!
     });
   });
+
+  // Render initial metro lines if available
+  if (metroGeoJson) {
+    mapAdapter.renderMetroLines(metroGeoJson);
+    mapAdapter.toggleMetroOverlay(useMapStore.getState().activeLayers.metro);
+  }
 
   // 4. Render Active Markers
   const renderActiveMarkers = () => {
@@ -89,9 +95,6 @@ export async function initApp() {
 
     if (metroGeoJson) {
       mapAdapter.toggleMetroOverlay(state.activeLayers.metro);
-      if (state.activeLayers.metro) {
-        mapAdapter.renderMetroLines(metroGeoJson);
-      }
     }
 
     if (state.activeZone !== 'ALL') {

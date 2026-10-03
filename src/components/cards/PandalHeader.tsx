@@ -197,43 +197,44 @@ export default function PandalHeader({
           </div>
         )}
 
-        {/* Navigate button */}
+        {/* Direct Google Maps Navigation */}
         <div className="px-4 pb-4">
-          {!showNavOptions ? (
-            <button
-              onClick={() => setShowNavOptions(true)}
-              className="w-full py-3 bg-pujo-gold text-black font-bold rounded-xl text-sm hover:bg-yellow-400 active:scale-[0.98] transition-all"
+          <a
+            href={`https://www.google.com/maps/dir/?api=1&destination=${pandal.lat},${pandal.lng}&travelmode=driving`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2 w-full py-3.5 bg-gradient-to-r from-amber-500 to-yellow-400 text-gray-950 font-bold rounded-xl text-sm shadow-lg shadow-yellow-500/20 hover:from-amber-400 hover:to-yellow-300 active:scale-[0.98] transition-all no-underline text-center"
+          >
+            <span>🧭</span>
+            <span>Open in Google Maps (Directions)</span>
+          </a>
+
+          <div className="flex gap-2 pt-2.5">
+            <a
+              href={`https://www.google.com/maps/dir/?api=1&destination=${pandal.lat},${pandal.lng}&travelmode=transit`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 flex items-center justify-center gap-1.5 py-2 px-2 bg-gray-800/90 hover:bg-gray-700 text-xs font-semibold text-gray-200 rounded-lg border border-gray-700 transition-colors no-underline text-center"
             >
-              🧭 Navigate to Pandal
-            </button>
-          ) : (
-            <div className="space-y-2">
-              <p className="text-xs text-gray-500 uppercase tracking-wider">Choose travel mode</p>
-              <div className="grid grid-cols-2 gap-2">
-                {(Object.entries(TRAVEL_MODE_META) as Array<[TravelMode, typeof TRAVEL_MODE_META[TravelMode]]>).map(
-                  ([mode, meta]) => (
-                    <button
-                      key={mode}
-                      onClick={() => handleNavigate(mode)}
-                      className="flex items-center gap-2 px-3 py-2.5 bg-gray-800 hover:bg-gray-700 rounded-lg text-left transition-colors"
-                    >
-                      <span className="text-lg">{meta.icon}</span>
-                      <div>
-                        <p className="text-sm font-medium text-white">{meta.label}</p>
-                        <p className="text-[10px] text-gray-400">{meta.description}</p>
-                      </div>
-                    </button>
-                  )
-                )}
-              </div>
-              <button
-                onClick={() => setShowNavOptions(false)}
-                className="w-full py-2 text-xs text-gray-400 hover:text-white transition-colors"
-              >
-                Cancel
-              </button>
-            </div>
-          )}
+              <span>🚇</span> Metro
+            </a>
+            <a
+              href={`https://www.google.com/maps/dir/?api=1&destination=${pandal.lat},${pandal.lng}&travelmode=walking`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 flex items-center justify-center gap-1.5 py-2 px-2 bg-gray-800/90 hover:bg-gray-700 text-xs font-semibold text-gray-200 rounded-lg border border-gray-700 transition-colors no-underline text-center"
+            >
+              <span>🚶</span> Walk
+            </a>
+            <a
+              href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(pandal.name + ', ' + pandal.address)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 flex items-center justify-center gap-1.5 py-2 px-2 bg-gray-800/90 hover:bg-gray-700 text-xs font-semibold text-gray-200 rounded-lg border border-gray-700 transition-colors no-underline text-center"
+            >
+              <span>📍</span> Place
+            </a>
+          </div>
         </div>
       </div>
     </div>

@@ -72,10 +72,10 @@ export const ZONE_COLORS: Record<Zone, string> = {
  * Metro line identity colors.
  */
 export const METRO_LINE_COLORS: Record<string, string> = {
-  BLUE: '#0072BC',
-  GREEN: '#00A651',
-  PURPLE: '#80276C',
-  ORANGE: '#F37023',
+  BLUE: '#38BDF8',   // Vibrant Sky Blue (Line 1)
+  GREEN: '#4ADE80',  // Vibrant Mint Green (Line 2)
+  PURPLE: '#C084FC', // Vibrant Lavender Purple (Line 3)
+  ORANGE: '#FB923C', // Vibrant Neon Orange (Line 6)
 };
 
 /**

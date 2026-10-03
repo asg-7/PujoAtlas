@@ -12,6 +12,28 @@ interface MapUIOverlayProps {
   initialFood?: FoodEntity[];
 }
 
+const METRO_STATIONS: Record<string, string> = {
+  'station-dakshineswar': 'Dakshineswar',
+  'station-dumdum': 'Dum Dum',
+  'station-shyambazar': 'Shyambazar',
+  'station-sovabazar': 'Sovabazar Ahiritola',
+  'station-girish-park': 'Girish Park',
+  'station-mg-road': 'Mahatma Gandhi Road',
+  'station-central': 'Central',
+  'station-esplanade': 'Esplanade',
+  'station-park-street': 'Park Street',
+  'station-kalighat': 'Kalighat',
+  'station-rabindra-sarobar': 'Rabindra Sarobar',
+  'station-kavi-subhash': 'Kavi Subhash',
+  'station-howrah-maidan': 'Howrah Maidan',
+  'station-sealdah': 'Sealdah',
+  'station-salt-lake-sector-v': 'Salt Lake Sector V',
+  'station-joka': 'Joka',
+  'station-taratala': 'Taratala',
+  'station-majerhat': 'Majerhat',
+  'station-ruby': 'Hemanta Mukhopadhyay (Ruby)',
+};
+
 export default function MapUIOverlay({ initialPandals = [], initialFood = [] }: MapUIOverlayProps) {
   const { selectedEntity, clearSelection, setTrendingOpen, initData, pandals: storePandals, food: storeFood } = useMapStore();
 
@@ -60,6 +82,8 @@ export default function MapUIOverlay({ initialPandals = [], initialFood = [] }: 
         {selectedPandal && (
           <PandalHeader 
             pandal={selectedPandal} 
+            metroStationName={selectedPandal.nearestMetroStationId ? (METRO_STATIONS[selectedPandal.nearestMetroStationId] || 'Nearby Metro') : undefined}
+            metroWalkingMinutes={selectedPandal.nearestMetroStationId ? 5 : undefined}
             onClose={clearSelection} 
           />
         )}
