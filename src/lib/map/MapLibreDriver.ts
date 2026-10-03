@@ -4,6 +4,13 @@ import { ZONE_COLORS, METRO_LINE_COLORS } from './MapEngineAdapter';
 import type { Zone } from '../schemas';
 import type { StyleSpecification } from 'maplibre-gl';
 
+const basePath = (import.meta.env.BASE_URL || '/').replace(/\/+$/, '');
+const workerPath = `${basePath}/maplibre/maplibre-gl-worker.mjs`;
+
+if (typeof (maplibregl as any).setWorkerUrl === 'function') {
+  (maplibregl as any).setWorkerUrl(workerPath);
+}
+
 const DEFAULT_CARTO_KEY = 'cb1_46w3_1_b8c20a5b160e534febd5654c';
 const rawKey = import.meta.env.PUBLIC_CARTO_API_KEY || DEFAULT_CARTO_KEY;
 const cartoKeyParam = rawKey ? `?key=${rawKey}` : '';
