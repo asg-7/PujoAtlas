@@ -3,12 +3,9 @@ import type { IMapAdapter, MarkerItem } from './MapEngineAdapter';
 import { ZONE_COLORS, METRO_LINE_COLORS } from './MapEngineAdapter';
 import type { Zone } from '../schemas';
 
-const DEFAULT_CARTO_KEY = 'cb1_46w3_1_b8c20a5b160e534febd5654c';
-const rawKey = import.meta.env.PUBLIC_CARTO_API_KEY || DEFAULT_CARTO_KEY;
-const cartoKeyParam = rawKey ? `?key=${rawKey}` : '';
-const TILE_URL = `https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png${cartoKeyParam}`;
+const TILE_URL = 'https://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}';
 const TILE_ATTRIBUTION =
-  '&copy; <a href="https://carto.com/">CARTO</a> &copy; <a href="https://osm.org/copyright">OpenStreetMap</a>';
+  '&copy; <a href="https://www.esri.com/">Esri</a> &copy; <a href="https://osm.org/copyright">OpenStreetMap</a>';
 
 /**
  * Leaflet 2D fallback driver.

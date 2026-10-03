@@ -11,34 +11,37 @@ if (typeof (maplibregl as any).setWorkerUrl === 'function') {
   (maplibregl as any).setWorkerUrl(workerPath);
 }
 
-const DEFAULT_CARTO_KEY = 'cb1_46w3_1_b8c20a5b160e534febd5654c';
-const rawKey = import.meta.env.PUBLIC_CARTO_API_KEY || DEFAULT_CARTO_KEY;
-const cartoKeyParam = rawKey ? `?key=${rawKey}` : '';
-
 const DARK_STYLE: StyleSpecification = {
   version: 8,
   glyphs: 'https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf',
   sources: {
-    'carto-dark': {
+    'dark-basemap': {
       type: 'raster',
       tiles: [
-        `https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png${cartoKeyParam}`,
-        `https://b.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png${cartoKeyParam}`,
-        `https://c.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png${cartoKeyParam}`
+        'https://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}'
       ],
       tileSize: 256,
-      attribution: '© OpenStreetMap contributors, © CARTO'
+      attribution: '© Esri, © OpenStreetMap contributors'
     }
   },
   layers: [
     {
-      id: 'carto-dark-layer',
+      id: 'dark-basemap-layer',
       type: 'raster',
-      source: 'carto-dark',
+      source: 'dark-basemap',
       minzoom: 0,
       maxzoom: 20
     }
   ]
+};
+
+const ZONE_VIEWS: Record<Zone | 'ALL', { center: [number, number]; zoom: number }> = {
+  ALL: { center: [88.3639, 22.5600], zoom: 12.0 },
+  NORTH: { center: [88.3680, 22.5980], zoom: 13.6 },
+  CENTRAL: { center: [88.3580, 22.5680], zoom: 14.0 },
+  SOUTH: { center: [88.3580, 22.5180], zoom: 13.2 },
+  EAST: { center: [88.4080, 22.5800], zoom: 13.4 },
+  WEST: { center: [88.3180, 22.4980], zoom: 13.2 },
 };
 
 /**
@@ -72,6 +75,10 @@ export class MapLibreDriver implements IMapAdapter {
         [88.65, 22.80], // NE corner
       ],
     });
+
+    if (typeof window !== 'undefined') {
+      (window as any).__mapInstance = this.map;
+    }
 
     // Navigation controls
     this.map.addControl(new maplibregl.NavigationControl(), 'top-right');
@@ -109,14 +116,7 @@ export class MapLibreDriver implements IMapAdapter {
     if (!this.map) return;
     this.items = items;
     this.markerClickHandler = onClick;
-
-    if (this.map.loaded()) {
-      this.addMarkerLayers(items, onClick);
-    } else {
-      this.map.once('load', () => {
-        this.addMarkerLayers(items, onClick);
-      });
-    }
+    this.addMarkerLayers(items, onClick);
   }
 
   private addMarkerLayers(
@@ -201,9 +201,9 @@ export class MapLibreDriver implements IMapAdapter {
             'interpolate',
             ['linear'],
             ['zoom'],
-            9, 3.5,
-            12, 5.5,
-            15, 9,
+            9, 4,
+            12, 6,
+            15, 9.5,
           ],
           'circle-opacity': 0.95,
           'circle-stroke-color': '#0B0E14',
@@ -234,7 +234,7 @@ export class MapLibreDriver implements IMapAdapter {
             'interpolate',
             ['linear'],
             ['zoom'],
-            9, 2.8,
+            9, 3,
             12, 4.5,
             15, 7.5,
           ],
@@ -335,26 +335,18 @@ export class MapLibreDriver implements IMapAdapter {
   }
 
   /**
-   * Frame the selected zone's pandals.
+   * Frame the selected zone's area accurately without drifting.
    */
   fitZone(zone: Zone | 'ALL'): void {
     if (!this.map) return;
-    if (zone === 'ALL') {
-      this.map.flyTo({
-        center: [88.3639, 22.5726],
-        zoom: 12,
-        speed: 1.2,
-        curve: 1.2,
-        essential: true,
-      });
-      return;
-    }
-
-    const pts = this.items.filter((p) => p.type === 'pandal' && p.zone === zone);
-    if (!pts.length) return;
-    const bounds = new maplibregl.LngLatBounds();
-    pts.forEach((p) => bounds.extend([p.lng, p.lat]));
-    this.map.fitBounds(bounds, { padding: 60, maxZoom: 14.5, duration: 800 });
+    const target = ZONE_VIEWS[zone] || ZONE_VIEWS.ALL;
+    this.map.flyTo({
+      center: target.center,
+      zoom: target.zoom,
+      speed: 1.2,
+      curve: 1.2,
+      essential: true,
+    });
   }
 
   /**
@@ -380,14 +372,7 @@ export class MapLibreDriver implements IMapAdapter {
   renderMetroLines(geoJson: GeoJSON.FeatureCollection): void {
     if (!this.map) return;
     this.metroGeoJsonData = geoJson;
-
-    if (this.map.loaded()) {
-      this.addMetroLayers(geoJson);
-    } else {
-      this.map.once('load', () => {
-        this.addMetroLayers(geoJson);
-      });
-    }
+    this.addMetroLayers(geoJson);
   }
 
   private addMetroLayers(geoJson: GeoJSON.FeatureCollection): void {
@@ -397,56 +382,53 @@ export class MapLibreDriver implements IMapAdapter {
     const lines = geoJson.features.filter((f) => f.geometry.type === 'LineString');
     const stations = geoJson.features.filter((f) => f.geometry.type === 'Point');
 
-    // 1. Line Sources & Dual-Layer Rendering (Dark casing + colored center line)
-    for (const line of lines) {
-      const props = line.properties as Record<string, string>;
-      const code = props['code'] as keyof typeof METRO_LINE_COLORS;
-      const color = METRO_LINE_COLORS[code] ?? props['colorHex'] ?? '#38BDF8';
-      const sourceId = `metro-line-${props['id']}`;
-      const layerId = `metro-layer-${props['id']}`;
+    // 1. Single unified Lines Source
+    if (!this.map.getSource('metro-lines-src')) {
+      this.map.addSource('metro-lines-src', {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: lines,
+        },
+      });
+    }
 
-      if (!this.map.getSource(sourceId)) {
-        this.map.addSource(sourceId, {
-          type: 'geojson',
-          data: line as GeoJSON.Feature,
-        });
-      }
+    // Metro Line Casing (Dark outline for contrast)
+    if (!this.map.getLayer('metro-lines-casing')) {
+      this.map.addLayer({
+        id: 'metro-lines-casing',
+        type: 'line',
+        source: 'metro-lines-src',
+        paint: {
+          'line-color': '#0B0E14',
+          'line-width': ['interpolate', ['linear'], ['zoom'], 10, 6, 14, 10, 16, 14],
+          'line-opacity': 0.9,
+        },
+        layout: {
+          'line-cap': 'round',
+          'line-join': 'round',
+          'visibility': this.metroVisible ? 'visible' : 'none',
+        },
+      });
+    }
 
-      // Dark under-casing for stark contrast against basemap
-      if (!this.map.getLayer(`${layerId}-casing`)) {
-        this.map.addLayer({
-          id: `${layerId}-casing`,
-          type: 'line',
-          source: sourceId,
-          paint: {
-            'line-color': '#0B0E14',
-            'line-width': ['interpolate', ['linear'], ['zoom'], 10, 5, 15, 12],
-            'line-opacity': 0.85,
-          },
-          layout: {
-            'line-cap': 'round',
-            'line-join': 'round',
-          },
-        });
-      }
-
-      // Vibrant metro line
-      if (!this.map.getLayer(layerId)) {
-        this.map.addLayer({
-          id: layerId,
-          type: 'line',
-          source: sourceId,
-          paint: {
-            'line-color': color,
-            'line-width': ['interpolate', ['linear'], ['zoom'], 10, 2.8, 15, 6],
-            'line-opacity': 0.95,
-          },
-          layout: {
-            'line-cap': 'round',
-            'line-join': 'round',
-          },
-        });
-      }
+    // Metro Line Core (Vibrant color per line)
+    if (!this.map.getLayer('metro-lines-core')) {
+      this.map.addLayer({
+        id: 'metro-lines-core',
+        type: 'line',
+        source: 'metro-lines-src',
+        paint: {
+          'line-color': ['coalesce', ['get', 'colorHex'], '#38BDF8'],
+          'line-width': ['interpolate', ['linear'], ['zoom'], 10, 3.2, 14, 5.5, 16, 8],
+          'line-opacity': 0.98,
+        },
+        layout: {
+          'line-cap': 'round',
+          'line-join': 'round',
+          'visibility': this.metroVisible ? 'visible' : 'none',
+        },
+      });
     }
 
     // 2. Add Station Nodes
@@ -456,58 +438,61 @@ export class MapLibreDriver implements IMapAdapter {
         data: {
           type: 'FeatureCollection',
           features: stations,
-        } as GeoJSON.FeatureCollection,
+        },
       });
     }
 
-    if (!this.map.getLayer('metro-stations')) {
+    if (!this.map.getLayer('metro-stations-layer')) {
       this.map.addLayer({
-        id: 'metro-stations',
+        id: 'metro-stations-layer',
         type: 'circle',
         source: 'metro-stations-src',
         minzoom: 10,
         paint: {
           'circle-color': '#FFFFFF',
-          'circle-stroke-color': '#0B0E14',
-          'circle-stroke-width': 2,
+          'circle-stroke-color': ['coalesce', ['get', 'lineColorHex'], '#0B0E14'],
+          'circle-stroke-width': 2.5,
           'circle-radius': [
             'interpolate',
             ['linear'],
             ['zoom'],
-            10,
-            2.5,
-            15,
-            ['case', ['boolean', ['get', 'isInterchange'], false], 7.5, 5],
+            10, 3,
+            13, 5,
+            16, 8,
           ],
+        },
+        layout: {
+          'visibility': this.metroVisible ? 'visible' : 'none',
         },
       });
     }
 
-    // 3. Station Labels (Appear as user zooms in at minzoom: 11)
-    if (!this.map.getLayer('metro-labels')) {
+    // 3. Station Labels
+    if (!this.map.getLayer('metro-station-labels')) {
       this.map.addLayer({
-        id: 'metro-labels',
+        id: 'metro-station-labels',
         type: 'symbol',
         source: 'metro-stations-src',
         minzoom: 11,
         layout: {
           'text-field': ['get', 'name'],
           'text-font': ['Noto Sans Regular'],
-          'text-size': ['interpolate', ['linear'], ['zoom'], 11, 10, 15, 13],
+          'text-size': ['interpolate', ['linear'], ['zoom'], 11, 10, 14, 12, 16, 14],
           'text-anchor': 'left',
           'text-offset': [0.85, 0],
           'text-optional': true,
+          'visibility': this.metroVisible ? 'visible' : 'none',
         },
         paint: {
           'text-color': '#F3F4F6',
           'text-halo-color': '#0B0E14',
-          'text-halo-width': 2,
+          'text-halo-width': 2.5,
         },
       });
     }
 
     // 4. Station Click Popup
-    this.map.on('click', 'metro-stations', (e) => {
+    this.map.on('click', 'metro-stations-layer', (e) => {
       const feature = e.features?.[0];
       if (!feature || !this.map) return;
       const props = feature.properties as any;
@@ -526,16 +511,12 @@ export class MapLibreDriver implements IMapAdapter {
         .addTo(this.map);
     });
 
-    this.map.on('mouseenter', 'metro-stations', () => {
+    this.map.on('mouseenter', 'metro-stations-layer', () => {
       if (this.map) this.map.getCanvas().style.cursor = 'pointer';
     });
-    this.map.on('mouseleave', 'metro-stations', () => {
+    this.map.on('mouseleave', 'metro-stations-layer', () => {
       if (this.map) this.map.getCanvas().style.cursor = '';
     });
-
-    if (!this.metroVisible) {
-      this.toggleMetroOverlay(false);
-    }
   }
 
   toggleMetroOverlay(visible: boolean): void {
@@ -543,13 +524,17 @@ export class MapLibreDriver implements IMapAdapter {
     this.metroVisible = visible;
     const visibility = visible ? 'visible' : 'none';
 
-    try {
-      const style = this.map.getStyle();
-      if (!style?.layers) return;
+    const metroLayers = [
+      'metro-lines-casing',
+      'metro-lines-core',
+      'metro-stations-layer',
+      'metro-station-labels',
+    ];
 
-      for (const layer of style.layers) {
-        if (layer.id.startsWith('metro-')) {
-          this.map.setLayoutProperty(layer.id, 'visibility', visibility);
+    try {
+      for (const layerId of metroLayers) {
+        if (this.map.getLayer(layerId)) {
+          this.map.setLayoutProperty(layerId, 'visibility', visibility);
         }
       }
     } catch (e) {
@@ -661,19 +646,24 @@ export class MapLibreDriver implements IMapAdapter {
 
   private removeMetroLayers(): void {
     if (!this.map) return;
-    try {
-      const style = this.map.getStyle();
-      if (!style?.layers) return;
+    const metroLayers = [
+      'metro-lines-casing',
+      'metro-lines-core',
+      'metro-stations-layer',
+      'metro-station-labels',
+    ];
 
-      for (const layer of [...style.layers]) {
-        if (layer.id.startsWith('metro-')) {
-          this.map.removeLayer(layer.id);
+    try {
+      for (const layerId of metroLayers) {
+        if (this.map.getLayer(layerId)) {
+          this.map.removeLayer(layerId);
         }
       }
-      for (const sourceId of Object.keys(style.sources ?? {})) {
-        if (sourceId.startsWith('metro-')) {
-          this.map.removeSource(sourceId);
-        }
+      if (this.map.getSource('metro-lines-src')) {
+        this.map.removeSource('metro-lines-src');
+      }
+      if (this.map.getSource('metro-stations-src')) {
+        this.map.removeSource('metro-stations-src');
       }
     } catch (e) {
       console.warn('[map] Error removing metro layers:', e);
