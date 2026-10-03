@@ -35,47 +35,6 @@ const DARK_STYLE: StyleSpecification = {
 };
 
 /**
- * Generate a rounded badge canvas image for food spots.
- */
-function addFoodBadgeImage(map: maplibregl.Map, id: string, color: string) {
-  if (map.hasImage(id)) return;
-  const s = 48;
-  const canvas = document.createElement('canvas');
-  canvas.width = s;
-  canvas.height = s;
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return;
-
-  // Outer rounded rect
-  ctx.fillStyle = color;
-  ctx.strokeStyle = '#FFFFFF';
-  ctx.lineWidth = 4;
-  ctx.beginPath();
-  if (ctx.roundRect) {
-    ctx.roundRect(4, 4, s - 8, s - 8, 12);
-  } else {
-    ctx.rect(4, 4, s - 8, s - 8);
-  }
-  ctx.fill();
-  ctx.stroke();
-
-  // White inner circle glyph
-  ctx.fillStyle = '#FFFFFF';
-  ctx.beginPath();
-  ctx.arc(s / 2, s / 2, 7, 0, Math.PI * 2);
-  ctx.fill();
-
-  // Dark dot inside
-  ctx.fillStyle = color;
-  ctx.beginPath();
-  ctx.arc(s / 2, s / 2, 3, 0, Math.PI * 2);
-  ctx.fill();
-
-  const imgData = ctx.getImageData(0, 0, s, s);
-  map.addImage(id, imgData, { pixelRatio: 2 });
-}
-
-/**
  * MapLibre GL JS driver — high-performance WebGL2 vector map renderer.
  * Hardware-accelerated 60fps rendering with dynamic zone dimming and metro layer.
  */
@@ -86,6 +45,8 @@ export class MapLibreDriver implements IMapAdapter {
   private items: MarkerItem[] = [];
   private activeZone: Zone | 'ALL' = 'ALL';
   private hoveredPandalId: string | number | null = null;
+  private hoveredFoodId: string | number | null = null;
+  private markerClickHandler: ((id: string, type: 'pandal' | 'food' | 'station') => void) | null = null;
 
   async init(
     container: HTMLElement,
@@ -101,8 +62,8 @@ export class MapLibreDriver implements IMapAdapter {
       zoom: options.zoom,
       attributionControl: { compact: true },
       maxBounds: [
-        [88.15, 22.35], // SW corner
-        [88.58, 22.75], // NE corner
+        [88.10, 22.30], // SW corner
+        [88.65, 22.80], // NE corner
       ],
     });
 
@@ -116,9 +77,13 @@ export class MapLibreDriver implements IMapAdapter {
       'top-right'
     );
 
-    // Wait for style load
+    // Wait for map load
     await new Promise<void>((resolve) => {
-      this.map!.on('load', () => resolve());
+      if (this.map!.loaded()) {
+        resolve();
+      } else {
+        this.map!.once('load', () => resolve());
+      }
     });
 
     // Zoom change event
@@ -136,13 +101,30 @@ export class MapLibreDriver implements IMapAdapter {
   ): void {
     if (!this.map) return;
     this.items = items;
-    this.clearMarkers();
+    this.markerClickHandler = onClick;
 
-    // Register food badge images
-    for (const [zone, color] of Object.entries(ZONE_COLORS)) {
-      addFoodBadgeImage(this.map, `food-${zone}`, color);
+    const setup = () => {
+      if (!this.map) return;
+      try {
+        this.addMarkerLayers(items, onClick);
+      } catch (err) {
+        console.warn('[map] Error adding marker layers:', err);
+      }
+    };
+
+    if (this.map.isStyleLoaded()) {
+      setup();
+    } else {
+      this.map.once('styledata', setup);
     }
-    addFoodBadgeImage(this.map, 'food-default', '#F59E0B');
+  }
+
+  private addMarkerLayers(
+    items: MarkerItem[],
+    onClick: (id: string, type: 'pandal' | 'food' | 'station') => void
+  ): void {
+    if (!this.map) return;
+    this.clearMarkers();
 
     // 1. Separate Pandals and Food into GeoJSON Features
     const pandalFeatures: GeoJSON.Feature[] = items
@@ -198,7 +180,7 @@ export class MapLibreDriver implements IMapAdapter {
       promoteId: 'id',
     });
 
-    // 3. Add Pandal Dots Layer (Circle Layer with Zone Matching & Zoom Radius)
+    // 3. Add Pandal Dots Layer (Circle Layer with Zone Colors & Zoom Radius)
     this.map.addLayer({
       id: 'pandal-dots',
       type: 'circle',
@@ -218,15 +200,17 @@ export class MapLibreDriver implements IMapAdapter {
           '#E11D48',
         ],
         'circle-radius': [
-          'interpolate',
-          ['linear'],
-          ['zoom'],
-          9,
-          ['case', ['boolean', ['feature-state', 'hover'], false], 6, 3.2],
+          'case',
+          ['boolean', ['feature-state', 'hover'], false],
           12,
-          ['case', ['boolean', ['feature-state', 'hover'], false], 9, 5],
-          15,
-          ['case', ['boolean', ['feature-state', 'hover'], false], 14, 8],
+          [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            9, 3.5,
+            12, 5.5,
+            15, 9,
+          ],
         ],
         'circle-opacity': 0.95,
         'circle-stroke-color': '#0B0E14',
@@ -235,18 +219,42 @@ export class MapLibreDriver implements IMapAdapter {
       },
     });
 
-    // 4. Add Food Badges Layer (Symbol Layer)
+    // 4. Add Food Dots Layer (Circle Layer with Distinct White Border)
     this.map.addLayer({
-      id: 'food-badges',
-      type: 'symbol',
+      id: 'food-dots',
+      type: 'circle',
       source: 'food-src',
       layout: {
-        'icon-image': ['concat', 'food-', ['get', 'zone']],
-        'icon-size': ['interpolate', ['linear'], ['zoom'], 10, 0.45, 15, 0.75],
-        'icon-allow-overlap': true,
+        'circle-sort-key': 0,
       },
       paint: {
-        'icon-opacity': 1,
+        'circle-color': [
+          'match',
+          ['get', 'zone'],
+          'NORTH', ZONE_COLORS.NORTH,
+          'SOUTH', ZONE_COLORS.SOUTH,
+          'CENTRAL', ZONE_COLORS.CENTRAL,
+          'EAST', ZONE_COLORS.EAST,
+          'WEST', ZONE_COLORS.WEST,
+          '#F59E0B',
+        ],
+        'circle-radius': [
+          'case',
+          ['boolean', ['feature-state', 'hover'], false],
+          11,
+          [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            9, 2.8,
+            12, 4.5,
+            15, 7.5,
+          ],
+        ],
+        'circle-opacity': 1.0,
+        'circle-stroke-color': '#FFFFFF',
+        'circle-stroke-width': 2.0,
+        'circle-stroke-opacity': 0.95,
       },
     });
 
@@ -281,11 +289,34 @@ export class MapLibreDriver implements IMapAdapter {
       }
     });
 
-    this.map.on('mouseenter', 'food-badges', () => {
-      if (this.map) this.map.getCanvas().style.cursor = 'pointer';
+    this.map.on('mousemove', 'food-dots', (e) => {
+      if (!this.map) return;
+      this.map.getCanvas().style.cursor = 'pointer';
+      const id = e.features?.[0]?.id;
+      if (id === undefined || id === this.hoveredFoodId) return;
+      if (this.hoveredFoodId !== null) {
+        this.map.setFeatureState(
+          { source: 'food-src', id: this.hoveredFoodId },
+          { hover: false }
+        );
+      }
+      this.hoveredFoodId = id;
+      this.map.setFeatureState(
+        { source: 'food-src', id: this.hoveredFoodId },
+        { hover: true }
+      );
     });
-    this.map.on('mouseleave', 'food-badges', () => {
-      if (this.map) this.map.getCanvas().style.cursor = '';
+
+    this.map.on('mouseleave', 'food-dots', () => {
+      if (!this.map) return;
+      this.map.getCanvas().style.cursor = '';
+      if (this.hoveredFoodId !== null) {
+        this.map.setFeatureState(
+          { source: 'food-src', id: this.hoveredFoodId },
+          { hover: false }
+        );
+        this.hoveredFoodId = null;
+      }
     });
 
     // 6. Click Handlers
@@ -296,7 +327,7 @@ export class MapLibreDriver implements IMapAdapter {
       }
     });
 
-    this.map.on('click', 'food-badges', (e) => {
+    this.map.on('click', 'food-dots', (e) => {
       const f = e.features?.[0];
       if (f?.properties?.id) {
         onClick(f.properties.id, 'food');
@@ -313,7 +344,7 @@ export class MapLibreDriver implements IMapAdapter {
     if (!style?.layers) return;
 
     if (this.map.getLayer('pandal-dots')) this.map.removeLayer('pandal-dots');
-    if (this.map.getLayer('food-badges')) this.map.removeLayer('food-badges');
+    if (this.map.getLayer('food-dots')) this.map.removeLayer('food-dots');
     if (this.map.getSource('pandals-src')) this.map.removeSource('pandals-src');
     if (this.map.getSource('food-src')) this.map.removeSource('food-src');
   }
@@ -326,28 +357,42 @@ export class MapLibreDriver implements IMapAdapter {
     if (!this.map) return;
     this.activeZone = zone;
 
-    const match = ['==', ['get', 'zone'], zone];
-    const fadeCircle = (on: number, off: number): any =>
-      zone !== 'ALL' ? ['case', match, on, off] : on;
-    const fadeIcon = (on: number, off: number): any =>
-      zone !== 'ALL' ? ['case', match, on, off] : on;
+    const isAll = zone === 'ALL';
+    const matchZone = ['==', ['get', 'zone'], zone];
 
     if (this.map.getLayer('pandal-dots')) {
-      this.map.setPaintProperty('pandal-dots', 'circle-opacity', fadeCircle(0.95, 0.16));
-      this.map.setPaintProperty('pandal-dots', 'circle-stroke-opacity', fadeCircle(0.9, 0.1));
+      this.map.setPaintProperty(
+        'pandal-dots',
+        'circle-opacity',
+        isAll ? 0.95 : (['case', matchZone, 0.95, 0.16] as any)
+      );
+      this.map.setPaintProperty(
+        'pandal-dots',
+        'circle-stroke-opacity',
+        isAll ? 0.9 : (['case', matchZone, 0.9, 0.1] as any)
+      );
       this.map.setLayoutProperty(
         'pandal-dots',
         'circle-sort-key',
-        (zone !== 'ALL' ? ['case', match, 1, 0] : 0) as any
+        isAll ? 0 : (['case', matchZone, 1, 0] as any)
       );
     }
 
-    if (this.map.getLayer('food-badges')) {
-      this.map.setPaintProperty('food-badges', 'icon-opacity', fadeIcon(1.0, 0.18));
+    if (this.map.getLayer('food-dots')) {
+      this.map.setPaintProperty(
+        'food-dots',
+        'circle-opacity',
+        isAll ? 1.0 : (['case', matchZone, 1.0, 0.18] as any)
+      );
+      this.map.setPaintProperty(
+        'food-dots',
+        'circle-stroke-opacity',
+        isAll ? 0.9 : (['case', matchZone, 0.9, 0.1] as any)
+      );
       this.map.setLayoutProperty(
-        'food-badges',
-        'symbol-sort-key',
-        (zone !== 'ALL' ? ['case', match, 1, 0] : 0) as any
+        'food-dots',
+        'circle-sort-key',
+        isAll ? 0 : (['case', matchZone, 1, 0] as any)
       );
     }
   }
@@ -384,8 +429,8 @@ export class MapLibreDriver implements IMapAdapter {
 
     if (layer === 'pandals' && this.map.getLayer('pandal-dots')) {
       this.map.setLayoutProperty('pandal-dots', 'visibility', vis);
-    } else if (layer === 'food' && this.map.getLayer('food-badges')) {
-      this.map.setLayoutProperty('food-badges', 'visibility', vis);
+    } else if (layer === 'food' && this.map.getLayer('food-dots')) {
+      this.map.setLayoutProperty('food-dots', 'visibility', vis);
     } else if (layer === 'metro') {
       this.toggleMetroOverlay(visible);
     }
@@ -394,11 +439,24 @@ export class MapLibreDriver implements IMapAdapter {
   renderMetroLines(geoJson: GeoJSON.FeatureCollection): void {
     if (!this.map) return;
 
-    if (!this.map.isStyleLoaded()) {
-      this.map.once('load', () => this.renderMetroLines(geoJson));
-      return;
-    }
+    const setup = () => {
+      if (!this.map) return;
+      try {
+        this.addMetroLayers(geoJson);
+      } catch (err) {
+        console.warn('[map] Error adding metro layers:', err);
+      }
+    };
 
+    if (this.map.isStyleLoaded()) {
+      setup();
+    } else {
+      this.map.once('styledata', setup);
+    }
+  }
+
+  private addMetroLayers(geoJson: GeoJSON.FeatureCollection): void {
+    if (!this.map) return;
     this.removeMetroLayers();
 
     const lines = geoJson.features.filter((f) => f.geometry.type === 'LineString');
@@ -492,7 +550,7 @@ export class MapLibreDriver implements IMapAdapter {
         'text-anchor': 'left',
         'text-offset': [0.85, 0],
         'text-optional': true,
-        'symbol-sort-key': ['case', ['boolean', ['get', 'isInterchange'], false], 0, 1],
+        'symbol-sort-key': ['case', ['boolean', ['get', 'isInterchange'], false], 0, 1] as any,
       },
       paint: {
         'text-color': '#F3F4F6',
