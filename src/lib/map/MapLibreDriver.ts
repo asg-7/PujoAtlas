@@ -11,6 +11,7 @@ const cartoKey = rawKey ? `?key=${rawKey}` : '';
 
 const DARK_STYLE: StyleSpecification = {
   version: 8,
+  glyphs: 'https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf',
   sources: {
     'carto-dark': {
       type: 'raster',
@@ -98,53 +99,49 @@ export class MapLibreDriver implements IMapAdapter {
       const color = item.color ?? this.getMarkerColor(item);
 
       // Root element passed to MapLibre — MapLibre controls transform translate on this element.
-      // NEVER apply scale or transform to el directly to prevent displacement bugs!
+      // Explicit dimensions allow MapLibre to calculate correct anchor offsets.
+      // NEVER set position: relative on el directly, as it disrupts MapLibre's absolute coordinate positioning!
       const el = document.createElement('div');
       el.className = `pujo-marker pujo-marker-${item.type}`;
-      el.style.cssText = 'cursor: pointer; position: relative;';
+      el.style.cursor = 'pointer';
+      el.style.width = item.type === 'pandal' ? '28px' : '24px';
+      el.style.height = item.type === 'pandal' ? '34px' : '24px';
 
-      // Inner element handles hover animations, scaling, and custom SVG styling
+      // Inner element handles visual presentation, hover animations, and SVG glyphs
       const inner = document.createElement('div');
       inner.className = 'pujo-marker-inner';
+      inner.style.width = '100%';
+      inner.style.height = '100%';
 
       if (item.type === 'pandal') {
-        // Distinct festive pandal pin with temple arch / Kalash motif
-        inner.style.cssText = `
-          width: 26px;
-          height: 30px;
-          background: linear-gradient(135deg, #EF4444 0%, #B91C1C 100%);
-          border: 2px solid #FCD34D;
-          border-radius: 13px 13px 13px 3px;
-          transform: rotate(-45deg);
-          box-shadow: 0 4px 10px rgba(239, 68, 68, 0.45);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
-        `;
+        // Distinct festive Durga Puja pandal pin with temple arch / Kalash motif
+        inner.style.background = 'linear-gradient(135deg, #E11D48 0%, #9F1239 100%)';
+        inner.style.border = '2px solid #FCD34D';
+        inner.style.borderRadius = '50% 50% 50% 0';
+        inner.style.transform = 'rotate(-45deg)';
+        inner.style.boxShadow = '0 4px 10px rgba(225, 29, 72, 0.5)';
+        inner.style.display = 'flex';
+        inner.style.alignItems = 'center';
+        inner.style.justifyContent = 'center';
+        inner.style.transition = 'transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease';
         inner.innerHTML = `
           <div style="transform: rotate(45deg); display: flex; align-items: center; justify-content: center;">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2L4 9v12h16V9L12 2z"/>
-              <path d="M9 21v-7a3 3 0 0 1 6 0v7"/>
-              <circle cx="12" cy="5" r="1" fill="#FFFFFF"/>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2v2M10 4h4M12 4c-3 3-5 5-5 9h10c0-4-2-6-5-9z"/>
+              <path d="M5 13v8M19 13v8M9 21v-4a3 3 0 0 1 6 0v4M4 21h16"/>
             </svg>
           </div>
         `;
       } else {
-        // Distinct food place badge colored by region (zone)
-        inner.style.cssText = `
-          width: 22px;
-          height: 22px;
-          background: ${color};
-          border: 2px solid #FFFFFF;
-          border-radius: 50%;
-          box-shadow: 0 2px 8px ${color}99;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
-        `;
+        // Distinct food place badge colored dynamically by region (zone) with cutlery glyph
+        inner.style.background = color;
+        inner.style.border = '2px solid #FFFFFF';
+        inner.style.borderRadius = '50%';
+        inner.style.boxShadow = `0 2px 8px ${color}99`;
+        inner.style.display = 'flex';
+        inner.style.alignItems = 'center';
+        inner.style.justifyContent = 'center';
+        inner.style.transition = 'transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease';
         inner.innerHTML = `
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
             <path d="M18 2v6a3 3 0 0 1-3 3 3 3 0 0 1-3-3V2M15 11v11M5 2v7M8 2v7M2 2v7a3 3 0 0 0 3 3v10"/>
@@ -153,12 +150,12 @@ export class MapLibreDriver implements IMapAdapter {
       }
 
       inner.addEventListener('mouseenter', () => {
-        inner.style.transform = item.type === 'pandal' ? 'rotate(-45deg) scale(1.3)' : 'scale(1.35)';
-        inner.style.boxShadow = `0 6px 14px ${item.type === 'pandal' ? 'rgba(239, 68, 68, 0.7)' : color + 'CC'}`;
+        inner.style.transform = item.type === 'pandal' ? 'rotate(-45deg) scale(1.25)' : 'scale(1.3)';
+        inner.style.boxShadow = item.type === 'pandal' ? '0 6px 14px rgba(225, 29, 72, 0.7)' : `0 4px 12px ${color}DD`;
       });
       inner.addEventListener('mouseleave', () => {
         inner.style.transform = item.type === 'pandal' ? 'rotate(-45deg) scale(1)' : 'scale(1)';
-        inner.style.boxShadow = item.type === 'pandal' ? '0 4px 10px rgba(239, 68, 68, 0.45)' : `0 2px 8px ${color}99`;
+        inner.style.boxShadow = item.type === 'pandal' ? '0 4px 10px rgba(225, 29, 72, 0.5)' : `0 2px 8px ${color}99`;
       });
 
       el.appendChild(inner);
@@ -184,10 +181,16 @@ export class MapLibreDriver implements IMapAdapter {
         </div>
       `;
 
-      const marker = new maplibregl.Marker({ element: el })
+      const marker = new maplibregl.Marker({
+        element: el,
+        anchor: item.type === 'pandal' ? 'bottom' : 'center',
+      })
         .setLngLat([item.lng, item.lat])
         .setPopup(
-          new maplibregl.Popup({ offset: item.type === 'pandal' ? 16 : 12, closeButton: false }).setHTML(popupHtml)
+          new maplibregl.Popup({
+            offset: item.type === 'pandal' ? [0, -32] : [0, -12],
+            closeButton: false,
+          }).setHTML(popupHtml)
         )
         .addTo(this.map!);
 
@@ -206,6 +209,12 @@ export class MapLibreDriver implements IMapAdapter {
   renderMetroLines(geoJson: GeoJSON.FeatureCollection): void {
     if (!this.map) return;
 
+    // Guard: style must be loaded before adding sources and layers
+    if (!this.map.isStyleLoaded()) {
+      this.map.once('load', () => this.renderMetroLines(geoJson));
+      return;
+    }
+
     // Remove existing metro layers
     this.removeMetroLayers();
 
@@ -217,7 +226,7 @@ export class MapLibreDriver implements IMapAdapter {
     for (const line of lines) {
       const props = line.properties as Record<string, string>;
       const code = props['code'] as keyof typeof METRO_LINE_COLORS;
-      const color = METRO_LINE_COLORS[code] ?? '#FFFFFF';
+      const color = METRO_LINE_COLORS[code] ?? props['colorHex'] ?? '#FFFFFF';
       const sourceId = `metro-line-${props['id']}`;
       const layerId = `metro-layer-${props['id']}`;
 
@@ -234,8 +243,8 @@ export class MapLibreDriver implements IMapAdapter {
         paint: {
           'line-color': color,
           'line-width': 10,
-          'line-opacity': 0.35,
-          'line-blur': 3,
+          'line-opacity': 0.4,
+          'line-blur': 2.5,
         },
       });
 
@@ -270,11 +279,38 @@ export class MapLibreDriver implements IMapAdapter {
       type: 'circle',
       source: 'metro-stations',
       paint: {
-        'circle-radius': 6,
+        'circle-radius': 5.5,
         'circle-color': '#FFFFFF',
         'circle-stroke-width': 2.5,
         'circle-stroke-color': ['get', 'lineColorHex'],
       },
+    });
+
+    // Interactive station click popup
+    this.map.on('click', 'metro-stations-layer', (e) => {
+      const feature = e.features?.[0];
+      if (!feature || !this.map) return;
+      const props = feature.properties as any;
+      const coords = (feature.geometry as any).coordinates.slice();
+      new maplibregl.Popup({ offset: 10, closeButton: true })
+        .setLngLat(coords)
+        .setHTML(`
+          <div style="font-family: system-ui, -apple-system, sans-serif; padding: 6px 4px; min-width: 140px;">
+            <div style="font-size: 13px; font-weight: 700; color: #111827;">🚇 ${props.name}</div>
+            <div style="font-size: 11px; font-weight: 600; color: ${props.lineColorHex || '#2563EB'}; margin-top: 3px;">
+              ${props.lineName || 'Metro Station'}
+            </div>
+            <div style="font-size: 10px; color: #6B7280; margin-top: 2px;">${props.zone ? props.zone + ' Kolkata' : ''}</div>
+          </div>
+        `)
+        .addTo(this.map);
+    });
+
+    this.map.on('mouseenter', 'metro-stations-layer', () => {
+      if (this.map) this.map.getCanvas().style.cursor = 'pointer';
+    });
+    this.map.on('mouseleave', 'metro-stations-layer', () => {
+      if (this.map) this.map.getCanvas().style.cursor = '';
     });
 
     // Station labels with crisp black halo for dark map contrast
@@ -295,6 +331,11 @@ export class MapLibreDriver implements IMapAdapter {
         'text-halo-width': 2,
       },
     });
+
+    // Apply visibility state if metro layer was toggled off
+    if (!this.metroVisible) {
+      this.toggleMetroOverlay(false);
+    }
   }
 
   toggleMetroOverlay(visible: boolean): void {
@@ -302,13 +343,17 @@ export class MapLibreDriver implements IMapAdapter {
     this.metroVisible = visible;
     const visibility = visible ? 'visible' : 'none';
 
-    const style = this.map.getStyle();
-    if (!style?.layers) return;
+    try {
+      const style = this.map.getStyle();
+      if (!style?.layers) return;
 
-    for (const layer of style.layers) {
-      if (layer.id.startsWith('metro-')) {
-        this.map.setLayoutProperty(layer.id, 'visibility', visibility);
+      for (const layer of style.layers) {
+        if (layer.id.startsWith('metro-')) {
+          this.map.setLayoutProperty(layer.id, 'visibility', visibility);
+        }
       }
+    } catch (e) {
+      console.warn('[map] Error toggling metro overlay:', e);
     }
   }
 

@@ -9,6 +9,8 @@ import pandalsWest from '../../data/pandals-west.json';
 import foodData from '../../data/food.json';
 import type { PandalEntity, FoodEntity } from '../schemas';
 
+import { metroGeoJson } from '../../data/metroData';
+
 export const allPandals: PandalEntity[] = [
   ...(pandalsNorth as PandalEntity[]),
   ...(pandalsSouth as PandalEntity[]),
@@ -33,17 +35,9 @@ export async function initApp() {
     zoom: 12,
   });
 
-  // 2. Load Metro GeoJSON from static assets
-  let metroGeoJson: GeoJSON.FeatureCollection | null = null;
-  try {
-    const base = (import.meta.env.BASE_URL || '/').replace(/\/$/, '');
-    const res = await fetch(`${base}/data/metro-lines.geojson`);
-    if (res.ok) {
-      metroGeoJson = await res.json();
-    }
-  } catch (err) {
-    console.warn('[map] Could not load metro GeoJSON:', err);
-  }
+  // 2. Render initial metro lines immediately from bundled data
+  mapAdapter.renderMetroLines(metroGeoJson);
+  mapAdapter.toggleMetroOverlay(useMapStore.getState().activeLayers.metro);
 
   // 3. Format Markers from inlined dataset
   const allMarkers: MarkerItem[] = [];
@@ -72,12 +66,6 @@ export async function initApp() {
     });
   });
 
-  // Render initial metro lines if available
-  if (metroGeoJson) {
-    mapAdapter.renderMetroLines(metroGeoJson);
-    mapAdapter.toggleMetroOverlay(useMapStore.getState().activeLayers.metro);
-  }
-
   // 4. Render Active Markers
   const renderActiveMarkers = () => {
     const state = useMapStore.getState();
@@ -93,9 +81,7 @@ export async function initApp() {
       useMapStore.getState().selectEntity(id, type);
     });
 
-    if (metroGeoJson) {
-      mapAdapter.toggleMetroOverlay(state.activeLayers.metro);
-    }
+    mapAdapter.toggleMetroOverlay(state.activeLayers.metro);
 
     if (state.activeZone !== 'ALL') {
       mapAdapter.highlightZone(state.activeZone);
@@ -122,12 +108,7 @@ export async function initApp() {
     }
 
     if (state.activeLayers.metro !== prevState.activeLayers.metro) {
-      if (metroGeoJson) {
-        mapAdapter.toggleMetroOverlay(state.activeLayers.metro);
-        if (state.activeLayers.metro) {
-          mapAdapter.renderMetroLines(metroGeoJson);
-        }
-      }
+      mapAdapter.toggleMetroOverlay(state.activeLayers.metro);
     }
 
     if (needsReRender) {

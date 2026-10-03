@@ -12,11 +12,29 @@ const ZONES: Array<{ id: Zone | 'ALL'; label: string; colorClass: string }> = [
   { id: 'WEST', label: 'West', colorClass: 'bg-purple-600 text-white' },
 ];
 
-const LAYERS = [
-  { id: 'pandals' as const, label: 'Pandals', icon: '🎪' },
-  { id: 'food' as const, label: 'Food', icon: '🍽️' },
-  { id: 'metro' as const, label: 'Metro', icon: '🚇' },
-];
+const LAYER_CONFIG = {
+  pandals: {
+    id: 'pandals' as const,
+    label: 'Pandals',
+    icon: '🎪',
+    activeClass: 'bg-rose-900/80 text-rose-100 border-rose-500 font-semibold shadow-sm shadow-rose-950',
+    indicatorClass: 'bg-rose-400',
+  },
+  food: {
+    id: 'food' as const,
+    label: 'Food Spots',
+    icon: '🍽️',
+    activeClass: 'bg-amber-900/80 text-amber-100 border-amber-500 font-semibold shadow-sm shadow-amber-950',
+    indicatorClass: 'bg-amber-400',
+  },
+  metro: {
+    id: 'metro' as const,
+    label: 'Metro Network',
+    icon: '🚇',
+    activeClass: 'bg-sky-900/80 text-sky-100 border-sky-400 font-semibold shadow-sm shadow-sky-950',
+    indicatorClass: 'bg-sky-400',
+  },
+};
 
 /**
  * T-21: Multi-Zone & Layer Filter Bar.
@@ -65,20 +83,26 @@ export default function FilterPills() {
 
       {/* Layer Toggles */}
       <div className="flex overflow-x-auto hide-scrollbar gap-2 px-4 pb-2 snap-x">
-        {LAYERS.map((layer) => {
-          const isActive = activeLayers[layer.id];
+        {(Object.keys(LAYER_CONFIG) as Array<keyof typeof LAYER_CONFIG>).map((key) => {
+          const cfg = LAYER_CONFIG[key];
+          const isActive = activeLayers[key];
           return (
             <button
-              key={layer.id}
-              onClick={() => handleLayerClick(layer.id)}
-              className={`flex-none snap-start flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium transition-all active:scale-95 border ${
+              key={cfg.id}
+              onClick={() => handleLayerClick(cfg.id)}
+              className={`flex-none snap-start flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs transition-all active:scale-95 border ${
                 isActive
-                  ? 'bg-gray-700 text-white border-gray-500'
-                  : 'bg-gray-900/50 text-gray-500 border-gray-800'
+                  ? cfg.activeClass
+                  : 'bg-gray-900/60 text-gray-400 border-gray-800 hover:border-gray-700'
               }`}
             >
-              <span>{layer.icon}</span>
-              <span>{layer.label}</span>
+              <span>{cfg.icon}</span>
+              <span>{cfg.label}</span>
+              <span
+                className={`w-1.5 h-1.5 rounded-full ml-0.5 transition-colors ${
+                  isActive ? cfg.indicatorClass : 'bg-gray-600'
+                }`}
+              />
             </button>
           );
         })}

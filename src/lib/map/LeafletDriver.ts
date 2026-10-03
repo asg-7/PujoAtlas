@@ -79,9 +79,9 @@ export class LeafletDriver implements IMapAdapter {
             justify-content: center;
           ">
             <div style="transform: rotate(45deg); display: flex; align-items: center; justify-content: center;">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 2L4 9v12h16V9L12 2z"/>
-                <path d="M9 21v-7a3 3 0 0 1 6 0v7"/>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2v2M10 4h4M12 4c-3 3-5 5-5 9h10c0-4-2-6-5-9z"/>
+                <path d="M5 13v8M19 13v8M9 21v-4a3 3 0 0 1 6 0v4M4 21h16"/>
               </svg>
             </div>
           </div>`
