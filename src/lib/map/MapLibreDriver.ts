@@ -1,7 +1,8 @@
 import * as maplibregl from 'maplibre-gl';
 import type { IMapAdapter, MarkerItem } from './MapEngineAdapter';
 import { ZONE_COLORS, METRO_LINE_COLORS } from './MapEngineAdapter';
-import { addChalchitraPin } from '../bonediMapSkin';
+import { BONEDI_ZONES } from '../bonediMapSkin';
+import { registerBonediIcons, upgradeToIcons, dimPins } from '../bonediIcons';
 import type { Zone } from '../schemas';
 import type { StyleSpecification } from 'maplibre-gl';
 
@@ -47,7 +48,7 @@ const ZONE_VIEWS: Record<Zone | 'ALL', { center: [number, number]; zoom: number 
 
 /**
  * MapLibre GL JS driver — high-performance WebGL2 vector map renderer.
- * Hardware-accelerated rendering with reactive zone dimming and metro layer.
+ * Hardware-accelerated rendering with reactive zone dimming, custom SVG iconography, and metro layer.
  */
 export class MapLibreDriver implements IMapAdapter {
   private map: maplibregl.Map | null = null;
@@ -100,6 +101,9 @@ export class MapLibreDriver implements IMapAdapter {
       }
     });
 
+    // Register Bonedi SVG Icons
+    await registerBonediIcons(this.map, BONEDI_ZONES);
+
     // Zoom change event
     this.map.on('zoomend', () => {
       if (!this.map) return;
@@ -120,19 +124,15 @@ export class MapLibreDriver implements IMapAdapter {
     this.addMarkerLayers(items, onClick);
   }
 
-  private addMarkerLayers(
+  private async addMarkerLayers(
     items: MarkerItem[],
     onClick: (id: string, type: 'pandal' | 'food' | 'station') => void
-  ): void {
+  ): Promise<void> {
     if (!this.map) return;
     this.clearMarkers();
 
-    // Register Chalchitra Pin Icons per Zone
-    addChalchitraPin(this.map, 'chalchitra-pin-NORTH', ZONE_COLORS.NORTH);
-    addChalchitraPin(this.map, 'chalchitra-pin-SOUTH', ZONE_COLORS.SOUTH);
-    addChalchitraPin(this.map, 'chalchitra-pin-CENTRAL', ZONE_COLORS.CENTRAL);
-    addChalchitraPin(this.map, 'chalchitra-pin-EAST', ZONE_COLORS.EAST);
-    addChalchitraPin(this.map, 'chalchitra-pin-WEST', ZONE_COLORS.WEST);
+    // Ensure icons are registered
+    await registerBonediIcons(this.map, BONEDI_ZONES);
 
     // 1. Separate Pandals and Food into GeoJSON Features
     const pandalFeatures: GeoJSON.Feature[] = items
@@ -188,7 +188,7 @@ export class MapLibreDriver implements IMapAdapter {
       });
     }
 
-    // 3. Add Pandal Dots Layer (Circle Layer with Zone Colors & Zoom Radius)
+    // 3. Add Pandal Dots Layer (Circle Layer with Zone Colors for low zoom <= 14.5)
     if (!this.map.getLayer('pandal-dots')) {
       this.map.addLayer({
         id: 'pandal-dots',
@@ -222,48 +222,13 @@ export class MapLibreDriver implements IMapAdapter {
       });
     }
 
-    // 3b. Add Chalchitra Pandal Pins for Zoom >= 14.2 (High-Zoom Iconic Silhouette)
-    if (!this.map.getLayer('pandal-pins')) {
-      this.map.addLayer({
-        id: 'pandal-pins',
-        type: 'symbol',
-        source: 'pandals-src',
-        minzoom: 14.2,
-        layout: {
-          'icon-image': [
-            'match',
-            ['get', 'zone'],
-            'NORTH', 'chalchitra-pin-NORTH',
-            'SOUTH', 'chalchitra-pin-SOUTH',
-            'CENTRAL', 'chalchitra-pin-CENTRAL',
-            'EAST', 'chalchitra-pin-EAST',
-            'WEST', 'chalchitra-pin-WEST',
-            'chalchitra-pin-CENTRAL',
-          ],
-          'icon-size': 0.8,
-          'icon-anchor': 'bottom',
-          'icon-allow-overlap': true,
-          'text-field': ['get', 'name'],
-          'text-font': ['Noto Sans Regular'],
-          'text-size': 11,
-          'text-anchor': 'top',
-          'text-offset': [0, 0.4],
-          'text-optional': true,
-        },
-        paint: {
-          'text-color': '#EDE6D6',
-          'text-halo-color': '#181512',
-          'text-halo-width': 2,
-        },
-      });
-    }
-
-    // 4. Add Food Dots Layer (Circle Layer with Distinct White Border)
+    // 4. Add Food Dots Layer (Circle Layer for low zoom <= 14.0)
     if (!this.map.getLayer('food-dots')) {
       this.map.addLayer({
         id: 'food-dots',
         type: 'circle',
         source: 'food-src',
+        maxzoom: 14.0,
         paint: {
           'circle-color': [
             'match',
@@ -281,28 +246,26 @@ export class MapLibreDriver implements IMapAdapter {
             ['zoom'],
             9, 3,
             12, 4.5,
-            15, 7.5,
+            14, 7,
           ],
           'circle-opacity': 1.0,
           'circle-stroke-color': '#FFFFFF',
-          'circle-stroke-width': 2.0,
+          'circle-stroke-width': 1.8,
           'circle-stroke-opacity': 0.95,
         },
       });
     }
 
-    // 5. Cursor Handlers
+    // 5. Upgrade and add custom SVG icon layers (Arch Pins, Food Katori Badges, Metro Signs)
+    upgradeToIcons(this.map, {
+      onSelect: (id, type) => onClick(id, type),
+    });
+
+    // 6. Dot Clicks & Cursors
     this.map.on('mouseenter', 'pandal-dots', () => {
       if (this.map) this.map.getCanvas().style.cursor = 'pointer';
     });
     this.map.on('mouseleave', 'pandal-dots', () => {
-      if (this.map) this.map.getCanvas().style.cursor = '';
-    });
-
-    this.map.on('mouseenter', 'pandal-pins', () => {
-      if (this.map) this.map.getCanvas().style.cursor = 'pointer';
-    });
-    this.map.on('mouseleave', 'pandal-pins', () => {
       if (this.map) this.map.getCanvas().style.cursor = '';
     });
 
@@ -313,15 +276,7 @@ export class MapLibreDriver implements IMapAdapter {
       if (this.map) this.map.getCanvas().style.cursor = '';
     });
 
-    // 6. Click Handlers
     this.map.on('click', 'pandal-dots', (e) => {
-      const f = e.features?.[0];
-      if (f?.properties?.id) {
-        onClick(f.properties.id, 'pandal');
-      }
-    });
-
-    this.map.on('click', 'pandal-pins', (e) => {
       const f = e.features?.[0];
       if (f?.properties?.id) {
         onClick(f.properties.id, 'pandal');
@@ -344,6 +299,7 @@ export class MapLibreDriver implements IMapAdapter {
     try {
       if (this.map.getLayer('pandal-pins')) this.map.removeLayer('pandal-pins');
       if (this.map.getLayer('pandal-dots')) this.map.removeLayer('pandal-dots');
+      if (this.map.getLayer('food-badges')) this.map.removeLayer('food-badges');
       if (this.map.getLayer('food-dots')) this.map.removeLayer('food-dots');
       if (this.map.getSource('pandals-src')) this.map.removeSource('pandals-src');
       if (this.map.getSource('food-src')) this.map.removeSource('food-src');
@@ -377,19 +333,6 @@ export class MapLibreDriver implements IMapAdapter {
         );
       }
 
-      if (this.map.getLayer('pandal-pins')) {
-        this.map.setPaintProperty(
-          'pandal-pins',
-          'icon-opacity',
-          isAll ? 1.0 : (['case', matchZone, 1.0, 0.2] as any)
-        );
-        this.map.setPaintProperty(
-          'pandal-pins',
-          'text-opacity',
-          isAll ? 1.0 : (['case', matchZone, 1.0, 0.2] as any)
-        );
-      }
-
       if (this.map.getLayer('food-dots')) {
         this.map.setPaintProperty(
           'food-dots',
@@ -402,6 +345,9 @@ export class MapLibreDriver implements IMapAdapter {
           isAll ? 0.95 : (['case', matchZone, 0.95, 0.1] as any)
         );
       }
+
+      // Dim pins & badges using bonediIcons helper
+      dimPins(this.map, isAll ? null : zone);
     } catch (e) {
       console.warn('[map] Error setting active zone paint property:', e);
     }
@@ -433,8 +379,9 @@ export class MapLibreDriver implements IMapAdapter {
       if (layer === 'pandals') {
         if (this.map.getLayer('pandal-dots')) this.map.setLayoutProperty('pandal-dots', 'visibility', vis);
         if (this.map.getLayer('pandal-pins')) this.map.setLayoutProperty('pandal-pins', 'visibility', vis);
-      } else if (layer === 'food' && this.map.getLayer('food-dots')) {
-        this.map.setLayoutProperty('food-dots', 'visibility', vis);
+      } else if (layer === 'food') {
+        if (this.map.getLayer('food-dots')) this.map.setLayoutProperty('food-dots', 'visibility', vis);
+        if (this.map.getLayer('food-badges')) this.map.setLayoutProperty('food-badges', 'visibility', vis);
       } else if (layer === 'metro') {
         this.toggleMetroOverlay(visible);
       }

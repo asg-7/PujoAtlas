@@ -12,26 +12,67 @@ const ZONE_CAPSULES: Array<{ id: Zone | 'ALL'; label: string; bngLabel: string; 
   { id: 'WEST', label: 'West', bngLabel: 'পশ্চিম', color: '#7E5A7E' },
 ];
 
+// Inline SVG renderers for chip icons matching map markers
+const PandalIcon = ({ color }: { color: string }) => (
+  <svg width="14" height="17" viewBox="0 0 48 58" className="shrink-0">
+    <path d="M24 56 C22 53 6 40.5 6 23.5 C6 13 13.5 7 24 2 C34.5 7 42 13 42 23.5 C42 40 26.2 53 24 56 Z" fill="#2A2622" stroke="#2A2622" strokeWidth="4" strokeLinejoin="round"/>
+    <path d="M24 56 C22 53 6 40.5 6 23.5 C6 13 13.5 7 24 2 C34.5 7 42 13 42 23.5 C42 40 26.2 53 24 56 Z" fill={color} stroke="#F8F5EE" strokeWidth="2.4" strokeLinejoin="round"/>
+    <g fill="none" stroke="#F8F5EE" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12.5 27.5 C18.5 26 22 19.5 24 14.5 C26 19.5 29.5 26 35.5 27.5"/>
+      <path d="M17 28 V37.5 M31 28 V37.5 M12.5 38 H35.5"/>
+      <path d="M21.6 38 V33.5 Q24 30.6 26.4 33.5 V38"/>
+    </g>
+    <circle cx="24" cy="11.6" r="1.9" fill="#F8F5EE"/>
+  </svg>
+);
+
+const FoodIcon = ({ color }: { color: string }) => (
+  <svg width="15" height="15" viewBox="0 0 48 48" className="shrink-0">
+    <circle cx="24" cy="24" r="22" fill="#2A2622"/>
+    <circle cx="24" cy="24" r="19.6" fill={color} stroke="#F8F5EE" strokeWidth="2.4"/>
+    <path d="M12.2 26.5 H35.8 C35.8 33.8 30.6 38.6 24 38.6 C17.4 38.6 12.2 33.8 12.2 26.5 Z" fill="#F8F5EE" stroke="#F8F5EE" strokeWidth="1.6" strokeLinejoin="round"/>
+    <path d="M18.6 41 H29.4" stroke="#F8F5EE" strokeWidth="2.4" strokeLinecap="round" fill="none"/>
+    <g fill="none" stroke="#F8F5EE" strokeWidth="2.3" strokeLinecap="round">
+      <path d="M17.6 22.2 C15.4 19.8 19.8 17.8 17.6 15"/>
+      <path d="M24 22.2 C21.8 19.6 26.2 17.4 24 14"/>
+      <path d="M30.4 22.2 C28.2 19.8 32.6 17.8 30.4 15"/>
+    </g>
+  </svg>
+);
+
+const MetroIcon = ({ color = '#3D4A5C' }: { color?: string }) => (
+  <svg width="15" height="15" viewBox="0 0 48 48" className="shrink-0">
+    <rect x="2" y="2" width="44" height="44" rx="12" fill="#2A2622"/>
+    <rect x="4.4" y="4.4" width="39.2" height="39.2" rx="10" fill={color} stroke="#F8F5EE" strokeWidth="2.4"/>
+    <g fill="none" stroke="#F8F5EE" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="14.5" y="10.5" width="19" height="23" rx="5.5"/>
+      <path d="M17.5 39 L21 34 M30.5 39 L27 34"/>
+    </g>
+    <rect x="18.2" y="15" width="11.6" height="6.4" rx="1.6" fill="#F8F5EE"/>
+    <circle cx="19.4" cy="28.3" r="1.9" fill="#F8F5EE"/><circle cx="28.6" cy="28.3" r="1.9" fill="#F8F5EE"/>
+  </svg>
+);
+
 const LAYER_CONFIG = {
   pandals: {
     id: 'pandals' as const,
     label: 'Pandals',
     bngLabel: 'মণ্ডপ',
-    icon: '🏛️',
+    iconRenderer: (active: boolean) => <PandalIcon color={active ? '#B5513A' : '#716B61'} />,
     activeColor: 'var(--geru)',
   },
   food: {
     id: 'food' as const,
     label: 'Food Spots',
     bngLabel: 'খাবার',
-    icon: '🍽️',
+    iconRenderer: (active: boolean) => <FoodIcon color={active ? '#B8892F' : '#716B61'} />,
     activeColor: 'var(--brass)',
   },
   metro: {
     id: 'metro' as const,
     label: 'Metro',
     bngLabel: 'মেট্রো',
-    icon: '🚇',
+    iconRenderer: (active: boolean) => <MetroIcon color={active ? '#4A6A8A' : '#716B61'} />,
     activeColor: 'var(--neel)',
   },
 };
@@ -126,8 +167,9 @@ export default function FilterPills() {
                   : 'bg-[var(--chalk-2)]/80 text-[var(--ink-2)] border-[var(--border)] hover:border-[var(--control-border)]'
               }`}
             >
-              <span>{cfg.icon}</span>
-              <span>{cfg.label}</span>
+              {cfg.iconRenderer(isActive)}
+              <span className="font-display tracking-wide">{cfg.label}</span>
+              <span className="text-[10px] opacity-75 font-normal">({cfg.bngLabel})</span>
               <span
                 className="w-2 h-2 rounded-full ml-1 transition-all"
                 style={{
