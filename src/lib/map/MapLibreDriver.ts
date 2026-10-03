@@ -5,7 +5,9 @@ import type { Zone } from '../schemas';
 
 import type { StyleSpecification } from 'maplibre-gl';
 
-const cartoKey = import.meta.env.PUBLIC_CARTO_API_KEY ? `?key=${import.meta.env.PUBLIC_CARTO_API_KEY}` : '';
+const DEFAULT_CARTO_KEY = 'cb1_46w3_1_b8c20a5b160e534febd5654c';
+const rawKey = import.meta.env.PUBLIC_CARTO_API_KEY || DEFAULT_CARTO_KEY;
+const cartoKey = rawKey ? `?key=${rawKey}` : '';
 
 const DARK_STYLE: StyleSpecification = {
   version: 8,

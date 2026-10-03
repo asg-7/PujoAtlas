@@ -30,7 +30,7 @@ jobs:
       - name: Build Astro
         env:
           BASE_PATH: '/PujoAtlas'
-          PUBLIC_CARTO_API_KEY: ${{ secrets.PUBLIC_CARTO_API_KEY }}
+          PUBLIC_CARTO_API_KEY: ${{ secrets.PUBLIC_CARTO_API_KEY || 'cb1_46w3_1_b8c20a5b160e534febd5654c' }}
         run: npm run build
       - name: Setup Pages
         uses: actions/configure-pages@v5
