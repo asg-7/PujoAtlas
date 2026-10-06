@@ -36,6 +36,7 @@ export const SourceUrlSchema: z.ZodType<SourceUrl> = z.object({
 export interface PandalEntity {
   id: string;
   name: string;
+  bngName?: string;
   zone: Zone;
   address: string;
   lat: number;
@@ -48,6 +49,7 @@ export interface PandalEntity {
   isFeatured?: boolean;
   isHeritage?: boolean;
   established?: number;
+  heritageAge?: number;
   rating?: number;
   crowdLevel?: string;
   tags?: string[];
@@ -60,6 +62,7 @@ export interface PandalEntity {
 export const PandalSchema: z.ZodType<PandalEntity> = z.object({
   id: z.string(),
   name: z.string(),
+  bngName: z.string().optional(),
   zone: ZoneSchema,
   address: z.string(),
   lat: z.number(),
@@ -72,6 +75,7 @@ export const PandalSchema: z.ZodType<PandalEntity> = z.object({
   isFeatured: z.boolean().optional(),
   isHeritage: z.boolean().optional(),
   established: z.number().optional(),
+  heritageAge: z.number().optional(),
   rating: z.number().optional(),
   crowdLevel: z.string().optional(),
   tags: z.array(z.string()).optional(),

@@ -4,9 +4,20 @@ type TelemetryEventType =
   | 'zone_click'
   | 'filter_click'
   | 'locate_me_click'
+  | 'near_me_click'
   | 'layer_toggle'
   | 'entity_view'
-  | 'navigate_outbound';
+  | 'navigate_outbound'
+  | 'pandal_card_click'
+  | 'pandal_save_toggle'
+  | 'pandal_visited_toggle'
+  | 'share_click'
+  | 'mobile_nav_click'
+  | 'nav_tab_click'
+  | 'language_toggle'
+  | 'discover_category_click'
+  | 'food_category_click'
+  | 'heritage_age_click';
 
 interface TelemetryEvent {
   type: TelemetryEventType;
