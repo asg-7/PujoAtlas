@@ -42,14 +42,18 @@ for (const p of allPandals) {
   zoneList.push(p);
   pandalsByZone.set(p.zone, zoneList);
 
-  const stationList = pandalsByStation.get(p.nearestMetroStationId) ?? [];
-  stationList.push(p);
-  pandalsByStation.set(p.nearestMetroStationId, stationList);
+  if (p.nearestMetroStationId) {
+    const stationList = pandalsByStation.get(p.nearestMetroStationId) ?? [];
+    stationList.push(p);
+    pandalsByStation.set(p.nearestMetroStationId, stationList);
+  }
 
-  for (const day of p.bestDays) {
-    const dayList = pandalsByDay.get(day) ?? [];
-    dayList.push(p);
-    pandalsByDay.set(day, dayList);
+  if (p.bestDays) {
+    for (const day of p.bestDays) {
+      const dayList = pandalsByDay.get(day) ?? [];
+      dayList.push(p);
+      pandalsByDay.set(day, dayList);
+    }
   }
 }
 

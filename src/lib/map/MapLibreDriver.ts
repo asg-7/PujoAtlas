@@ -74,6 +74,8 @@ const ZONE_VIEWS: Record<Zone | 'ALL', { center: [number, number]; zoom: number 
   CENTRAL: { center: [88.3580, 22.5680], zoom: 14.0 },
   SOUTH: { center: [88.3580, 22.5180], zoom: 13.2 },
   EAST: { center: [88.4080, 22.5800], zoom: 13.4 },
+  HOWRAH: { center: [88.3250, 22.5850], zoom: 13.5 },
+  OTHERS: { center: [88.3800, 22.5600], zoom: 11.5 },
   WEST: { center: [88.3180, 22.4980], zoom: 13.2 },
 };
 
@@ -244,6 +246,43 @@ export class MapLibreDriver implements IMapAdapter {
 
     // Apply active zone filter state if already set
     this.setActiveZone(this.activeZone);
+  }
+
+  filterMarkers(filterType: string, savedIds: string[] = []): void {
+    if (!this.map) return;
+    const src = this.map.getSource('pandals-src') as maplibregl.GeoJSONSource;
+    if (!src) return;
+
+    const filteredPandals = this.items.filter((i) => {
+      if (i.type !== 'pandal') return false;
+      if (filterType === 'ALL') return true;
+      if (filterType === 'FEATURED') return !!i.isFeatured;
+      if (filterType === 'HERITAGE') return !!i.isHeritage;
+      if (filterType === 'SAVED') return savedIds.includes(i.id);
+      if (['NORTH', 'SOUTH', 'CENTRAL', 'EAST', 'HOWRAH', 'OTHERS', 'WEST'].includes(filterType)) {
+        return i.zone === filterType;
+      }
+      return true;
+    });
+
+    const pandalFeatures: GeoJSON.Feature[] = filteredPandals.map((p) => ({
+      type: 'Feature',
+      properties: {
+        id: p.id,
+        name: p.name,
+        zone: p.zone || 'NORTH',
+        type: 'pandal',
+      },
+      geometry: {
+        type: 'Point',
+        coordinates: [p.lng, p.lat],
+      },
+    }));
+
+    src.setData({
+      type: 'FeatureCollection',
+      features: pandalFeatures,
+    });
   }
 
   clearMarkers(): void {
@@ -619,8 +658,10 @@ export class MapLibreDriver implements IMapAdapter {
       CENTRAL: [[88.34, 22.548], [88.34, 22.585], [88.395, 22.585], [88.395, 22.548], [88.34, 22.548]],
       SOUTH: [[88.332, 22.44], [88.332, 22.548], [88.395, 22.548], [88.395, 22.44], [88.332, 22.44]],
       EAST: [[88.395, 22.44], [88.395, 22.65], [88.48, 22.65], [88.48, 22.44], [88.395, 22.44]],
+      HOWRAH: [[88.28, 22.54], [88.28, 22.65], [88.35, 22.65], [88.35, 22.54], [88.28, 22.54]],
+      OTHERS: [[88.30, 22.40], [88.30, 22.70], [88.50, 22.70], [88.50, 22.40], [88.30, 22.40]],
       WEST: [[88.25, 22.44], [88.25, 22.548], [88.332, 22.548], [88.332, 22.44], [88.25, 22.44]],
     };
-    return bounds[zone];
+    return bounds[zone] || bounds.NORTH;
   }
 }

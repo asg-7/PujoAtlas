@@ -12,6 +12,8 @@ export interface MarkerItem {
   zone?: Zone;
   icon?: string;
   color?: string;
+  isFeatured?: boolean;
+  isHeritage?: boolean;
 }
 
 /**
@@ -25,6 +27,9 @@ export interface IMapAdapter {
 
   /** Render an array of markers with a unified click handler. */
   renderMarkers(items: MarkerItem[], onClick: (id: string, type: 'pandal' | 'food' | 'station') => void): void;
+
+  /** Filter rendered markers dynamically by category, heritage, saved or zone */
+  filterMarkers?(filterType: string, savedIds?: string[]): void;
 
   /** Clear all currently rendered markers. */
   clearMarkers(): void;
@@ -74,7 +79,9 @@ export const ZONE_COLORS: Record<Zone, string> = {
   SOUTH: '#B8892F',   // Ochre Brass (Gariahat, Ballygunge, Kalighat)
   CENTRAL: '#B5513A', // Terracotta Brick (College Sq, Bowbazar, Md Ali Park)
   EAST: '#4F8A83',    // Muted Teal (Salt Lake, Lake Town, EM Bypass)
-  WEST: '#7E5A7E',    // Deep Plum (Behala, Howrah, Khidderpore)
+  HOWRAH: '#7E5A7E',  // Deep Plum (Howrah Maidan, Salkia, Shibpur)
+  OTHERS: '#C25953',  // Coral Terracotta (Baranagar, Ariadaha, Sonarpur)
+  WEST: '#7E5A7E',    // Deep Plum (Behala, Khidderpore)
 };
 
 /**

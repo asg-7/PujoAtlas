@@ -66,7 +66,7 @@ export async function pandalRoutes(app: FastifyInstance): Promise<void> {
         (p) =>
           p.name.toLowerCase().includes(query) ||
           p.address.toLowerCase().includes(query) ||
-          p.tags.some((t) => t.toLowerCase().includes(query))
+          p.tags?.some((t) => t.toLowerCase().includes(query))
       );
     }
 

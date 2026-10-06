@@ -1,8 +1,7 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 import type { PandalEntity, Zone } from '../../lib/schemas';
 import { ZONE_COLORS } from '../../lib/map/MapEngineAdapter';
-import { navigateToDestination } from '../../lib/navigation';
-import type { TravelMode } from '../../lib/navigation';
+import { useMapStore } from '../../store/useMapStore';
 
 interface PandalHeaderProps {
   pandal: PandalEntity;
@@ -12,11 +11,13 @@ interface PandalHeaderProps {
   onNavigate?: (lat: number, lng: number) => void;
 }
 
-const ZONE_LABELS: Record<Zone, { en: string; bn: string }> = {
+const ZONE_LABELS: Record<string, { en: string; bn: string }> = {
   NORTH:   { en: 'North Kolkata',   bn: 'উত্তর কলকাতা' },
   SOUTH:   { en: 'South Kolkata',   bn: 'দক্ষিণ কলকাতা' },
   CENTRAL: { en: 'Central Kolkata', bn: 'মধ্য কলকাতা' },
   EAST:    { en: 'East Kolkata',    bn: 'পূর্ব কলকাতা / সল্টলেক' },
+  HOWRAH:  { en: 'Howrah',          bn: 'হাওড়া' },
+  OTHERS:  { en: 'Others',          bn: 'অন্যান্য' },
   WEST:    { en: 'West Kolkata',    bn: 'পশ্চিম কলকাতা / বেহালা' },
 };
 
@@ -28,6 +29,8 @@ export default function PandalHeader({
 }: PandalHeaderProps) {
   const sheetRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef({ startY: 0, isDragging: false });
+  const { savedPandalIds, toggleSavePandal } = useMapStore();
+  const isSaved = savedPandalIds.includes(pandal.id);
 
   const zoneColor = ZONE_COLORS[pandal.zone] || '#B5513A';
 
@@ -68,6 +71,24 @@ export default function PandalHeader({
   }, []);
 
   const zoneInfo = ZONE_LABELS[pandal.zone] || { en: 'Kolkata', bn: 'কলকাতা' };
+  const effectiveMetro = pandal.nearestMetro || metroStationName;
+  const hasValidCoords = pandal.lat && pandal.lng && pandal.lat > 20 && pandal.lng > 80;
+
+  const googleMapsSearchUrl =
+    pandal.googleMapsUrl ||
+    `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(pandal.name + ' Durga Puja, ' + (pandal.address || 'Kolkata'))}`;
+
+  const directionsDrivingUrl = hasValidCoords
+    ? `https://www.google.com/maps/dir/?api=1&destination=${pandal.lat},${pandal.lng}&travelmode=driving`
+    : googleMapsSearchUrl;
+
+  const directionsTransitUrl = hasValidCoords
+    ? `https://www.google.com/maps/dir/?api=1&destination=${pandal.lat},${pandal.lng}&travelmode=transit`
+    : googleMapsSearchUrl;
+
+  const directionsWalkUrl = hasValidCoords
+    ? `https://www.google.com/maps/dir/?api=1&destination=${pandal.lat},${pandal.lng}&travelmode=walking`
+    : googleMapsSearchUrl;
 
   return (
     <div
@@ -81,66 +102,94 @@ export default function PandalHeader({
       {/* Backdrop for easy tap-out */}
       <div className="fixed inset-0 -top-full bg-black/40 backdrop-blur-[2px]" onClick={onClose} />
 
-      {/* Thaal Sheet with Paper surface and Nimantran styling */}
-      <div className="relative thaal paper paper-2 max-h-[85vh] overflow-y-auto shadow-2xl">
-        {/* Lal-par decorative top border */}
-        <div className="lal-par-top w-full pt-2">
-          {/* Drag handle */}
-          <div className="flex justify-center pb-2 cursor-grab active:cursor-grabbing">
-            <div className="w-12 h-1 bg-[var(--control-border)] rounded-full opacity-60" />
-          </div>
+      {/* Sheet Content */}
+      <div className="relative thaal paper paper-2 max-h-[85vh] overflow-y-auto shadow-2xl rounded-t-2xl bg-white text-stone-900">
+        {/* Top decorative drag handle */}
+        <div className="w-full pt-3 pb-1 flex justify-center cursor-grab active:cursor-grabbing">
+          <div className="w-12 h-1.5 bg-stone-300 rounded-full" />
         </div>
 
-        {/* Invitation Card Body */}
+        {/* Card Body */}
         <div className="p-4 sm:p-5 space-y-4">
-          {/* Top Header Row */}
-          <div className="nimantran paper paper-3">
+          {/* Header Row */}
+          <div>
             <div className="flex items-start justify-between gap-3">
-              <div className="flex-1 min-w-0 space-y-1">
-                <div className="flex items-center gap-2 flex-wrap">
+              <div className="flex-1 min-w-0 space-y-1.5">
+                <div className="flex items-center gap-1.5 flex-wrap">
                   <span
                     className="px-2.5 py-0.5 text-[11px] font-semibold rounded-sm text-white tracking-wider uppercase"
                     style={{ backgroundColor: zoneColor }}
                   >
-                    {zoneInfo.en} • {zoneInfo.bn}
+                    {zoneInfo.en}
                   </span>
-                  {pandal.isFamous && (
-                    <span className="chip text-[10px]">
-                      ⭐ ঐতিহাসিক / খ্যাতনামা
+
+                  {pandal.isHeritage && (
+                    <span className="px-2 py-0.5 text-[10px] font-bold rounded bg-amber-100 text-amber-900 border border-amber-300">
+                      👑 Heritage {pandal.established ? `(Est. ${pandal.established})` : '(>75 Yrs)'}
+                    </span>
+                  )}
+
+                  {pandal.isFeatured && (
+                    <span className="px-2 py-0.5 text-[10px] font-bold rounded bg-red-100 text-red-800 border border-red-200">
+                      ⭐ Featured
+                    </span>
+                  )}
+
+                  {pandal.rating && (
+                    <span className="px-2 py-0.5 text-[10px] font-bold rounded bg-stone-100 text-stone-800 border border-stone-200">
+                      ★ {pandal.rating.toFixed(1)}
                     </span>
                   )}
                 </div>
 
-                <h2 className="text-xl sm:text-2xl font-display font-bold text-[var(--ink)] tracking-tight leading-tight mt-1">
+                <h2 className="text-xl sm:text-2xl font-serif font-bold text-stone-900 tracking-tight leading-tight mt-1">
                   {pandal.name}
                 </h2>
-                <p className="text-xs sm:text-sm text-[var(--ink-2)] flex items-center gap-1">
+
+                <p className="text-xs sm:text-sm text-stone-600 flex items-center gap-1">
                   <span>📍</span>
-                  <span>{pandal.address}</span>
+                  <span>{pandal.address || 'Kolkata, West Bengal'}</span>
                 </p>
               </div>
 
-              <button
-                onClick={onClose}
-                className="btn min-h-[36px] w-[36px] p-0 rounded-full border-[var(--control-border)] text-[var(--ink)] hover:bg-[var(--chalk)] shrink-0"
-                aria-label="Close"
-              >
-                ✕
-              </button>
+              <div className="flex items-center gap-1.5 shrink-0">
+                {/* Save / Bookmark Button */}
+                <button
+                  type="button"
+                  onClick={() => toggleSavePandal(pandal.id)}
+                  className={`w-9 h-9 rounded-full flex items-center justify-center border transition-all ${
+                    isSaved
+                      ? 'bg-red-50 text-red-600 border-red-300 shadow-sm'
+                      : 'bg-stone-50 text-stone-500 border-stone-300 hover:bg-stone-100'
+                  }`}
+                  title={isSaved ? 'Remove from Saved' : 'Save Pandal'}
+                >
+                  <span className="text-sm">{isSaved ? '🔖' : '🤍'}</span>
+                </button>
+
+                {/* Close Button */}
+                <button
+                  onClick={onClose}
+                  className="w-9 h-9 rounded-full border border-stone-300 text-stone-600 hover:bg-stone-100 flex items-center justify-center text-sm font-bold"
+                  aria-label="Close"
+                >
+                  ✕
+                </button>
+              </div>
             </div>
 
             {/* Metro Connectivity Badge */}
-            {metroStationName && (
-              <div className="mt-3 pt-3 border-t border-[var(--border)] flex items-center justify-between text-xs text-[var(--ink-2)]">
-                <div className="flex items-center gap-2">
+            {effectiveMetro && (
+              <div className="mt-3 pt-2.5 border-t border-stone-200 flex items-center justify-between text-xs text-stone-700">
+                <div className="flex items-center gap-1.5">
                   <span className="text-base">🚇</span>
                   <div>
-                    <span className="font-semibold text-[var(--ink)]">{metroStationName}</span>
-                    <span className="text-[var(--ink-3)] ml-1">মেট্রো স্টেশন</span>
+                    <span className="font-semibold text-stone-900">{effectiveMetro}</span>
+                    <span className="text-stone-500 ml-1">মেট্রো স্টেশন</span>
                   </div>
                 </div>
                 {metroWalkingMinutes !== undefined && (
-                  <span className="meta text-[var(--neel)] font-bold">
+                  <span className="text-indigo-600 font-bold">
                     🚶 {metroWalkingMinutes} min walk
                   </span>
                 )}
@@ -148,10 +197,17 @@ export default function PandalHeader({
             )}
           </div>
 
-          {/* Crowd Timings & Visiting Windows */}
+          {/* Theme Description */}
+          {pandal.themeDescription && (
+            <div className="p-3 rounded-lg bg-stone-50 border border-stone-200 text-xs text-stone-700 leading-relaxed italic">
+              "{pandal.themeDescription}"
+            </div>
+          )}
+
+          {/* Crowd Windows / Visiting Hours */}
           {pandal.bestTimeToVisit && pandal.bestTimeToVisit.length > 0 && (
             <div className="space-y-1.5">
-              <div className="meta text-[var(--geru-text)] flex items-center gap-1.5">
+              <div className="text-xs font-bold text-red-800 flex items-center gap-1.5">
                 <span>🕒</span>
                 <span>সেরা দর্শনের সময় (Visiting Hours & Crowd Windows)</span>
               </div>
@@ -159,10 +215,10 @@ export default function PandalHeader({
                 {pandal.bestTimeToVisit.map((time, idx) => (
                   <div
                     key={idx}
-                    className="p-2.5 rounded bg-[var(--chalk-3)] border border-[var(--border)] text-xs text-[var(--ink)] flex items-center justify-between"
+                    className="p-2.5 rounded bg-stone-50 border border-stone-200 text-xs text-stone-800 flex items-center justify-between"
                   >
                     <span>{time}</span>
-                    <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-[var(--geru)]/15 text-[var(--geru-text)]">
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-red-100 text-red-800">
                       পরামর্শ
                     </span>
                   </div>
@@ -171,54 +227,59 @@ export default function PandalHeader({
             </div>
           )}
 
-          {/* Tags */}
-          {pandal.tags && pandal.tags.length > 0 && (
+          {/* Categories & Tags */}
+          {((pandal.categories && pandal.categories.length > 0) || (pandal.tags && pandal.tags.length > 0)) && (
             <div className="flex flex-wrap gap-1.5 pt-1">
-              {pandal.tags.map((tag) => (
-                <span key={tag} className="chip text-[10px]">
-                  #{tag}
-                </span>
-              ))}
+              {[...(pandal.categories || []), ...(pandal.tags || [])]
+                .filter((v, i, a) => a.indexOf(v) === i)
+                .map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-2 py-0.5 rounded-full text-[10px] font-medium bg-stone-100 text-stone-600 border border-stone-200"
+                  >
+                    #{tag}
+                  </span>
+                ))}
             </div>
           )}
 
-          {/* Action CTAs */}
+          {/* Action CTAs: Direct working Google Maps Directions */}
           <div className="pt-2 space-y-2">
             <a
-              href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(pandal.name + ' Durga Puja, ' + pandal.address + ', Kolkata')}&travelmode=driving`}
+              href={directionsDrivingUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn btn-primary w-full py-3 text-sm font-bold shadow-md tracking-wide flex items-center justify-center gap-2 no-underline"
+              className="w-full py-3 px-4 rounded-xl text-sm font-bold bg-red-600 hover:bg-red-700 text-white shadow-md flex items-center justify-center gap-2 transition-all no-underline"
             >
               <span>🧭</span>
-              <span>গুগল ম্যাপে মণ্ডপ দর্শন করুন (Directions)</span>
+              <span>গুগল ম্যাপে দর্শন করুন (Get Directions)</span>
             </a>
 
             <div className="grid grid-cols-3 gap-2">
               <a
-                href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(pandal.name + ' Durga Puja, ' + pandal.address + ', Kolkata')}&travelmode=transit`}
+                href={directionsTransitUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn py-2 text-xs no-underline text-center"
+                className="py-2 px-1 text-xs font-semibold rounded-lg bg-stone-100 hover:bg-stone-200 text-stone-800 text-center border border-stone-200 no-underline"
               >
                 <span>🚇</span> Metro
               </a>
               <a
-                href={`https://www.google.com/maps/dir/?api=1&destination=${pandal.lat},${pandal.lng}&travelmode=walking`}
+                href={directionsWalkUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn py-2 text-xs no-underline text-center"
+                className="py-2 px-1 text-xs font-semibold rounded-lg bg-stone-100 hover:bg-stone-200 text-stone-800 text-center border border-stone-200 no-underline"
               >
                 <span>🚶</span> Walk
               </a>
               <a
-                href={`https://www.google.com/maps/dir/?api=1&destination=${pandal.lat},${pandal.lng}&travelmode=driving`}
+                href={googleMapsSearchUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn py-2 text-xs no-underline text-center"
-                title="Exact GPS Pin"
+                className="py-2 px-1 text-xs font-semibold rounded-lg bg-stone-100 hover:bg-stone-200 text-stone-800 text-center border border-stone-200 no-underline"
+                title="Search on Google Maps"
               >
-                <span>📍</span> GPS Pin
+                <span>📍</span> Map Info
               </a>
             </div>
           </div>

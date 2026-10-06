@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
-export type Zone = 'NORTH' | 'SOUTH' | 'CENTRAL' | 'EAST' | 'WEST';
-export const ZoneSchema = z.enum(['NORTH', 'SOUTH', 'CENTRAL', 'EAST', 'WEST']);
+export type Zone = 'NORTH' | 'SOUTH' | 'CENTRAL' | 'EAST' | 'HOWRAH' | 'OTHERS' | 'WEST';
+export const ZoneSchema = z.enum(['NORTH', 'SOUTH', 'CENTRAL', 'EAST', 'HOWRAH', 'OTHERS', 'WEST']);
 
 export type FoodCategory = 'RESTAURANT' | 'CAFE' | 'DHABA' | 'STREET_FOOD' | 'SWEETS';
 export const FoodCategorySchema = z.enum(['RESTAURANT', 'CAFE', 'DHABA', 'STREET_FOOD', 'SWEETS']);
@@ -40,12 +40,21 @@ export interface PandalEntity {
   address: string;
   lat: number;
   lng: number;
-  nearestMetroStationId: string;
-  bestTimeToVisit: string[];
-  bestDays: ('Chaturthi' | 'Panchami' | 'Shashthi' | 'Saptami' | 'Ashtami' | 'Navami' | 'Dashami')[];
-  isFamous: boolean;
-  tags: string[];
-  sourceUrls: SourceUrl[];
+  nearestMetroStationId?: string;
+  nearestMetro?: string;
+  bestTimeToVisit?: string[];
+  bestDays?: ('Chaturthi' | 'Panchami' | 'Shashthi' | 'Saptami' | 'Ashtami' | 'Navami' | 'Dashami')[];
+  isFamous?: boolean;
+  isFeatured?: boolean;
+  isHeritage?: boolean;
+  established?: number;
+  rating?: number;
+  crowdLevel?: string;
+  tags?: string[];
+  themeDescription?: string;
+  categories?: string[];
+  googleMapsUrl?: string;
+  sourceUrls?: SourceUrl[];
 }
 
 export const PandalSchema: z.ZodType<PandalEntity> = z.object({
@@ -55,12 +64,21 @@ export const PandalSchema: z.ZodType<PandalEntity> = z.object({
   address: z.string(),
   lat: z.number(),
   lng: z.number(),
-  nearestMetroStationId: z.string(),
-  bestTimeToVisit: z.array(z.string()),
-  bestDays: z.array(BestDaySchema),
-  isFamous: z.boolean(),
-  tags: z.array(z.string()),
-  sourceUrls: z.array(SourceUrlSchema),
+  nearestMetroStationId: z.string().optional(),
+  nearestMetro: z.string().optional(),
+  bestTimeToVisit: z.array(z.string()).optional(),
+  bestDays: z.array(BestDaySchema).optional(),
+  isFamous: z.boolean().optional(),
+  isFeatured: z.boolean().optional(),
+  isHeritage: z.boolean().optional(),
+  established: z.number().optional(),
+  rating: z.number().optional(),
+  crowdLevel: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+  themeDescription: z.string().optional(),
+  categories: z.array(z.string()).optional(),
+  googleMapsUrl: z.string().optional(),
+  sourceUrls: z.array(SourceUrlSchema).optional(),
 });
 
 export interface FoodEntity {

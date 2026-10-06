@@ -1,31 +1,20 @@
 import { createMapAdapter, ZONE_COLORS } from './MapEngineAdapter';
 import type { MarkerItem } from './MapEngineAdapter';
 import { useMapStore } from '../../store/useMapStore';
-import pandalsNorth from '../../data/pandals-north.json';
-import pandalsSouth from '../../data/pandals-south.json';
-import pandalsCentral from '../../data/pandals-central.json';
-import pandalsEast from '../../data/pandals-east.json';
-import pandalsWest from '../../data/pandals-west.json';
+import pandalsAll from '../../data/pandals-all.json';
 import foodData from '../../data/food.json';
-import type { PandalEntity, FoodEntity } from '../schemas';
+import type { PandalEntity, FoodEntity, Zone } from '../schemas';
 
 import { metroGeoJson } from '../../data/metroData';
 
-export const allPandals: PandalEntity[] = [
-  ...(pandalsNorth as PandalEntity[]),
-  ...(pandalsSouth as PandalEntity[]),
-  ...(pandalsCentral as PandalEntity[]),
-  ...(pandalsEast as PandalEntity[]),
-  ...(pandalsWest as PandalEntity[]),
-];
-
+export const allPandals: PandalEntity[] = pandalsAll as PandalEntity[];
 export const allFood: FoodEntity[] = foodData as FoodEntity[];
 
 export async function initApp() {
   const mapContainer = document.getElementById('map-container');
   if (!mapContainer) return;
 
-  // Initialize in-memory store so UI search and drawers have instant data
+  // Initialize in-memory store so UI search and drawers have instant access to all 722 pandals
   useMapStore.getState().initData(allPandals, allFood);
 
   // 1. Initialize Map Adapter (WebGL2 MapLibre or 2D Leaflet fallback)
@@ -42,16 +31,21 @@ export async function initApp() {
   // 3. Format Markers from inlined dataset
   const allMarkers: MarkerItem[] = [];
 
+  // Filter pandals with valid coordinates for vector layer
   allPandals.forEach((p) => {
-    allMarkers.push({
-      id: p.id,
-      type: 'pandal',
-      name: p.name,
-      lat: p.lat,
-      lng: p.lng,
-      zone: p.zone,
-      color: '#E11D48', // Festive Durga Puja Vermilion
-    });
+    if (p.lat && p.lng && p.lat > 20 && p.lng > 80) {
+      allMarkers.push({
+        id: p.id,
+        type: 'pandal',
+        name: p.name,
+        lat: p.lat,
+        lng: p.lng,
+        zone: p.zone,
+        color: ZONE_COLORS[p.zone] || '#E11D48',
+        isFeatured: p.isFeatured,
+        isHeritage: p.isHeritage,
+      });
+    }
   });
 
   allFood.forEach((f) => {
@@ -62,11 +56,11 @@ export async function initApp() {
       lat: f.lat,
       lng: f.lng,
       zone: f.zone,
-      color: ZONE_COLORS[f.zone] || '#F59E0B', // Food color matches region/zone!
+      color: ZONE_COLORS[f.zone] || '#F59E0B',
     });
   });
 
-  // 4. Initial Marker Render (all markers loaded into GPU vector layer)
+  // 4. Initial Marker Render (loaded into GPU vector layer)
   mapAdapter.renderMarkers(allMarkers, (id, type) => {
     useMapStore.getState().selectEntity(id, type);
   });
@@ -80,7 +74,24 @@ export async function initApp() {
 
   // 5. Subscribe to Zustand store changes for Reactive Map Updates
   useMapStore.subscribe((state, prevState) => {
-    // Reactive Zone Dimming: Dim non-active zones to translucent ~16% opacity
+    // Reactive Filter updates (ALL, FEATURED, HERITAGE, SAVED, or Zone)
+    if (
+      state.activeFilter !== prevState.activeFilter ||
+      state.savedPandalIds !== prevState.savedPandalIds
+    ) {
+      if (typeof mapAdapter.filterMarkers === 'function') {
+        mapAdapter.filterMarkers(state.activeFilter, state.savedPandalIds);
+      }
+      if (['NORTH', 'SOUTH', 'CENTRAL', 'EAST', 'HOWRAH', 'OTHERS', 'WEST'].includes(state.activeFilter)) {
+        mapAdapter.setActiveZone(state.activeFilter as Zone);
+        mapAdapter.fitZone(state.activeFilter as Zone);
+      } else if (state.activeFilter === 'ALL') {
+        mapAdapter.setActiveZone('ALL');
+        mapAdapter.fitZone('ALL');
+      }
+    }
+
+    // Reactive Zone Dimming
     if (state.activeZone !== prevState.activeZone) {
       mapAdapter.setActiveZone(state.activeZone);
       mapAdapter.fitZone(state.activeZone);
@@ -106,7 +117,7 @@ export async function initApp() {
     }
   });
 
-  // 6. Listen to custom window events for Zone FlyTo
+  // 6. Custom window event listeners
   window.addEventListener('map:flyToZone', (e: Event) => {
     const customEvent = e as CustomEvent<{ zone: any }>;
     const zone = customEvent.detail?.zone;
@@ -114,6 +125,24 @@ export async function initApp() {
       mapAdapter.setActiveZone(zone);
       mapAdapter.fitZone(zone);
     }
+  });
+
+  // Geolocation trigger from search bar locate button
+  window.addEventListener('map:locateUser', () => {
+    if (!navigator.geolocation) {
+      alert('আপনার ব্রাউজারে লোকেশন সার্ভিস চালু নেই (Geolocation unsupported)');
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        const { latitude, longitude } = pos.coords;
+        mapAdapter.flyTo([longitude, latitude], 16.5);
+      },
+      (err) => {
+        console.warn('Geolocation error:', err);
+      },
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
   });
 
   window.addEventListener('resize', () => mapAdapter.resize());

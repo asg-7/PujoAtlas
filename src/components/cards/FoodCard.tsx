@@ -13,6 +13,8 @@ const ZONE_LABELS: Record<Zone, string> = {
   SOUTH: 'South Kolkata',
   CENTRAL: 'Central Kolkata',
   EAST: 'East Kolkata',
+  HOWRAH: 'Howrah',
+  OTHERS: 'Others',
   WEST: 'West Kolkata',
 };
 

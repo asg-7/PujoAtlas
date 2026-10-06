@@ -2,6 +2,8 @@ type TelemetryEventType =
   | 'search_query'
   | 'search_click'
   | 'zone_click'
+  | 'filter_click'
+  | 'locate_me_click'
   | 'layer_toggle'
   | 'entity_view'
   | 'navigate_outbound';

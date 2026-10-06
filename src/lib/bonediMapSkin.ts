@@ -9,7 +9,9 @@ export const BONEDI_ZONES: Record<string, { label: string; colour: string }> = {
   NORTH:   { label: 'North Kolkata',       colour: '#4A6A8A' }, // Slate Indigo
   SOUTH:   { label: 'South Kolkata',       colour: '#B8892F' }, // Ochre Brass
   CENTRAL: { label: 'Central Kolkata',     colour: '#B5513A' }, // Terracotta Brick
-  EAST:    { label: 'Salt Lake / East',    colour: '#4F8A83' }, // Muted Teal
+  EAST:    { label: 'East Kolkata',        colour: '#4F8A83' }, // Muted Teal
+  HOWRAH:  { label: 'Howrah',              colour: '#7E5A7E' }, // Deep Plum
+  OTHERS:  { label: 'Others',              colour: '#C25953' }, // Coral Terracotta
   WEST:    { label: 'Behala / Howrah',     colour: '#7E5A7E' }, // Deep Plum
 };
 
