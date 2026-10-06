@@ -51,14 +51,34 @@ export default function MapUIOverlay({ initialPandals = [], initialFood = [] }: 
         <Navbar />
       </div>
 
-      {/* Main Experience View */}
-      <main className="flex-1 relative overflow-hidden pointer-events-auto">
+      {/* Main Experience View — Pass pointer events through to MapLibre on ExploreView */}
+      <main className="flex-1 relative overflow-hidden pointer-events-none">
         {activeTab === 'explore' && <ExploreView />}
-        {activeTab === 'discover' && <DiscoverView />}
-        {activeTab === 'heritage' && <HeritageView />}
-        {activeTab === 'food' && <FoodView />}
-        {activeTab === 'planner' && <PlannerView />}
-        {activeTab === 'mypuja' && <MyPujaView />}
+        {activeTab === 'discover' && (
+          <div className="w-full h-full pointer-events-auto overflow-y-auto">
+            <DiscoverView />
+          </div>
+        )}
+        {activeTab === 'heritage' && (
+          <div className="w-full h-full pointer-events-auto overflow-y-auto">
+            <HeritageView />
+          </div>
+        )}
+        {activeTab === 'food' && (
+          <div className="w-full h-full pointer-events-auto overflow-y-auto">
+            <FoodView />
+          </div>
+        )}
+        {activeTab === 'planner' && (
+          <div className="w-full h-full pointer-events-auto overflow-y-auto">
+            <PlannerView />
+          </div>
+        )}
+        {activeTab === 'mypuja' && (
+          <div className="w-full h-full pointer-events-auto overflow-y-auto">
+            <MyPujaView />
+          </div>
+        )}
       </main>
 
       {/* Mobile Bottom Navigation Bar */}

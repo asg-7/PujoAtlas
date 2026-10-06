@@ -182,11 +182,11 @@ export default function ExploreView() {
   };
 
   return (
-    <div className="relative w-full h-[calc(100vh-3.5rem)] sm:h-[calc(100vh-4rem)] flex overflow-hidden">
+    <div className="relative w-full h-[calc(100vh-3.5rem)] sm:h-[calc(100vh-4rem)] flex overflow-hidden pointer-events-none">
       {/* LEFT PANEL: 320px–40% Desktop Editorial & Pandal Directory (Collapsible) */}
       <div
         ref={listContainerRef}
-        className={`h-full overflow-y-auto bg-paper dark:bg-surface border-r border-sand dark:border-line z-20 flex flex-col transition-all duration-base ease-inout shrink-0 ${
+        className={`h-full overflow-y-auto bg-paper dark:bg-surface border-r border-sand dark:border-line z-20 flex flex-col transition-all duration-base ease-inout shrink-0 pointer-events-auto ${
           mobileView === 'map' ? 'hidden md:flex' : 'flex'
         } ${
           isSidebarCollapsed
@@ -399,8 +399,8 @@ export default function ExploreView() {
         </div>
       </div>
 
-      {/* RIGHT PANEL: Map Canvas */}
-      <div className="flex-1 h-full relative">
+      {/* RIGHT PANEL: Map Canvas Pass-Through Area */}
+      <div className="flex-1 h-full relative pointer-events-none">
         {/* Floating Expand Sidebar Button on Desktop when collapsed */}
         {isSidebarCollapsed && (
           <div className="hidden md:flex absolute top-4 left-4 z-30 pointer-events-auto items-center gap-2 animate-in fade-in slide-in-from-left-4 duration-base">
