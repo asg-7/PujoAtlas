@@ -133,14 +133,21 @@ export class MapLibreDriver implements IMapAdapter {
       });
     }
 
-    // Navigation controls
-    this.map.addControl(new maplibregl.NavigationControl(), 'top-right');
+    // Navigation controls (Zoom in/out, Compass reset) and Geolocate in bottom-right thumb zone
+    this.map.addControl(
+      new maplibregl.NavigationControl({
+        showCompass: true,
+        showZoom: true,
+        visualizePitch: true,
+      }),
+      'bottom-right'
+    );
     this.map.addControl(
       new maplibregl.GeolocateControl({
         positionOptions: { enableHighAccuracy: true },
         trackUserLocation: true,
       }),
-      'top-right'
+      'bottom-right'
     );
 
     // Wait for map load

@@ -27,11 +27,13 @@ export class LeafletDriver implements IMapAdapter {
     this.map = L.map(container, {
       center: options.center,
       zoom: options.zoom,
-      zoomControl: true,
+      zoomControl: false,
       attributionControl: true,
       maxBounds: L.latLngBounds([22.40, 88.20], [22.70, 88.55]),
       maxBoundsViscosity: 1.0,
     });
+
+    L.control.zoom({ position: 'bottomright' }).addTo(this.map);
 
     L.tileLayer(TILE_URL, {
       attribution: TILE_ATTRIBUTION,

@@ -216,3 +216,73 @@ p {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* 4. Map Controls Styling & Positioning */
+.maplibregl-ctrl-bottom-right,
+.leaflet-bottom.leaflet-right {
+  margin-right: 1.25rem !important;
+  margin-bottom: 1.25rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  z-index: 5 !important;
+}
+
+@media (max-width: 767px) {
+  .maplibregl-ctrl-bottom-right,
+  .leaflet-bottom.leaflet-right {
+    margin-right: 0.75rem !important;
+    margin-bottom: calc(4.75rem + env(safe-area-inset-bottom, 0px)) !important;
+  }
+}
+
+.maplibregl-ctrl-group,
+.leaflet-bar {
+  background: var(--bg-surface) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: var(--r-md) !important;
+  box-shadow: var(--e2) !important;
+  overflow: hidden !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+.maplibregl-ctrl-group button,
+.leaflet-bar a {
+  width: 36px !important;
+  height: 36px !important;
+  background-color: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid var(--border-subtle) !important;
+  color: var(--text-main) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: background-color var(--dur-fast) var(--ease-out);
+}
+
+.maplibregl-ctrl-group button:last-child,
+.leaflet-bar a:last-child {
+  border-bottom: none !important;
+}
+
+.maplibregl-ctrl-group button:hover,
+.leaflet-bar a:hover {
+  background-color: rgba(200, 67, 46, 0.12) !important;
+}
+
+.maplibregl-ctrl-group button:active,
+.leaflet-bar a:active {
+  background-color: rgba(200, 67, 46, 0.22) !important;
+}
+
+:root[data-theme='raat'] .maplibregl-ctrl-icon,
+:root[data-theme='dark'] .maplibregl-ctrl-icon {
+  filter: invert(0.92) brightness(1.2) contrast(1.1);
+}
+
+:root[data-theme='raat'] .leaflet-bar a,
+:root[data-theme='dark'] .leaflet-bar a {
+  color: var(--text-main) !important;
+}
+
