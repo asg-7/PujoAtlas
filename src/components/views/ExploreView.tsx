@@ -320,39 +320,24 @@ export default function ExploreView() {
             })}
           </div>
 
-          {/* Result Count and Layer Toggles */}
+          {/* Result Count and Reset */}
           <div className="flex items-center justify-between text-[11px] text-smoke dark:text-text-muted font-normal pt-1">
             <span>
               {filteredPandals.length} {t('hero.pandalsCount', language)}
             </span>
 
-            <div className="flex items-center gap-1.5">
+            {(activeFilter !== 'ALL' || searchQuery) && (
               <button
                 type="button"
-                onClick={() => toggleLayer('metro')}
-                className={`px-2 py-0.5 rounded-sm border text-[10px] font-medium flex items-center gap-1 cursor-pointer transition-colors ${
-                  activeLayers.metro
-                    ? 'bg-neel/10 text-neel border-neel/40 font-semibold'
-                    : 'bg-shola dark:bg-base text-smoke dark:text-text-muted border-sand dark:border-line opacity-60'
-                }`}
+                onClick={() => {
+                  setFilter('ALL');
+                  setSearchQuery('');
+                }}
+                className="text-[10px] text-kumkum dark:text-kumkum-lit font-semibold hover:underline cursor-pointer flex items-center gap-0.5"
               >
-                <Train className="w-3 h-3" strokeWidth={1.5} />
-                <span>{t('filters.metroLines', language)}</span>
+                <span>{t('filters.clearAll', language)}</span>
               </button>
-
-              <button
-                type="button"
-                onClick={() => toggleLayer('food')}
-                className={`px-2 py-0.5 rounded-sm border text-[10px] font-medium flex items-center gap-1 cursor-pointer transition-colors ${
-                  activeLayers.food
-                    ? 'bg-terracotta/10 text-terracotta border-terracotta/40 font-semibold'
-                    : 'bg-shola dark:bg-base text-smoke dark:text-text-muted border-sand dark:border-line opacity-60'
-                }`}
-              >
-                <UtensilsCrossed className="w-3 h-3" strokeWidth={1.5} />
-                <span>{t('filters.foodLayer', language)}</span>
-              </button>
-            </div>
+            )}
           </div>
         </div>
 
@@ -424,6 +409,53 @@ export default function ExploreView() {
           </div>
         )}
 
+        {/* Floating Map Layers Control Island (Desktop/Tablet — Top-Right Thumb/Click Area) */}
+        <div className="hidden md:flex absolute top-4 right-4 z-30 pointer-events-auto items-center gap-2 bg-paper/95 dark:bg-surface/95 backdrop-blur-md border border-sand dark:border-line p-1.5 rounded-full shadow-e2 transition-all">
+          <div className="flex items-center gap-1.5 px-1">
+            {/* Metro Lines Toggle */}
+            <button
+              type="button"
+              onClick={() => toggleLayer('metro')}
+              className={`px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all duration-fast border shadow-sm cursor-pointer active:scale-95 ${
+                activeLayers.metro
+                  ? 'bg-neel text-shola border-neel shadow-e1 font-bold'
+                  : 'bg-shola/90 dark:bg-base/90 text-smoke dark:text-text-muted border-sand dark:border-line hover:text-ink dark:hover:text-text hover:bg-sand/30'
+              }`}
+              title={language === 'bn' ? 'মেট্রো লাইন এবং স্টেশন দেখান/লুকান' : 'Toggle Metro Lines & Stations'}
+              aria-pressed={activeLayers.metro}
+            >
+              <Train className="w-3.5 h-3.5 shrink-0" strokeWidth={1.75} />
+              <span className="whitespace-nowrap">{t('filters.metroLines', language)}</span>
+              <span
+                className={`w-1.5 h-1.5 rounded-full ${
+                  activeLayers.metro ? 'bg-[#93C5FD] animate-pulse' : 'bg-stone-400 opacity-40'
+                }`}
+              />
+            </button>
+
+            {/* Food Spots Toggle */}
+            <button
+              type="button"
+              onClick={() => toggleLayer('food')}
+              className={`px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 transition-all duration-fast border shadow-sm cursor-pointer active:scale-95 ${
+                activeLayers.food
+                  ? 'bg-[#8C3A27] text-shola border-[#8C3A27] shadow-e1 font-bold'
+                  : 'bg-shola/90 dark:bg-base/90 text-smoke dark:text-text-muted border-sand dark:border-line hover:text-ink dark:hover:text-text hover:bg-sand/30'
+              }`}
+              title={language === 'bn' ? 'কলকাতার বিখ্যাত খাবার কেন্দ্র দেখান/লুকান' : 'Toggle Iconic Food Spots'}
+              aria-pressed={activeLayers.food}
+            >
+              <UtensilsCrossed className="w-3.5 h-3.5 shrink-0" strokeWidth={1.75} />
+              <span className="whitespace-nowrap">{t('filters.foodLayer', language)}</span>
+              <span
+                className={`w-1.5 h-1.5 rounded-full ${
+                  activeLayers.food ? 'bg-[#FED7AA] animate-pulse' : 'bg-stone-400 opacity-40'
+                }`}
+              />
+            </button>
+          </div>
+        </div>
+
         {/* Mobile Top Floating Quick Search & Filter Chips */}
         <div className="md:hidden absolute top-2 left-2 right-2 z-20 pointer-events-auto space-y-1.5">
           <div className="relative flex items-center bg-paper/95 dark:bg-surface/95 backdrop-blur-md rounded-md shadow-e2 border border-sand dark:border-line p-1">
@@ -446,12 +478,12 @@ export default function ExploreView() {
             </button>
           </div>
 
-          <div className="flex overflow-x-auto hide-scrollbar gap-1.5 px-1 py-0.5">
+          <div className="flex overflow-x-auto hide-scrollbar gap-1.5 px-1 py-0.5 items-center">
             <button
               onClick={() => handlePillClick('ALL')}
               className={`px-3 py-1 rounded-full text-xs font-medium border shadow-e1 whitespace-nowrap ${
                 activeFilter === 'ALL'
-                  ? 'bg-kumkum dark:bg-kumkum-lit text-shola dark:text-base border-kumkum'
+                  ? 'bg-kumkum dark:bg-kumkum-lit text-shola dark:text-base border-kumkum font-semibold'
                   : 'bg-paper/90 dark:bg-surface/90 text-ink dark:text-text border-sand dark:border-line'
               }`}
             >
@@ -461,7 +493,7 @@ export default function ExploreView() {
               onClick={() => handlePillClick('FEATURED')}
               className={`px-3 py-1 rounded-full text-xs font-medium border shadow-e1 whitespace-nowrap flex items-center gap-1 ${
                 activeFilter === 'FEATURED'
-                  ? 'bg-kumkum dark:bg-kumkum-lit text-shola dark:text-base border-kumkum'
+                  ? 'bg-kumkum dark:bg-kumkum-lit text-shola dark:text-base border-kumkum font-semibold'
                   : 'bg-paper/90 dark:bg-surface/90 text-ink dark:text-text border-sand dark:border-line'
               }`}
             >
@@ -472,12 +504,38 @@ export default function ExploreView() {
               onClick={() => handlePillClick('HERITAGE')}
               className={`px-3 py-1 rounded-full text-xs font-medium border shadow-e1 whitespace-nowrap flex items-center gap-1 ${
                 activeFilter === 'HERITAGE'
-                  ? 'bg-kumkum dark:bg-kumkum-lit text-shola dark:text-base border-kumkum'
+                  ? 'bg-kumkum dark:bg-kumkum-lit text-shola dark:text-base border-kumkum font-semibold'
                   : 'bg-paper/90 dark:bg-surface/90 text-ink dark:text-text border-sand dark:border-line'
               }`}
             >
               <Landmark className="w-3 h-3" strokeWidth={1.5} />
               <span>Heritage ({stats.heritage})</span>
+            </button>
+
+            <div className="w-px h-4 bg-sand dark:bg-line mx-0.5 shrink-0" />
+
+            {/* Mobile quick layer toggles */}
+            <button
+              onClick={() => toggleLayer('metro')}
+              className={`px-2.5 py-1 rounded-full text-xs font-medium border shadow-e1 whitespace-nowrap flex items-center gap-1 cursor-pointer active:scale-95 ${
+                activeLayers.metro
+                  ? 'bg-neel text-shola border-neel font-semibold'
+                  : 'bg-paper/90 dark:bg-surface/90 text-smoke dark:text-text-muted border-sand dark:border-line'
+              }`}
+            >
+              <Train className="w-3 h-3" strokeWidth={1.5} />
+              <span>{t('filters.metroLines', language)}</span>
+            </button>
+            <button
+              onClick={() => toggleLayer('food')}
+              className={`px-2.5 py-1 rounded-full text-xs font-medium border shadow-e1 whitespace-nowrap flex items-center gap-1 cursor-pointer active:scale-95 ${
+                activeLayers.food
+                  ? 'bg-[#8C3A27] text-shola border-[#8C3A27] font-semibold'
+                  : 'bg-paper/90 dark:bg-surface/90 text-smoke dark:text-text-muted border-sand dark:border-line'
+              }`}
+            >
+              <UtensilsCrossed className="w-3 h-3" strokeWidth={1.5} />
+              <span>{t('filters.foodLayer', language)}</span>
             </button>
           </div>
         </div>
