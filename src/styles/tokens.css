@@ -1,232 +1,218 @@
-/* src/styles/tokens.css — Design Tokens & Bonedi-Bari Aesthetic */
+/* src/styles/tokens.css — Pujo Atlas Design Tokens (Strict Locked Spec) */
 
 @import '@fontsource/eb-garamond/500.css';
 @import '@fontsource/eb-garamond/600.css';
 @import '@fontsource/noto-serif-bengali/500.css';
-@import '@fontsource/noto-serif-bengali/700.css';
+@import '@fontsource/noto-serif-bengali/600.css';
 @import '@fontsource-variable/karla';
 
 :root {
-  /* Surfaces */
-  --chalk:   #F4EFE4;
-  --chalk-2: #EDE6D6;
-  --chalk-3: #E3DAC6;
-  --shankha: #F8F5EE;
+  /* 1.1 Hue Arc (Analogous, 42° window 3° -> 46°) */
+  --sindoor:    #9E2B25; /* hue 3°  — body text, dark anchor, primary buttons */
+  --kumkum:     #C8432E; /* hue 9°  — primary action, active/selected */
+  --terracotta: #A85B3C; /* hue 18° — secondary surfaces, borders, Heritage */
+  --marigold:   #E8961E; /* hue 36° — accent ONLY. markers, glow, highlight */
+  --haldi:      #C9A227; /* hue 46° — hairline rules, Featured badge */
 
-  /* Ink */
-  --ink:   #2A2622;
-  --ink-2: #5C534A;
-  --ink-3: #6E655B;           /* ≈5:1 contrast for meta text */
+  /* 1.2 Sanctioned Cool Note (<5% screen area) */
+  --neel:       #1E3A5F; /* indigo — links, info states, Saved marker */
 
-  /* Accents: *-text variants for small text, base for fills/large UI */
-  --geru:       #A65A3A;
-  --geru-text:  #8A4528;
-  --neel:       #3D4A5C;
-  --sage:       #6F7A55;
-  --brass:      #B08D57;      /* decoration & rules */
-  --brass-text: #7A5F2E;
+  /* 1.3 Neutrals (desaturated from terracotta — never pure grey, never #000) */
+  --shola:      #FAF6F1; /* page background */
+  --paper:      #F3EBE1; /* cards, sheets */
+  --sand:       #DFD2C2; /* dividers, 1px borders */
+  --smoke:      #8B7E73; /* secondary text — 4.6:1 on Shola */
+  --ink:        #241C19; /* primary text — warm black */
 
-  --border:         #D6CBB6;  /* decorative hairlines */
-  --control-border: #7D7260;  /* tappable element borders (≥3:1) */
+  /* Semantic Aliases for Light Mode */
+  --bg-page:        var(--shola);
+  --bg-surface:     var(--paper);
+  --bg-raised:      #FFFFFF;
+  --border-subtle:  var(--sand);
+  --border-strong:  var(--smoke);
+  --text-main:      var(--ink);
+  --text-muted:     var(--smoke);
+  --accent-primary: var(--kumkum);
+  --accent-glow:    var(--marigold);
 
-  /* Crowd Levels — always paired with label */
-  --crowd-low: #6F7A55;  --crowd-med: #B08D57;
-  --crowd-high: #A65A3A; --crowd-packed: #6B3A2A;
+  /* Spacing Scale (4px base) */
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s5: 24px;
+  --s6: 32px;
+  --s7: 48px;
+  --s8: 64px;
 
-  /* Zones (Bonedi Palette) */
-  --z-north:   #4A6A8A; /* Slate Indigo */
-  --z-south:   #B8892F; /* Ochre Gold */
-  --z-central: #B5513A; /* Terracotta Brick */
-  --z-east:    #4F8A83; /* Muted Teal */
-  --z-west:    #7E5A7E; /* Deep Plum */
+  /* Radius Scale */
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 16px;
+  --r-full: 999px;
 
-  --font-display: 'EB Garamond', 'Noto Serif Bengali', Georgia, serif;
-  --font-body:    'Karla Variable', 'Karla', system-ui, -apple-system, sans-serif;
-  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  /* Elevation (Warm-tinted shadows, never cold grey) */
+  --e1: 0 1px 2px rgba(36, 28, 25, 0.06);
+  --e2: 0 4px 12px rgba(36, 28, 25, 0.08);
+  --e3: 0 12px 32px rgba(36, 28, 25, 0.12);
+
+  /* Motion System */
+  --dur-instant: 80ms;   /* state flips, checkbox */
+  --dur-fast:    160ms;  /* hovers, chips */
+  --dur-base:    240ms;  /* sheets, panels, modals */
+  --dur-slow:    400ms;  /* page transitions, map fly */
+
+  --ease-out:    cubic-bezier(0.22, 1, 0.36, 1);      /* entrances */
+  --ease-inout:  cubic-bezier(0.65, 0, 0.35, 1);      /* moves, resizes */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);   /* save/like pop */
+
+  /* Typography */
+  --font-display: 'Noto Serif Bengali', 'Tiro Bangla', 'EB Garamond', Georgia, serif;
+  --font-body:    'Inter', 'Noto Sans Bengali', 'Karla Variable', system-ui, -apple-system, sans-serif;
+
+  /* Crowd Status Tokens */
+  --crowd-low:  #4E7852;
+  --crowd-med:  #C9A227;
+  --crowd-high: #C8432E;
+
+  /* Focus ring (WCAG 2.2 AA) */
+  --focus-ring: 2px solid var(--kumkum);
+  --focus-offset: 2px;
 }
 
-/* Night theme (Raat) — optimized for night pandal hopping */
+/* 1.4 Dark Mode (Primary Night Pandal Mode) */
 :root[data-theme='raat'],
+:root[data-theme='dark'],
 body.dark {
-  --chalk:   #181512;
-  --chalk-2: #221D18;
-  --chalk-3: #2D2721;
-  --shankha: #F4EFE4;
+  --base:         #16100E; /* background */
+  --surface:      #211A17; /* cards, bottom sheets */
+  --raised:       #2C2320; /* modals, popovers */
+  --line:         #3A2F2A; /* borders */
+  --text:         #F3EBE3;
+  --text-muted:   #A2958B;
+  --kumkum-lit:   #E8593F; /* 5.3:1 on base */
+  --marigold-lit: #F2A93B; /* 9.4:1 on base */
 
-  --ink:   #EDE6D6;
-  --ink-2: #C9BFAD;
-  --ink-3: #A99F8E;
+  /* Semantic Aliases for Dark Mode */
+  --bg-page:        var(--base);
+  --bg-surface:     var(--surface);
+  --bg-raised:      var(--raised);
+  --border-subtle:  var(--line);
+  --border-strong:  #54453E;
+  --text-main:      var(--text);
+  --text-muted:     var(--text-muted);
+  --accent-primary: var(--kumkum-lit);
+  --accent-glow:    var(--marigold-lit);
 
-  --geru:       #D98563;
-  --geru-text:  #E8A184;
-  --neel:       #8EA3BD;
-  --sage:       #8A9A6E;
-  --brass:      #C9A468;
-  --brass-text: #D9B97F;
+  --sand:       #3A2F2A;
+  --shola:      #16100E;
+  --paper:      #211A17;
+  --ink:        #F3EBE3;
+  --smoke:      #A2958B;
 
-  --border:         #3B342B;
-  --control-border: #8A7F6D;
+  --e1: 0 1px 2px rgba(0, 0, 0, 0.25);
+  --e2: 0 4px 12px rgba(0, 0, 0, 0.35);
+  --e3: 0 12px 32px rgba(0, 0, 0, 0.5);
+
+  --focus-ring: 2px solid var(--kumkum-lit);
 }
 
+/* Base resets & typography */
 html {
-  background-color: var(--chalk);
-  color: var(--ink);
+  background-color: var(--bg-page);
+  color: var(--text-main);
   font-family: var(--font-body);
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  font-size: 15px;
-  line-height: 1.55;
-  color: var(--ink);
-  background-color: var(--chalk);
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  font-family: var(--font-body);
+  line-height: 1.6;
 }
 
-h1, h2, h3, h4, .display {
+/* Bengali conjunct safeguard: no letter-spacing, max-weight 600 */
+:lang(bn) {
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  line-height: 1.7;
+}
+
+:lang(bn) h1, :lang(bn) h2, :lang(bn) h3, :lang(bn) h4, :lang(bn) strong {
+  font-weight: 600 !important;
+}
+
+/* Headings */
+h1, h2, h3, h4, .font-serif {
   font-family: var(--font-display);
   font-weight: 600;
-  line-height: 1.25;
+  line-height: 1.15;
+  color: var(--text-main);
 }
 
-:lang(bn) {
-  line-height: 1.75;
+p {
+  max-width: 75ch;
 }
 
-/* Meta Labels */
-.meta {
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: .06em;
-  text-transform: uppercase;
-  color: var(--ink-3);
+/* Focus Visible standards */
+:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
 }
 
-.meta:lang(bn), :lang(bn) .meta {
-  letter-spacing: 0;
-  text-transform: none;
-}
-
-/* Tactile Paper Grain Surface */
-.paper {
-  background-color: var(--chalk);
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .17  0 0 0 0 .15  0 0 0 0 .12  .15 0 0 0 -.02'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-}
-
-.paper.paper-2 {
-  background-color: var(--chalk-2);
-}
-
-.paper.paper-3 {
-  background-color: var(--chalk-3);
-}
-
-/* Inked Buttons */
-.btn {
-  min-height: 44px;
-  padding: 0 16px;
-  border-radius: 4px;
-  border: 1.5px solid var(--control-border);
-  color: var(--ink);
-  background: var(--chalk-2);
-  font: 600 14px var(--font-body);
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  transition: all 140ms var(--ease);
-}
-
-.btn:hover {
-  border-color: var(--ink);
-  background: var(--chalk-3);
-}
-
-.btn:active {
-  transform: scale(.98);
-}
-
-.btn:focus-visible, .chip:focus-visible {
-  outline: 2px solid var(--neel);
-  outline-offset: 2px;
-}
-
-.btn-primary {
-  background: color-mix(in srgb, var(--geru) 18%, var(--chalk-2));
-  border-color: var(--geru-text);
-  color: var(--geru-text);
-}
-
-.btn-primary:hover {
-  background: color-mix(in srgb, var(--geru) 28%, var(--chalk-2));
-}
-
-/* Nimantran Invitation Card (Double Border Heritage styling) */
-.nimantran {
-  position: relative;
-  padding: 18px 16px;
-  border: 1px solid var(--control-border);
-  background-color: var(--chalk-2);
-  border-radius: 6px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-}
-
-.nimantran::before {
-  content: '';
-  position: absolute;
-  inset: 5px;
-  border: 1px solid var(--border);
-  border-radius: 3px;
-  pointer-events: none;
-}
-
-/* Stamp Chip */
-.chip {
-  min-height: 30px;
-  padding: 0 10px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  border: 1px dashed var(--brass-text);
-  color: var(--brass-text);
-  border-radius: 4px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: .05em;
-  text-transform: uppercase;
-  background: color-mix(in srgb, var(--brass) 10%, transparent);
-}
-
-.chip:lang(bn) {
-  letter-spacing: 0;
-  text-transform: none;
-}
-
-/* Thaal Bottom Sheet */
-.thaal {
-  border-top: 3px solid var(--brass);
-  border-radius: 12px 12px 0 0;
-  background-color: var(--chalk-2);
-  box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.35);
-}
-
-/* Lal-Par (Red Border Sari Edge accent) */
-.lal-par-top {
-  border-top: 2px solid var(--geru);
-  position: relative;
-}
-.lal-par-top::after {
-  content: '';
-  position: absolute;
-  top: 1px;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: var(--brass);
-}
-
+/* Respect Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
-  * {
-    transition-duration: 1ms !important;
+  *, ::before, ::after {
     animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
   }
+}
+
+/* 3.1 Skeleton Loading System (shimmer via background-position sweep, 1.4s infinite) */
+@keyframes shimmerSweep {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(223, 210, 194, 0.4) 0%,
+    rgba(223, 210, 194, 0.8) 50%,
+    rgba(223, 210, 194, 0.4) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmerSweep 1.4s var(--ease-inout) infinite;
+}
+
+:root[data-theme='raat'] .skeleton-shimmer,
+:root[data-theme='dark'] .skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(58, 47, 42, 0.4) 0%,
+    rgba(84, 69, 62, 0.8) 50%,
+    rgba(58, 47, 42, 0.4) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmerSweep 1.4s var(--ease-inout) infinite;
+}
+
+/* Utility Scrollbar */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }

@@ -5,49 +5,58 @@ export default {
   theme: {
     extend: {
       colors: {
-        chalk: {
-          DEFAULT: 'var(--chalk)',
-          2: 'var(--chalk-2)',
-          3: 'var(--chalk-3)',
+        /* Primary Hue Arc Tokens */
+        sindoor: 'var(--sindoor)',
+        kumkum: {
+          DEFAULT: 'var(--kumkum)',
+          lit: 'var(--kumkum-lit)',
         },
-        shankha: 'var(--shankha)',
-        ink: {
-          DEFAULT: 'var(--ink)',
-          2: 'var(--ink-2)',
-          3: 'var(--ink-3)',
+        terracotta: 'var(--terracotta)',
+        marigold: {
+          DEFAULT: 'var(--marigold)',
+          lit: 'var(--marigold-lit)',
         },
-        geru: {
-          DEFAULT: 'var(--geru)',
-          text: 'var(--geru-text)',
-        },
+        haldi: 'var(--haldi)',
         neel: 'var(--neel)',
-        sage: 'var(--sage)',
-        brass: {
-          DEFAULT: 'var(--brass)',
-          text: 'var(--brass-text)',
-        },
-        border: {
-          DEFAULT: 'var(--border)',
-          control: 'var(--control-border)',
-        },
-        pujo: {
-          red: '#D32F2F',
-          gold: '#B08D57',
-          dark: '#181512',
-          card: '#221D18',
-          accent: '#A65A3A',
-        },
-        zone: {
-          north: 'var(--z-north)',
-          south: 'var(--z-south)',
-          central: 'var(--z-central)',
-          east: 'var(--z-east)',
-          west: 'var(--z-west)',
-        },
+
+        /* Neutrals */
+        shola: 'var(--shola)',
+        paper: 'var(--paper)',
+        sand: 'var(--sand)',
+        smoke: 'var(--smoke)',
+        ink: 'var(--ink)',
+
+        /* Dark Mode Surfaces */
+        base: 'var(--base)',
+        surface: 'var(--surface)',
+        raised: 'var(--raised)',
+        line: 'var(--line)',
       },
       fontFamily: {
         display: ['var(--font-display)', 'serif'],
         body: ['var(--font-body)', 'sans-serif'],
+      },
+      borderRadius: {
+        sm: 'var(--r-sm)',
+        md: 'var(--r-md)',
+        lg: 'var(--r-lg)',
+        full: 'var(--r-full)',
+      },
+      boxShadow: {
+        e1: 'var(--e1)',
+        e2: 'var(--e2)',
+        e3: 'var(--e3)',
+      },
+      transitionDuration: {
+        instant: 'var(--dur-instant)',
+        fast: 'var(--dur-fast)',
+        base: 'var(--dur-base)',
+        slow: 'var(--dur-slow)',
+      },
+      transitionTimingFunction: {
+        out: 'var(--ease-out)',
+        inout: 'var(--ease-inout)',
+        spring: 'var(--ease-spring)',
       },
     },
   },

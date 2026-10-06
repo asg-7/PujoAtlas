@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
+import {
+  Share2,
+  Copy,
+  Check,
+  X,
+  MessageCircle,
+} from 'lucide-react';
 import { useMapStore } from '../../store/useMapStore';
-import { t } from '../../lib/i18n';
 
 export const SocialShareModal: React.FC = () => {
   const { isShareModalOpen, setShareModalOpen, selectedEntity, pandals, language } = useMapStore();
@@ -20,14 +26,12 @@ export const SocialShareModal: React.FC = () => {
     : 'Pujo Atlas 2026';
 
   const shareText = currentPandal
-    ? `✨ ${title} — ${currentPandal.address}\n🗺️ Check out this Durga Puja pandal on Pujo Atlas:\n${typeof window !== 'undefined' ? window.location.href : 'https://pujoatlas.in'}`
-    : `🌟 Explore 730+ Kolkata Durga Puja Pandals, Heritage Rajbaris & Food Spots on Pujo Atlas!\n${typeof window !== 'undefined' ? window.location.href : 'https://pujoatlas.in'}`;
-
-  const shareUrl = typeof window !== 'undefined' ? window.location.href : 'https://pujoatlas.in';
+    ? `${title} — ${currentPandal.address}\nExplore this Durga Puja on Pujo Atlas:\n${typeof window !== 'undefined' ? window.location.href : 'https://pujoatlas.in'}`
+    : `Explore 730+ Kolkata Durga Puja Pandals, Heritage Rajbaris & Food on Pujo Atlas!\n${typeof window !== 'undefined' ? window.location.href : 'https://pujoatlas.in'}`;
 
   const handleCopyLink = async () => {
     try {
-      await navigator.clipboard.writeText(`${shareText}`);
+      await navigator.clipboard.writeText(shareText);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (e) {
@@ -36,66 +40,59 @@ export const SocialShareModal: React.FC = () => {
   };
 
   const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareText)}`;
-  const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/60 dark:bg-black/70 backdrop-blur-xs transition-opacity duration-base"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="share-modal-title"
+    >
       <div
-        className="bg-white dark:bg-zinc-900 border border-sand-200 dark:border-zinc-800 rounded-3xl max-w-md w-full p-6 shadow-2xl relative"
+        className="bg-paper dark:bg-surface border border-sand dark:border-line rounded-lg max-w-md w-full p-6 shadow-e3 relative animate-in fade-in zoom-in-95 duration-fast"
         onClick={(e) => e.stopPropagation()}
       >
         <button
           onClick={() => setShareModalOpen(false)}
-          className="absolute top-4 right-4 p-2 text-sand-500 hover:text-sand-800 dark:text-zinc-400 dark:hover:text-zinc-200 rounded-full hover:bg-sand-100 dark:hover:bg-zinc-800 transition-colors"
+          className="absolute top-4 right-4 p-1.5 text-smoke hover:text-ink dark:hover:text-text rounded-full hover:bg-sand/20 transition-colors"
+          aria-label="Close share dialog"
         >
-          ✕
+          <X className="w-4 h-4" strokeWidth={1.5} />
         </button>
 
-        <div className="text-center mb-6">
-          <div className="w-12 h-12 rounded-2xl bg-terracotta-100 dark:bg-terracotta-950/60 text-terracotta-600 dark:text-terracotta-400 text-2xl flex items-center justify-center mx-auto mb-3">
-            📤
+        <div className="text-center mb-6 space-y-2">
+          <div className="w-10 h-10 rounded-full bg-sand/40 dark:bg-line text-terracotta flex items-center justify-center mx-auto">
+            <Share2 className="w-5 h-5" strokeWidth={1.5} />
           </div>
-          <h3 className="text-xl font-serif font-bold text-sand-950 dark:text-zinc-100">
-            {language === 'bn' ? 'শেয়ার করুন বন্ধুদের সাথে' : 'Share Pujo Atlas'}
+          <h3 id="share-modal-title" className="text-lg font-serif font-semibold text-ink dark:text-text">
+            {language === 'bn' ? 'শেয়ার করুন' : 'Share Pujo Atlas'}
           </h3>
-          <p className="text-xs text-sand-600 dark:text-zinc-400 mt-1">
+          <p className="text-xs text-smoke dark:text-text-muted">
             {currentPandal
-              ? `Share ${title} details and directions`
-              : 'Share this live interactive Kolkata Puja guide'}
+              ? `Share ${title} directions and details`
+              : 'Share Kolkata Durga Puja interactive guide'}
           </p>
         </div>
 
         {/* Share buttons */}
-        <div className="space-y-3">
+        <div className="space-y-2.5">
           <a
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-sm transition-colors"
+            className="w-full py-2.5 px-4 rounded-md bg-sindoor hover:bg-kumkum dark:bg-kumkum-lit text-shola dark:text-base font-semibold text-xs flex items-center justify-center gap-2 shadow-e1 transition-colors no-underline min-h-[44px]"
           >
-            <span>💬</span> {language === 'bn' ? 'হোয়াটসঅ্যাপে পাঠান' : 'Share on WhatsApp'}
-          </a>
-
-          <a
-            href={twitterUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full py-3 px-4 rounded-xl bg-sky-500 hover:bg-sky-600 text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-sm transition-colors"
-          >
-            <span>🐦</span> {language === 'bn' ? 'টুইটারে পোস্ট করুন' : 'Share on X (Twitter)'}
+            <MessageCircle className="w-4 h-4" strokeWidth={1.5} />
+            <span>{language === 'bn' ? 'হোয়াটসঅ্যাপে পাঠান' : 'Share to WhatsApp'}</span>
           </a>
 
           <button
             onClick={handleCopyLink}
-            className="w-full py-3 px-4 rounded-xl bg-sand-100 dark:bg-zinc-800 hover:bg-sand-200 dark:hover:bg-zinc-700 text-sand-900 dark:text-zinc-100 font-semibold text-sm flex items-center justify-center gap-2 transition-colors border border-sand-200 dark:border-zinc-700"
+            className="w-full py-2.5 px-4 rounded-md bg-shola dark:bg-base hover:bg-sand/20 text-ink dark:text-text font-semibold text-xs flex items-center justify-center gap-2 transition-colors border border-sand dark:border-line min-h-[44px] cursor-pointer"
           >
-            <span>📋</span> {copied ? (language === 'bn' ? '✓ লিংক কপি হয়েছে!' : '✓ Link Copied!') : (language === 'bn' ? 'লিংক কপি করুন' : 'Copy Share Link')}
+            {copied ? <Check className="w-4 h-4 text-kumkum" strokeWidth={2} /> : <Copy className="w-4 h-4 text-smoke" strokeWidth={1.5} />}
+            <span>{copied ? (language === 'bn' ? 'লিংক কপি হয়েছে' : 'Link Copied!') : (language === 'bn' ? 'লিংক কপি করুন' : 'Copy Share Link')}</span>
           </button>
-        </div>
-
-        {/* Preview snippet */}
-        <div className="mt-5 p-3 rounded-xl bg-sand-50 dark:bg-zinc-800/60 border border-sand-200/80 dark:border-zinc-700/60 text-xs text-sand-600 dark:text-zinc-400 italic">
-          "{shareText.slice(0, 100)}..."
         </div>
       </div>
     </div>

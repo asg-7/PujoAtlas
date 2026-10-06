@@ -1,26 +1,27 @@
 import React, { useState, useMemo, useRef, useEffect } from 'react';
+import {
+  Search,
+  Locate,
+  Train,
+  UtensilsCrossed,
+  X,
+  Star,
+  Landmark,
+  Bookmark,
+  Check,
+  PanelLeftClose,
+  PanelLeftOpen,
+  SlidersHorizontal,
+  Layers,
+} from 'lucide-react';
 import { useMapStore } from '../../store/useMapStore';
 import type { Zone } from '../../lib/schemas';
 import PandalCard from '../cards/PandalCard';
+import { EmptyState } from '../common/EmptyState';
+import { PandalCardSkeleton } from '../common/PandalCardSkeleton';
 import { t } from '../../lib/i18n';
 import { calculateDistanceKm } from '../../lib/geoUtils';
 import { telemetry } from '../../lib/telemetry';
-
-// Claude-style sidebar collapse/expand icon (rectangle with left division)
-const SidebarIcon = ({ className = 'w-4 h-4' }: { className?: string }) => (
-  <svg
-    className={className}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-    <line x1="9" y1="3" x2="9" y2="21" />
-  </svg>
-);
 
 export default function ExploreView() {
   const {
@@ -45,8 +46,43 @@ export default function ExploreView() {
   } = useMapStore();
 
   const [mobileView, setMobileView] = useState<'map' | 'list'>('map');
-  const [isSheetExpanded, setIsSheetExpanded] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const listContainerRef = useRef<HTMLDivElement>(null);
+
+  // 4.2 URL State Synchronization (Shareable, restorable, back button works)
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const urlFilter = params.get('filter');
+      const urlQ = params.get('q');
+      if (urlFilter && urlFilter !== activeFilter) {
+        setFilter(urlFilter);
+      }
+      if (urlQ && urlQ !== searchQuery) {
+        setSearchQuery(urlQ);
+      }
+    } catch (e) {}
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    try {
+      const params = new URLSearchParams(window.location.search);
+      if (activeFilter !== 'ALL') {
+        params.set('filter', activeFilter);
+      } else {
+        params.delete('filter');
+      }
+      if (searchQuery) {
+        params.set('q', searchQuery);
+      } else {
+        params.delete('q');
+      }
+      const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
+      window.history.replaceState(null, '', newUrl);
+    } catch (e) {}
+  }, [activeFilter, searchQuery]);
 
   // Keyboard shortcut Ctrl+B or Cmd+B to toggle sidebar
   useEffect(() => {
@@ -85,8 +121,8 @@ export default function ExploreView() {
   const filteredPandals = useMemo(() => {
     let list = [...pandals];
 
-    // 1. Text Search Query
-    if (searchQuery.trim().length > 1) {
+    // 1. Text Search Query (Debounced in search handling, from 2 chars)
+    if (searchQuery.trim().length >= 2) {
       const q = searchQuery.toLowerCase().trim();
       list = list.filter(
         (p) =>
@@ -147,111 +183,119 @@ export default function ExploreView() {
 
   return (
     <div className="relative w-full h-[calc(100vh-3.5rem)] sm:h-[calc(100vh-4rem)] flex overflow-hidden">
-      {/* LEFT PANEL: 40% Desktop Editorial & Pandal List (Collapsible like Claude's sidebar) */}
+      {/* LEFT PANEL: 320px–40% Desktop Editorial & Pandal Directory (Collapsible) */}
       <div
         ref={listContainerRef}
-        className={`h-full overflow-y-auto bg-[var(--chalk)] border-r border-[var(--border)] z-20 flex flex-col transition-all duration-300 ease-in-out shrink-0 ${
+        className={`h-full overflow-y-auto bg-paper dark:bg-surface border-r border-sand dark:border-line z-20 flex flex-col transition-all duration-base ease-inout shrink-0 ${
           mobileView === 'map' ? 'hidden md:flex' : 'flex'
         } ${
           isSidebarCollapsed
             ? 'md:w-0 md:max-w-0 md:-translate-x-full md:opacity-0 md:pointer-events-none md:border-r-0'
-            : 'w-full md:w-[42%] lg:w-[38%] md:translate-x-0 md:opacity-100 shadow-lg md:shadow-none'
+            : 'w-full md:w-[420px] lg:w-[460px] md:translate-x-0 md:opacity-100 shadow-e2 md:shadow-none'
         }`}
       >
         {/* Sticky Search & Filter Header */}
-        <div className="p-3 sm:p-4 bg-[var(--chalk)] border-b border-[var(--border)] sticky top-0 z-10 space-y-2.5 shadow-xs">
+        <div className="p-3.5 sm:p-4 bg-paper dark:bg-surface border-b border-sand dark:border-line sticky top-0 z-10 space-y-2.5 shadow-e1">
           {/* Search Box + Minimize Sidebar Button */}
           <div className="flex items-center gap-2">
             <div className="relative flex-1 flex items-center">
+              <Search className="w-4 h-4 text-smoke absolute left-3.5 top-1/2 -translate-y-1/2" strokeWidth={1.5} />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={t('hero.searchPlaceholder', language)}
-                className="w-full bg-[var(--chalk-2)] text-[var(--ink)] placeholder-[var(--ink-3)] border border-[var(--control-border)] rounded-full py-2.5 pl-4 pr-11 text-xs sm:text-sm font-sans focus:outline-none focus:ring-2 focus:ring-red-500/30 focus:border-red-600 transition-all shadow-xs"
+                className="w-full bg-shola dark:bg-base text-ink dark:text-text placeholder-smoke border border-sand dark:border-line rounded-md py-2 pl-9 pr-10 text-xs sm:text-sm font-sans focus:outline-none focus:ring-2 focus:ring-kumkum/30 focus:border-kumkum transition-all duration-fast"
+                aria-label="Search pandals, localities, or metro stations"
               />
               {searchQuery ? (
                 <button
                   type="button"
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-9 top-1/2 -translate-y-1/2 text-xs font-bold text-[var(--ink-3)] hover:text-[var(--ink)] cursor-pointer"
+                  className="absolute right-9 top-1/2 -translate-y-1/2 text-xs font-semibold text-smoke hover:text-ink dark:hover:text-text cursor-pointer p-1"
+                  aria-label="Clear search"
                 >
-                  ✕
+                  <X className="w-3.5 h-3.5" strokeWidth={1.5} />
                 </button>
               ) : null}
               <button
                 type="button"
                 onClick={handleLocateUser}
                 title="Locate me (আমার অবস্থান)"
-                className="absolute right-1.5 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-[#0ea5e9] hover:bg-[#0284c7] text-white flex items-center justify-center shadow-xs transition-transform active:scale-90 cursor-pointer"
+                className="absolute right-1.5 top-1/2 -translate-y-1/2 w-7 h-7 rounded-sm bg-neel hover:bg-neel/90 text-shola flex items-center justify-center transition-transform active:scale-95 cursor-pointer"
+                aria-label="Locate me on map"
               >
-                🎯
+                <Locate className="w-3.5 h-3.5" strokeWidth={1.5} />
               </button>
             </div>
 
-            {/* Desktop Claude-style Sidebar Minimize Toggle */}
+            {/* Desktop Sidebar Minimize Toggle */}
             <button
               type="button"
               onClick={toggleSidebar}
-              className="hidden md:flex items-center justify-center w-9 h-9 rounded-full border border-[var(--control-border)] bg-[var(--chalk-2)] text-[var(--ink-2)] hover:text-[var(--ink)] hover:bg-[var(--chalk-3)] transition-all cursor-pointer shrink-0 shadow-xs active:scale-95"
+              className="hidden md:flex items-center justify-center w-9 h-9 rounded-md border border-sand dark:border-line bg-shola dark:bg-base text-smoke hover:text-ink dark:hover:text-text hover:bg-sand/20 transition-all duration-fast cursor-pointer shrink-0 shadow-e1 active:scale-95"
               title={
                 language === 'bn'
                   ? 'প্যানেল ছোট করুন (ম্যাপ বড় করুন)'
                   : 'Minimize sidebar (Full Map View) — Ctrl+B'
               }
+              aria-label="Collapse sidebar"
             >
-              <SidebarIcon className="w-4 h-4" />
+              <PanelLeftClose className="w-4 h-4" strokeWidth={1.5} />
             </button>
           </div>
 
-          {/* Primary Quick Filter Pills */}
+          {/* Primary Quick Filter Pills (Horizontal Scroll, never wraps) */}
           <div className="flex overflow-x-auto hide-scrollbar gap-1.5 py-0.5 items-center">
             <button
               type="button"
               onClick={() => handlePillClick('ALL')}
-              className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition-all border cursor-pointer ${
+              className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-fast border cursor-pointer ${
                 activeFilter === 'ALL'
-                  ? 'bg-red-600 text-white border-red-600 shadow-xs font-bold'
-                  : 'bg-[var(--chalk-2)] text-[var(--ink)] border-[var(--border)] hover:bg-[var(--chalk-3)]'
+                  ? 'bg-kumkum dark:bg-kumkum-lit text-shola dark:text-base border-kumkum font-semibold shadow-e1'
+                  : 'bg-shola dark:bg-base text-ink dark:text-text border-sand dark:border-line hover:bg-sand/20'
               }`}
             >
-              🏛️ {t('filters.all', language)} ({stats.all})
+              {t('filters.all', language)} ({stats.all})
             </button>
 
             <button
               type="button"
               onClick={() => handlePillClick('FEATURED')}
-              className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition-all border cursor-pointer ${
+              className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-fast border cursor-pointer flex items-center gap-1 ${
                 activeFilter === 'FEATURED'
-                  ? 'bg-red-600 text-white border-red-600 shadow-xs font-bold'
-                  : 'bg-[var(--chalk-2)] text-[var(--ink)] border-[var(--border)] hover:bg-[var(--chalk-3)]'
+                  ? 'bg-kumkum dark:bg-kumkum-lit text-shola dark:text-base border-kumkum font-semibold shadow-e1'
+                  : 'bg-shola dark:bg-base text-ink dark:text-text border-sand dark:border-line hover:bg-sand/20'
               }`}
             >
-              ⭐ {t('filters.featured', language)} ({stats.featured})
+              <Star className="w-3 h-3 fill-current" strokeWidth={1.5} />
+              <span>{t('filters.featured', language)} ({stats.featured})</span>
             </button>
 
             <button
               type="button"
               onClick={() => handlePillClick('HERITAGE')}
-              className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition-all border cursor-pointer ${
+              className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-fast border cursor-pointer flex items-center gap-1 ${
                 activeFilter === 'HERITAGE'
-                  ? 'bg-red-600 text-white border-red-600 shadow-xs font-bold'
-                  : 'bg-[var(--chalk-2)] text-[var(--ink)] border-[var(--border)] hover:bg-[var(--chalk-3)]'
+                  ? 'bg-kumkum dark:bg-kumkum-lit text-shola dark:text-base border-kumkum font-semibold shadow-e1'
+                  : 'bg-shola dark:bg-base text-ink dark:text-text border-sand dark:border-line hover:bg-sand/20'
               }`}
             >
-              👑 {t('filters.heritage', language)}
+              <Landmark className="w-3 h-3" strokeWidth={1.5} />
+              <span>{t('filters.heritage', language)} ({stats.heritage})</span>
             </button>
 
             <button
               type="button"
               onClick={() => handlePillClick('SAVED')}
-              className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition-all border cursor-pointer ${
+              className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-fast border cursor-pointer flex items-center gap-1 ${
                 activeFilter === 'SAVED'
-                  ? 'bg-red-600 text-white border-red-600 shadow-xs font-bold'
-                  : 'bg-[var(--chalk-2)] text-[var(--ink)] border-[var(--border)] hover:bg-[var(--chalk-3)]'
+                  ? 'bg-neel text-shola border-neel font-semibold shadow-e1'
+                  : 'bg-shola dark:bg-base text-ink dark:text-text border-sand dark:border-line hover:bg-sand/20'
               }`}
             >
-              🔖 {t('filters.saved', language)} ({stats.saved})
+              <Bookmark className="w-3 h-3 fill-current" strokeWidth={1.5} />
+              <span>{t('filters.saved', language)} ({stats.saved})</span>
             </button>
           </div>
 
@@ -264,10 +308,10 @@ export default function ExploreView() {
                   key={r.id}
                   type="button"
                   onClick={() => handlePillClick(r.id)}
-                  className={`px-2.5 py-0.5 rounded-md text-[11px] font-medium whitespace-nowrap transition-all border cursor-pointer ${
+                  className={`px-2.5 py-1 rounded-sm text-[11px] font-medium whitespace-nowrap transition-all duration-fast border cursor-pointer ${
                     isAct
-                      ? 'bg-[var(--ink)] text-[var(--shankha)] border-[var(--ink)] font-bold'
-                      : 'bg-[var(--chalk-2)]/80 text-[var(--ink-2)] border-[var(--border)] hover:text-[var(--ink)]'
+                      ? 'bg-sindoor text-shola border-sindoor font-semibold'
+                      : 'bg-shola dark:bg-base text-smoke dark:text-text-muted border-sand dark:border-line hover:text-ink dark:hover:text-text'
                   }`}
                 >
                   {t(r.labelKey, language)}
@@ -277,7 +321,7 @@ export default function ExploreView() {
           </div>
 
           {/* Result Count and Layer Toggles */}
-          <div className="flex items-center justify-between text-[11px] text-[var(--ink-3)] font-medium pt-1">
+          <div className="flex items-center justify-between text-[11px] text-smoke dark:text-text-muted font-normal pt-1">
             <span>
               {filteredPandals.length} {t('hero.pandalsCount', language)}
             </span>
@@ -286,25 +330,27 @@ export default function ExploreView() {
               <button
                 type="button"
                 onClick={() => toggleLayer('metro')}
-                className={`px-2 py-0.5 rounded border text-[10px] cursor-pointer ${
+                className={`px-2 py-0.5 rounded-sm border text-[10px] font-medium flex items-center gap-1 cursor-pointer transition-colors ${
                   activeLayers.metro
-                    ? 'bg-indigo-50 text-indigo-700 border-indigo-300 font-bold'
-                    : 'bg-[var(--chalk-2)] text-[var(--ink-3)] border-[var(--border)] opacity-60'
+                    ? 'bg-neel/10 text-neel border-neel/40 font-semibold'
+                    : 'bg-shola dark:bg-base text-smoke dark:text-text-muted border-sand dark:border-line opacity-60'
                 }`}
               >
-                🚇 {t('filters.metroLines', language)}
+                <Train className="w-3 h-3" strokeWidth={1.5} />
+                <span>{t('filters.metroLines', language)}</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => toggleLayer('food')}
-                className={`px-2 py-0.5 rounded border text-[10px] cursor-pointer ${
+                className={`px-2 py-0.5 rounded-sm border text-[10px] font-medium flex items-center gap-1 cursor-pointer transition-colors ${
                   activeLayers.food
-                    ? 'bg-amber-50 text-amber-800 border-amber-300 font-bold'
-                    : 'bg-[var(--chalk-2)] text-[var(--ink-3)] border-[var(--border)] opacity-60'
+                    ? 'bg-terracotta/10 text-terracotta border-terracotta/40 font-semibold'
+                    : 'bg-shola dark:bg-base text-smoke dark:text-text-muted border-sand dark:border-line opacity-60'
                 }`}
               >
-                🍽️ {t('filters.foodLayer', language)}
+                <UtensilsCrossed className="w-3 h-3" strokeWidth={1.5} />
+                <span>{t('filters.foodLayer', language)}</span>
               </button>
             </div>
           </div>
@@ -312,25 +358,27 @@ export default function ExploreView() {
 
         {/* Scrollable Pandal List */}
         <div className="p-3 sm:p-4 space-y-3 flex-1 overflow-y-auto">
-          {filteredPandals.length === 0 ? (
-            <div className="py-12 text-center space-y-2">
-              <div className="text-3xl">🔍</div>
-              <h4 className="font-serif font-bold text-base text-[var(--ink)]">
-                কোনো মণ্ডপ পাওয়া যায়নি (No Pandals Found)
-              </h4>
-              <p className="text-xs text-[var(--ink-3)] max-w-xs mx-auto">
-                অন্য এলাকা বা নাম দিয়ে সন্ধান করুন অথবা ফিল্টার রিসেট করুন।
-              </p>
-              <button
-                onClick={() => {
-                  setFilter('ALL');
-                  setSearchQuery('');
-                }}
-                className="mt-2 px-4 py-1.5 rounded-full bg-red-600 text-white text-xs font-bold cursor-pointer"
-              >
-                {t('filters.clearAll', language)}
-              </button>
-            </div>
+          {isLoading ? (
+            Array.from({ length: 4 }).map((_, i) => <PandalCardSkeleton key={i} />)
+          ) : filteredPandals.length === 0 ? (
+            <EmptyState
+              title={language === 'bn' ? 'কোনো মণ্ডপ পাওয়া যায়নি' : 'No pandals match these filters.'}
+              description={
+                language === 'bn'
+                  ? 'অন্য কোনো এলাকা বা নাম দিয়ে সন্ধান করুন অথবা ফিল্টারগুলো মুছে ফেলুন।'
+                  : 'Try widening your search radius or clearing active zone and category filters.'
+              }
+              primaryActionLabel={t('filters.clearAll', language)}
+              onPrimaryAction={() => {
+                setFilter('ALL');
+                setSearchQuery('');
+              }}
+              secondaryActionLabel={language === 'bn' ? 'সব মণ্ডপ দেখুন (৭৩২)' : 'Browse all 732 pandals'}
+              onSecondaryAction={() => {
+                setFilter('ALL');
+                setSearchQuery('');
+              }}
+            />
           ) : (
             filteredPandals.map((pandal) => (
               <PandalCard
@@ -351,24 +399,25 @@ export default function ExploreView() {
         </div>
       </div>
 
-      {/* RIGHT PANEL: 60% Map Canvas (WebGL2 Hardware-accelerated) */}
+      {/* RIGHT PANEL: Map Canvas */}
       <div className="flex-1 h-full relative">
         {/* Floating Expand Sidebar Button on Desktop when collapsed */}
         {isSidebarCollapsed && (
-          <div className="hidden md:flex absolute top-4 left-4 z-30 pointer-events-auto items-center gap-2 animate-in fade-in slide-in-from-left-4 duration-300">
+          <div className="hidden md:flex absolute top-4 left-4 z-30 pointer-events-auto items-center gap-2 animate-in fade-in slide-in-from-left-4 duration-base">
             <button
               type="button"
               onClick={toggleSidebar}
-              className="bg-[var(--chalk)]/95 backdrop-blur-md border border-[var(--border)] text-[var(--ink)] shadow-lg hover:shadow-xl hover:bg-[var(--chalk-2)] rounded-full px-4 py-2.5 flex items-center gap-2.5 text-xs sm:text-sm font-bold transition-all duration-200 active:scale-95 cursor-pointer group"
+              className="bg-paper/95 dark:bg-surface/95 backdrop-blur-md border border-sand dark:border-line text-ink dark:text-text shadow-e2 hover:shadow-e3 hover:bg-sand/20 rounded-full px-4 py-2.5 flex items-center gap-2.5 text-xs sm:text-sm font-semibold transition-all duration-fast active:scale-95 cursor-pointer group"
               title={
                 language === 'bn'
                   ? 'মণ্ডপ তালিকা খুলুন'
                   : 'Show Pandal Directory (Expand Sidebar) — Ctrl+B'
               }
+              aria-label="Expand sidebar"
             >
-              <SidebarIcon className="w-4 h-4 text-red-600 group-hover:scale-110 transition-transform" />
+              <PanelLeftOpen className="w-4 h-4 text-kumkum dark:text-kumkum-lit group-hover:scale-110 transition-transform duration-fast" strokeWidth={1.5} />
               <span>{language === 'bn' ? 'মণ্ডপ তালিকা' : 'Show Pandals'}</span>
-              <span className="bg-red-600 text-white text-[11px] font-extrabold px-2 py-0.5 rounded-full shadow-xs">
+              <span className="bg-kumkum dark:bg-kumkum-lit text-shola dark:text-base text-[11px] font-bold px-2 py-0.5 rounded-full shadow-e1">
                 {filteredPandals.length}
               </span>
             </button>
@@ -377,53 +426,58 @@ export default function ExploreView() {
 
         {/* Mobile Top Floating Quick Search & Filter Chips */}
         <div className="md:hidden absolute top-2 left-2 right-2 z-20 pointer-events-auto space-y-1.5">
-          <div className="relative flex items-center bg-[var(--chalk)]/95 backdrop-blur-md rounded-full shadow-md border border-[var(--border)] p-1">
+          <div className="relative flex items-center bg-paper/95 dark:bg-surface/95 backdrop-blur-md rounded-md shadow-e2 border border-sand dark:border-line p-1">
+            <Search className="w-4 h-4 text-smoke ml-2 shrink-0" strokeWidth={1.5} />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder={t('hero.searchPlaceholder', language)}
-              className="w-full bg-transparent text-[var(--ink)] placeholder-[var(--ink-3)] text-xs font-sans px-3 py-1.5 focus:outline-none"
+              className="w-full bg-transparent text-ink dark:text-text placeholder-smoke text-xs font-sans px-2.5 py-1.5 focus:outline-none"
+              aria-label="Search pandals on mobile"
             />
             <button
               type="button"
               onClick={handleLocateUser}
-              className="w-7 h-7 rounded-full bg-[#0ea5e9] text-white flex items-center justify-center text-xs shrink-0 mr-1"
+              className="w-7 h-7 rounded-sm bg-neel text-shola flex items-center justify-center text-xs shrink-0 mr-1 cursor-pointer"
+              aria-label="Locate me"
             >
-              🎯
+              <Locate className="w-3.5 h-3.5" strokeWidth={1.5} />
             </button>
           </div>
 
           <div className="flex overflow-x-auto hide-scrollbar gap-1.5 px-1 py-0.5">
             <button
               onClick={() => handlePillClick('ALL')}
-              className={`px-3 py-1 rounded-full text-xs font-bold border shadow-xs whitespace-nowrap ${
+              className={`px-3 py-1 rounded-full text-xs font-medium border shadow-e1 whitespace-nowrap ${
                 activeFilter === 'ALL'
-                  ? 'bg-red-600 text-white border-red-600'
-                  : 'bg-[var(--chalk)]/90 text-[var(--ink)] border-[var(--border)]'
+                  ? 'bg-kumkum dark:bg-kumkum-lit text-shola dark:text-base border-kumkum'
+                  : 'bg-paper/90 dark:bg-surface/90 text-ink dark:text-text border-sand dark:border-line'
               }`}
             >
-              All {stats.all}
+              All ({stats.all})
             </button>
             <button
               onClick={() => handlePillClick('FEATURED')}
-              className={`px-3 py-1 rounded-full text-xs font-bold border shadow-xs whitespace-nowrap ${
+              className={`px-3 py-1 rounded-full text-xs font-medium border shadow-e1 whitespace-nowrap flex items-center gap-1 ${
                 activeFilter === 'FEATURED'
-                  ? 'bg-red-600 text-white border-red-600'
-                  : 'bg-[var(--chalk)]/90 text-[var(--ink)] border-[var(--border)]'
+                  ? 'bg-kumkum dark:bg-kumkum-lit text-shola dark:text-base border-kumkum'
+                  : 'bg-paper/90 dark:bg-surface/90 text-ink dark:text-text border-sand dark:border-line'
               }`}
             >
-              ⭐ Featured ({stats.featured})
+              <Star className="w-3 h-3 fill-current" strokeWidth={1.5} />
+              <span>Featured ({stats.featured})</span>
             </button>
             <button
               onClick={() => handlePillClick('HERITAGE')}
-              className={`px-3 py-1 rounded-full text-xs font-bold border shadow-xs whitespace-nowrap ${
+              className={`px-3 py-1 rounded-full text-xs font-medium border shadow-e1 whitespace-nowrap flex items-center gap-1 ${
                 activeFilter === 'HERITAGE'
-                  ? 'bg-red-600 text-white border-red-600'
-                  : 'bg-[var(--chalk)]/90 text-[var(--ink)] border-[var(--border)]'
+                  ? 'bg-kumkum dark:bg-kumkum-lit text-shola dark:text-base border-kumkum'
+                  : 'bg-paper/90 dark:bg-surface/90 text-ink dark:text-text border-sand dark:border-line'
               }`}
             >
-              👑 Heritage
+              <Landmark className="w-3 h-3" strokeWidth={1.5} />
+              <span>Heritage ({stats.heritage})</span>
             </button>
           </div>
         </div>
@@ -432,10 +486,11 @@ export default function ExploreView() {
         <div className="md:hidden absolute bottom-20 right-4 z-30 pointer-events-auto">
           <button
             onClick={() => setMobileView(mobileView === 'map' ? 'list' : 'map')}
-            className="px-4 py-2.5 rounded-full bg-red-600 hover:bg-red-700 text-white text-xs font-bold shadow-xl flex items-center gap-1.5 transition-transform active:scale-90 cursor-pointer"
+            className="px-4 py-2.5 rounded-full bg-sindoor hover:bg-kumkum dark:bg-kumkum-lit text-shola dark:text-base text-xs font-semibold shadow-e3 flex items-center gap-2 transition-transform active:scale-95 cursor-pointer min-h-[44px]"
+            aria-label="Toggle map and list view"
           >
             <span>{mobileView === 'map' ? '📋' : '🗺️'}</span>
-            <span>{mobileView === 'map' ? 'View List (তালিকা)' : 'View Map (মানচিত্র)'}</span>
+            <span>{mobileView === 'map' ? 'View List' : 'View Map'}</span>
           </button>
         </div>
       </div>

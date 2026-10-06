@@ -28,6 +28,7 @@
     "astro": "^4.15.0",
     "fastify": "^4.28.1",
     "leaflet": "^1.9.4",
+    "lucide-react": "^1.52.0",
     "maplibre-gl": "^6.11.2",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",

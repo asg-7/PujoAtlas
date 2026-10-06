@@ -4,34 +4,50 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import '../styles/tokens.css';
 ---
 
-<html lang="en" data-theme="raat">
+<!DOCTYPE html>
+<html lang="bn" data-theme="raat">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
 		<meta name="generator" content={Astro.generator} />
+		<meta name="description" content="Pujo Atlas — কলকাতার সেরা দুর্গোৎসব পরিক্রমা ও মণ্ডপ নির্দেশিকা। 730+ pandals mapped with shortest-route optimization, heritage filters & metro connectivity." />
+		<meta name="theme-color" content="#16100E" />
 		<title>Pujo Atlas | কলকাতার সেরা দুর্গোৎসব পরিক্রমা</title>
-        <style>
-            body, html { margin: 0; padding: 0; overflow: hidden; width: 100%; height: 100%; background: var(--chalk); }
-        </style>
-	</head>
-	<body class="font-body overflow-hidden w-full h-full relative selection:bg-geru selection:text-shankha">
 		
-        <!-- Map Container -->
-        <div id="map-container" class="absolute inset-0 z-0 w-full h-full"></div>
+		<!-- Font preconnects -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Noto+Sans+Bengali:wght@400;500;600&family=Noto+Serif+Bengali:wght@500;600&display=swap" rel="stylesheet" />
 
-        <!-- React UI Overlay -->
-        <MapUIOverlay client:load />
+		<style>
+			body, html {
+				margin: 0;
+				padding: 0;
+				overflow: hidden;
+				width: 100%;
+				height: 100%;
+				background: var(--bg-page);
+				color: var(--text-main);
+			}
+		</style>
+	</head>
+	<body class="font-body overflow-hidden w-full h-full relative selection:bg-kumkum selection:text-shola">
+		<!-- Base Map Container -->
+		<div id="map-container" class="absolute inset-0 z-0 w-full h-full" aria-label="Interactive Map of Kolkata Durga Puja"></div>
 
-        <!-- Standard bundled ES module script -->
-        <script>
-            import { initApp } from '../lib/map/initMap';
+		<!-- UI Overlay Component -->
+		<MapUIOverlay client:load />
 
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', initApp);
-            } else {
-                initApp();
-            }
-        </script>
+		<!-- Initialization Script -->
+		<script>
+			import { initApp } from '../lib/map/initMap';
+
+			if (document.readyState === 'loading') {
+				document.addEventListener('DOMContentLoaded', initApp);
+			} else {
+				initApp();
+			}
+		</script>
 	</body>
 </html>

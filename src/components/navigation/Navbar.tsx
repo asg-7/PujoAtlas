@@ -1,4 +1,16 @@
 import React from 'react';
+import {
+  Compass,
+  Sparkles,
+  Landmark,
+  UtensilsCrossed,
+  Route,
+  Bookmark,
+  Locate,
+  Moon,
+  Sun,
+  Flame,
+} from 'lucide-react';
 import { useMapStore } from '../../store/useMapStore';
 import type { MainTab } from '../../store/useMapStore';
 import { t } from '../../lib/i18n';
@@ -63,61 +75,68 @@ export default function Navbar() {
     );
   };
 
-  const TABS: Array<{ id: MainTab; labelKey: string; icon: string; badge?: number }> = [
-    { id: 'explore', labelKey: 'nav.explore', icon: '🗺️' },
-    { id: 'discover', labelKey: 'nav.discover', icon: '⭐' },
-    { id: 'heritage', labelKey: 'nav.heritage', icon: '🏛️' },
-    { id: 'food', labelKey: 'nav.food', icon: '🍽️' },
-    { id: 'planner', labelKey: 'nav.planner', icon: '🧭' },
+  const TABS: Array<{ id: MainTab; labelKey: string; icon: React.ReactNode; badge?: number }> = [
+    { id: 'explore', labelKey: 'nav.explore', icon: <Compass className="w-4 h-4" strokeWidth={1.5} /> },
+    { id: 'discover', labelKey: 'nav.discover', icon: <Sparkles className="w-4 h-4" strokeWidth={1.5} /> },
+    { id: 'heritage', labelKey: 'nav.heritage', icon: <Landmark className="w-4 h-4" strokeWidth={1.5} /> },
+    { id: 'planner', labelKey: 'nav.planner', icon: <Route className="w-4 h-4" strokeWidth={1.5} /> },
+    { id: 'food', labelKey: 'nav.food', icon: <UtensilsCrossed className="w-4 h-4" strokeWidth={1.5} /> },
     {
       id: 'mypuja',
       labelKey: 'nav.mypuja',
-      icon: '❤️',
+      icon: <Bookmark className="w-4 h-4" strokeWidth={1.5} />,
       badge: savedPandalIds.length + visitedPandalIds.length || undefined,
     },
   ];
 
   return (
-    <header className="w-full bg-[var(--chalk)]/95 backdrop-blur-md border-b border-[var(--border)] shadow-sm sticky top-0 z-30 transition-colors">
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-2">
-        {/* Brand Logo & Subtitle */}
+    <header className="w-full bg-paper/95 dark:bg-surface/95 backdrop-blur-md border-b border-sand dark:border-line shadow-e1 sticky top-0 z-30 transition-colors duration-fast">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-3">
+        {/* Brand Logo & Editorial Subtitle */}
         <div
           onClick={() => handleTabClick('explore')}
-          className="flex items-center gap-2 cursor-pointer select-none shrink-0 group"
+          className="flex items-center gap-3 cursor-pointer select-none shrink-0 group"
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => e.key === 'Enter' && handleTabClick('explore')}
+          aria-label="Pujo Atlas Home"
         >
-          <div className="w-9 h-9 rounded-full bg-red-600 flex items-center justify-center text-white text-lg shadow-md group-hover:scale-105 transition-transform">
-            🪔
+          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-md bg-sindoor flex items-center justify-center text-shola shadow-e1 group-hover:scale-105 transition-transform duration-fast">
+            <Flame className="w-4 h-4 sm:w-5 sm:h-5 text-shola" strokeWidth={1.75} />
           </div>
           <div className="flex flex-col">
-            <span className="font-serif font-black text-lg sm:text-xl text-[var(--ink)] tracking-tight leading-none">
+            <span className="font-serif font-semibold text-base sm:text-lg text-ink dark:text-text tracking-tight leading-none">
               {t('brandTitle', language)}
             </span>
-            <span className="text-[10px] sm:text-xs text-[var(--geru-text)] font-medium tracking-wide">
+            <span className="text-[11px] text-terracotta dark:text-smoke font-normal tracking-normal mt-0.5 leading-tight">
               {t('brandSubtitle', language)}
             </span>
           </div>
         </div>
 
         {/* Desktop Primary Navigation Tabs */}
-        <nav className="hidden md:flex items-center gap-1 lg:gap-2">
+        <nav className="hidden md:flex items-center gap-1.5" aria-label="Main Navigation">
           {TABS.map((tab) => {
             const isActive = activeTab === tab.id;
             return (
               <button
                 key={tab.id}
                 onClick={() => handleTabClick(tab.id)}
-                className={`relative px-3 py-1.5 rounded-full text-xs lg:text-sm font-semibold transition-all flex items-center gap-1.5 cursor-pointer ${
+                className={`relative px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-fast flex items-center gap-1.5 cursor-pointer min-h-[36px] ${
                   isActive
-                    ? 'bg-red-600 text-white shadow-sm font-bold'
-                    : 'text-[var(--ink)] hover:bg-[var(--chalk-3)]/60'
+                    ? 'bg-kumkum dark:bg-kumkum-lit text-shola dark:text-base font-semibold shadow-e1'
+                    : 'text-ink dark:text-text hover:bg-sand/30 dark:hover:bg-line/40'
                 }`}
+                aria-current={isActive ? 'page' : undefined}
               >
                 <span>{tab.icon}</span>
                 <span>{t(tab.labelKey, language)}</span>
                 {tab.badge !== undefined && tab.badge > 0 && (
                   <span
                     className={`text-[10px] px-1.5 py-0.2 rounded-full font-bold leading-tight ${
-                      isActive ? 'bg-white text-red-700' : 'bg-red-600 text-white'
+                      isActive
+                        ? 'bg-shola text-kumkum dark:bg-base dark:text-kumkum-lit'
+                        : 'bg-kumkum text-shola dark:bg-kumkum-lit dark:text-base'
                     }`}
                   >
                     {tab.badge}
@@ -129,26 +148,28 @@ export default function Navbar() {
         </nav>
 
         {/* Action Controls: Near Me, Language, Theme */}
-        <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+        <div className="flex items-center gap-2 shrink-0">
           {/* Near Me CTA Button */}
           <button
             onClick={handleNearMeClick}
-            className={`px-2.5 sm:px-3 py-1.5 rounded-full text-xs font-semibold border flex items-center gap-1 transition-all cursor-pointer shadow-sm ${
+            className={`px-3 py-1.5 rounded-full text-xs font-medium border flex items-center gap-1.5 transition-all duration-fast cursor-pointer min-h-[36px] ${
               userLocation
-                ? 'bg-emerald-50 text-emerald-800 border-emerald-300'
-                : 'bg-[var(--chalk-2)] text-[var(--ink)] border-[var(--control-border)] hover:bg-[var(--chalk-3)]'
+                ? 'bg-paper text-kumkum dark:text-kumkum-lit border-kumkum/40 shadow-e1'
+                : 'bg-paper dark:bg-surface text-ink dark:text-text border-sand dark:border-line hover:bg-sand/20'
             }`}
-            title="Sort by nearest pandals (আমার কাছের পুজো)"
+            title={language === 'bn' ? 'আমার নিকটের মণ্ডপ' : 'Find pandals near me'}
+            aria-label="Locate pandals near me"
           >
-            <span>📍</span>
-            <span className="hidden xs:inline">{t('hero.nearMe', language)}</span>
+            <Locate className="w-3.5 h-3.5" strokeWidth={1.5} />
+            <span className="hidden sm:inline">{t('hero.nearMe', language)}</span>
           </button>
 
           {/* Language Switcher EN | বাংলা */}
           <button
             onClick={toggleLanguage}
-            className="px-2.5 py-1.5 rounded-full text-xs font-bold border border-[var(--control-border)] bg-[var(--chalk-2)] text-[var(--ink)] hover:bg-[var(--chalk-3)] transition-colors cursor-pointer"
+            className="px-2.5 py-1.5 rounded-full text-xs font-semibold border border-sand dark:border-line bg-paper dark:bg-surface text-ink dark:text-text hover:bg-sand/20 transition-colors duration-fast cursor-pointer min-h-[36px]"
             title="Toggle Language / ভাষা পরিবর্তন করুন"
+            aria-label="Toggle language between English and Bengali"
           >
             {language === 'en' ? 'বাংলা' : 'EN'}
           </button>
@@ -156,10 +177,12 @@ export default function Navbar() {
           {/* Theme Switcher Din / Raat */}
           <button
             onClick={toggleTheme}
-            className="w-8 h-8 rounded-full border border-[var(--control-border)] bg-[var(--chalk-2)] text-[var(--ink)] hover:bg-[var(--chalk-3)] flex items-center justify-center text-xs transition-colors cursor-pointer"
+            className="w-9 h-9 rounded-full border border-sand dark:border-line bg-paper dark:bg-surface text-ink dark:text-text hover:bg-sand/20 flex items-center justify-center transition-colors duration-fast cursor-pointer"
             title="Toggle Day/Night Mode (দিন / রাত)"
+            aria-label="Toggle light and dark mode"
           >
-            🌙
+            <Moon className="w-4 h-4 dark:hidden" strokeWidth={1.5} />
+            <Sun className="w-4 h-4 hidden dark:block" strokeWidth={1.5} />
           </button>
         </div>
       </div>
