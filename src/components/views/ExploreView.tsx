@@ -6,6 +6,22 @@ import { t } from '../../lib/i18n';
 import { calculateDistanceKm } from '../../lib/geoUtils';
 import { telemetry } from '../../lib/telemetry';
 
+// Claude-style sidebar collapse/expand icon (rectangle with left division)
+const SidebarIcon = ({ className = 'w-4 h-4' }: { className?: string }) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+    <line x1="9" y1="3" x2="9" y2="21" />
+  </svg>
+);
+
 export default function ExploreView() {
   const {
     pandals,
@@ -23,11 +39,26 @@ export default function ExploreView() {
     selectEntity,
     activeLayers,
     toggleLayer,
+    isSidebarCollapsed,
+    toggleSidebar,
+    setSidebarCollapsed,
   } = useMapStore();
 
   const [mobileView, setMobileView] = useState<'map' | 'list'>('map');
   const [isSheetExpanded, setIsSheetExpanded] = useState(false);
   const listContainerRef = useRef<HTMLDivElement>(null);
+
+  // Keyboard shortcut Ctrl+B or Cmd+B to toggle sidebar
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'b') {
+        e.preventDefault();
+        toggleSidebar();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [toggleSidebar]);
 
   // Dynamic statistics
   const stats = useMemo(() => {
@@ -116,40 +147,60 @@ export default function ExploreView() {
 
   return (
     <div className="relative w-full h-[calc(100vh-3.5rem)] sm:h-[calc(100vh-4rem)] flex overflow-hidden">
-      {/* LEFT PANEL: 40% Desktop Editorial & Pandal List */}
+      {/* LEFT PANEL: 40% Desktop Editorial & Pandal List (Collapsible like Claude's sidebar) */}
       <div
         ref={listContainerRef}
-        className={`w-full md:w-[42%] lg:w-[38%] h-full overflow-y-auto bg-[var(--chalk)] border-r border-[var(--border)] z-20 flex flex-col transition-all ${
+        className={`h-full overflow-y-auto bg-[var(--chalk)] border-r border-[var(--border)] z-20 flex flex-col transition-all duration-300 ease-in-out shrink-0 ${
           mobileView === 'map' ? 'hidden md:flex' : 'flex'
+        } ${
+          isSidebarCollapsed
+            ? 'md:w-0 md:max-w-0 md:-translate-x-full md:opacity-0 md:pointer-events-none md:border-r-0'
+            : 'w-full md:w-[42%] lg:w-[38%] md:translate-x-0 md:opacity-100 shadow-lg md:shadow-none'
         }`}
       >
         {/* Sticky Search & Filter Header */}
         <div className="p-3 sm:p-4 bg-[var(--chalk)] border-b border-[var(--border)] sticky top-0 z-10 space-y-2.5 shadow-xs">
-          {/* Search Box with Integrated Locate Button */}
-          <div className="relative flex items-center">
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder={t('hero.searchPlaceholder', language)}
-              className="w-full bg-[var(--chalk-2)] text-[var(--ink)] placeholder-[var(--ink-3)] border border-[var(--control-border)] rounded-full py-2.5 pl-4 pr-11 text-xs sm:text-sm font-sans focus:outline-none focus:ring-2 focus:ring-red-500/30 focus:border-red-600 transition-all shadow-xs"
-            />
-            {searchQuery ? (
+          {/* Search Box + Minimize Sidebar Button */}
+          <div className="flex items-center gap-2">
+            <div className="relative flex-1 flex items-center">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder={t('hero.searchPlaceholder', language)}
+                className="w-full bg-[var(--chalk-2)] text-[var(--ink)] placeholder-[var(--ink-3)] border border-[var(--control-border)] rounded-full py-2.5 pl-4 pr-11 text-xs sm:text-sm font-sans focus:outline-none focus:ring-2 focus:ring-red-500/30 focus:border-red-600 transition-all shadow-xs"
+              />
+              {searchQuery ? (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-9 top-1/2 -translate-y-1/2 text-xs font-bold text-[var(--ink-3)] hover:text-[var(--ink)] cursor-pointer"
+                >
+                  ✕
+                </button>
+              ) : null}
               <button
                 type="button"
-                onClick={() => setSearchQuery('')}
-                className="absolute right-9 top-1/2 -translate-y-1/2 text-xs font-bold text-[var(--ink-3)] hover:text-[var(--ink)]"
+                onClick={handleLocateUser}
+                title="Locate me (আমার অবস্থান)"
+                className="absolute right-1.5 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-[#0ea5e9] hover:bg-[#0284c7] text-white flex items-center justify-center shadow-xs transition-transform active:scale-90 cursor-pointer"
               >
-                ✕
+                🎯
               </button>
-            ) : null}
+            </div>
+
+            {/* Desktop Claude-style Sidebar Minimize Toggle */}
             <button
               type="button"
-              onClick={handleLocateUser}
-              title="Locate me (আমার অবস্থান)"
-              className="absolute right-1.5 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-[#0ea5e9] hover:bg-[#0284c7] text-white flex items-center justify-center shadow-xs transition-transform active:scale-90 cursor-pointer"
+              onClick={toggleSidebar}
+              className="hidden md:flex items-center justify-center w-9 h-9 rounded-full border border-[var(--control-border)] bg-[var(--chalk-2)] text-[var(--ink-2)] hover:text-[var(--ink)] hover:bg-[var(--chalk-3)] transition-all cursor-pointer shrink-0 shadow-xs active:scale-95"
+              title={
+                language === 'bn'
+                  ? 'প্যানেল ছোট করুন (ম্যাপ বড় করুন)'
+                  : 'Minimize sidebar (Full Map View) — Ctrl+B'
+              }
             >
-              🎯
+              <SidebarIcon className="w-4 h-4" />
             </button>
           </div>
 
@@ -264,7 +315,9 @@ export default function ExploreView() {
           {filteredPandals.length === 0 ? (
             <div className="py-12 text-center space-y-2">
               <div className="text-3xl">🔍</div>
-              <h4 className="font-serif font-bold text-base text-[var(--ink)]">কোনো মণ্ডপ পাওয়া যায়নি (No Pandals Found)</h4>
+              <h4 className="font-serif font-bold text-base text-[var(--ink)]">
+                কোনো মণ্ডপ পাওয়া যায়নি (No Pandals Found)
+              </h4>
               <p className="text-xs text-[var(--ink-3)] max-w-xs mx-auto">
                 অন্য এলাকা বা নাম দিয়ে সন্ধান করুন অথবা ফিল্টার রিসেট করুন।
               </p>
@@ -300,8 +353,27 @@ export default function ExploreView() {
 
       {/* RIGHT PANEL: 60% Map Canvas (WebGL2 Hardware-accelerated) */}
       <div className="flex-1 h-full relative">
-        {/* Map Container Target */}
-        <div id="map-container" className="absolute inset-0 w-full h-full" />
+        {/* Floating Expand Sidebar Button on Desktop when collapsed */}
+        {isSidebarCollapsed && (
+          <div className="hidden md:flex absolute top-4 left-4 z-30 pointer-events-auto items-center gap-2 animate-in fade-in slide-in-from-left-4 duration-300">
+            <button
+              type="button"
+              onClick={toggleSidebar}
+              className="bg-[var(--chalk)]/95 backdrop-blur-md border border-[var(--border)] text-[var(--ink)] shadow-lg hover:shadow-xl hover:bg-[var(--chalk-2)] rounded-full px-4 py-2.5 flex items-center gap-2.5 text-xs sm:text-sm font-bold transition-all duration-200 active:scale-95 cursor-pointer group"
+              title={
+                language === 'bn'
+                  ? 'মণ্ডপ তালিকা খুলুন'
+                  : 'Show Pandal Directory (Expand Sidebar) — Ctrl+B'
+              }
+            >
+              <SidebarIcon className="w-4 h-4 text-red-600 group-hover:scale-110 transition-transform" />
+              <span>{language === 'bn' ? 'মণ্ডপ তালিকা' : 'Show Pandals'}</span>
+              <span className="bg-red-600 text-white text-[11px] font-extrabold px-2 py-0.5 rounded-full shadow-xs">
+                {filteredPandals.length}
+              </span>
+            </button>
+          </div>
+        )}
 
         {/* Mobile Top Floating Quick Search & Filter Chips */}
         <div className="md:hidden absolute top-2 left-2 right-2 z-20 pointer-events-auto space-y-1.5">

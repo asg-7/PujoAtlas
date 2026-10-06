@@ -44,6 +44,7 @@ interface MapState {
   isDetailOpen: boolean;
   isShareModalOpen: boolean;
   isTrendingOpen: boolean;
+  isSidebarCollapsed: boolean;
 
   // Actions
   initData: (pandals: PandalEntity[], food: FoodEntity[]) => void;
@@ -57,6 +58,8 @@ interface MapState {
   setNearMetroOnly: (nearMetro: boolean) => void;
   setMaxDistanceKm: (dist: number | null) => void;
   setSearchQuery: (query: string) => void;
+  setSidebarCollapsed: (collapsed: boolean) => void;
+  toggleSidebar: () => void;
 
   // Bookmarks & Itinerary
   toggleSavePandal: (id: string) => void;
@@ -127,12 +130,30 @@ export const useMapStore = create<MapState>((set, get) => ({
   isDetailOpen: false,
   isShareModalOpen: false,
   isTrendingOpen: false,
+  isSidebarCollapsed: false,
 
   initData: (pandals, food) => set({ pandals, food }),
 
   setActiveTab: (tab) => set({ activeTab: tab, selectedEntity: null, isDetailOpen: false }),
 
   setViewMode: (mode) => set({ activeViewMode: mode }),
+
+  setSidebarCollapsed: (collapsed) => {
+    set({ isSidebarCollapsed: collapsed });
+    if (typeof window !== 'undefined') {
+      setTimeout(() => window.dispatchEvent(new Event('resize')), 300);
+    }
+  },
+
+  toggleSidebar: () => {
+    set((state) => {
+      const next = !state.isSidebarCollapsed;
+      if (typeof window !== 'undefined') {
+        setTimeout(() => window.dispatchEvent(new Event('resize')), 300);
+      }
+      return { isSidebarCollapsed: next };
+    });
+  },
 
   setLanguage: (lang) => {
     if (typeof window !== 'undefined') {
