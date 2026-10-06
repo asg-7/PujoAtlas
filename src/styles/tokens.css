@@ -220,27 +220,38 @@ p {
 /* 4. Map Controls Styling & Positioning */
 .maplibregl-ctrl-bottom-right,
 .leaflet-bottom.leaflet-right {
-  margin-right: 1.25rem !important;
-  margin-bottom: 1.25rem !important;
+  margin-right: 1rem !important;
+  margin-bottom: 1rem !important;
   display: flex !important;
   flex-direction: column !important;
-  gap: 8px !important;
+  align-items: flex-end !important;
+  gap: 6px !important;
   z-index: 5 !important;
+  pointer-events: none !important;
+}
+
+.maplibregl-ctrl-bottom-right > *,
+.leaflet-bottom.leaflet-right > * {
+  pointer-events: auto !important;
 }
 
 @media (max-width: 767px) {
   .maplibregl-ctrl-bottom-right,
   .leaflet-bottom.leaflet-right {
     margin-right: 0.75rem !important;
-    margin-bottom: calc(4.75rem + env(safe-area-inset-bottom, 0px)) !important;
+    margin-bottom: calc(4.5rem + env(safe-area-inset-bottom, 0px)) !important;
   }
 }
 
 .maplibregl-ctrl-group,
 .leaflet-bar {
+  width: 32px !important;
+  min-width: 32px !important;
+  max-width: 32px !important;
+  margin: 0 !important;
   background: var(--bg-surface) !important;
   border: 1px solid var(--border-subtle) !important;
-  border-radius: var(--r-md) !important;
+  border-radius: var(--r-sm) !important;
   box-shadow: var(--e2) !important;
   overflow: hidden !important;
   backdrop-filter: blur(8px) !important;
@@ -249,8 +260,14 @@ p {
 
 .maplibregl-ctrl-group button,
 .leaflet-bar a {
-  width: 36px !important;
-  height: 36px !important;
+  width: 32px !important;
+  height: 32px !important;
+  min-width: 32px !important;
+  min-height: 32px !important;
+  max-width: 32px !important;
+  max-height: 32px !important;
+  padding: 0 !important;
+  margin: 0 !important;
   background-color: transparent !important;
   border: none !important;
   border-bottom: 1px solid var(--border-subtle) !important;
@@ -259,6 +276,7 @@ p {
   align-items: center !important;
   justify-content: center !important;
   transition: background-color var(--dur-fast) var(--ease-out);
+  cursor: pointer !important;
 }
 
 .maplibregl-ctrl-group button:last-child,
@@ -268,12 +286,17 @@ p {
 
 .maplibregl-ctrl-group button:hover,
 .leaflet-bar a:hover {
-  background-color: rgba(200, 67, 46, 0.12) !important;
+  background-color: rgba(200, 67, 46, 0.15) !important;
 }
 
 .maplibregl-ctrl-group button:active,
 .leaflet-bar a:active {
-  background-color: rgba(200, 67, 46, 0.22) !important;
+  background-color: rgba(200, 67, 46, 0.25) !important;
+}
+
+.maplibregl-ctrl-icon {
+  display: block !important;
+  margin: auto !important;
 }
 
 :root[data-theme='raat'] .maplibregl-ctrl-icon,
@@ -284,5 +307,30 @@ p {
 :root[data-theme='raat'] .leaflet-bar a,
 :root[data-theme='dark'] .leaflet-bar a {
   color: var(--text-main) !important;
+}
+
+/* Compact Subtle Map Attribution */
+.maplibregl-ctrl-attrib,
+.leaflet-control-attribution {
+  font-size: 10px !important;
+  line-height: 1.2 !important;
+  padding: 2px 6px !important;
+  border-radius: var(--r-sm) !important;
+  background: var(--bg-surface) !important;
+  color: var(--text-muted) !important;
+  border: 1px solid var(--border-subtle) !important;
+  opacity: 0.85 !important;
+  margin: 0 !important;
+}
+
+.maplibregl-ctrl-attrib a,
+.leaflet-control-attribution a {
+  color: var(--text-muted) !important;
+  text-decoration: none !important;
+}
+
+.maplibregl-ctrl-attrib a:hover,
+.leaflet-control-attribution a:hover {
+  text-decoration: underline !important;
 }
 
