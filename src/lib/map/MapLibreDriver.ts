@@ -23,7 +23,17 @@ const DARK_STYLE: StyleSpecification = {
         'https://services.arcgisonline.com/arcgis/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}'
       ],
       tileSize: 256,
+      maxzoom: 16, // Real native limit of Esri dark canvas; MapLibre overscales beyond 16 instead of requesting missing tiles!
       attribution: '© Esri, © OpenStreetMap contributors'
+    },
+    'osm-streets': {
+      type: 'raster',
+      tiles: [
+        'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
+      ],
+      tileSize: 256,
+      maxzoom: 19, // OpenStreetMap native zoom 19 in Kolkata (streets, alleys, paras); overscaled to z22!
+      attribution: '© OpenStreetMap contributors'
     }
   },
   layers: [
@@ -32,7 +42,28 @@ const DARK_STYLE: StyleSpecification = {
       type: 'raster',
       source: 'dark-basemap',
       minzoom: 0,
-      maxzoom: 20
+      maxzoom: 22
+    },
+    {
+      id: 'osm-streets-layer',
+      type: 'raster',
+      source: 'osm-streets',
+      minzoom: 14.8,
+      maxzoom: 22,
+      paint: {
+        'raster-opacity': [
+          'interpolate',
+          ['linear'],
+          ['zoom'],
+          14.8, 0.0,
+          15.4, 0.88,
+          19, 0.95
+        ],
+        'raster-brightness-min': 0.1,
+        'raster-brightness-max': 0.72,
+        'raster-contrast': 0.2,
+        'raster-saturation': -0.65
+      }
     }
   ]
 };
@@ -71,6 +102,7 @@ export class MapLibreDriver implements IMapAdapter {
       style: DARK_STYLE,
       center: [initLng, initLat],
       zoom: options.zoom,
+      maxZoom: 21.5, // Unrestricted zooming: overscales smoothly into every alley and para!
       attributionControl: { compact: true },
       maxBounds: [
         [88.10, 22.30], // SW corner
@@ -80,6 +112,23 @@ export class MapLibreDriver implements IMapAdapter {
 
     if (typeof window !== 'undefined') {
       (window as any).__mapInstance = this.map;
+
+      // Listen for Din/Raat theme switch to tune street raster filter
+      window.addEventListener('map:themeChange', (e: any) => {
+        const theme = e.detail?.theme;
+        if (!this.map || !this.map.getLayer('osm-streets-layer')) return;
+        if (theme === 'din') {
+          this.map.setPaintProperty('osm-streets-layer', 'raster-brightness-min', 0.0);
+          this.map.setPaintProperty('osm-streets-layer', 'raster-brightness-max', 1.0);
+          this.map.setPaintProperty('osm-streets-layer', 'raster-contrast', 0.0);
+          this.map.setPaintProperty('osm-streets-layer', 'raster-saturation', 0.0);
+        } else {
+          this.map.setPaintProperty('osm-streets-layer', 'raster-brightness-min', 0.1);
+          this.map.setPaintProperty('osm-streets-layer', 'raster-brightness-max', 0.72);
+          this.map.setPaintProperty('osm-streets-layer', 'raster-contrast', 0.2);
+          this.map.setPaintProperty('osm-streets-layer', 'raster-saturation', -0.65);
+        }
+      });
     }
 
     // Navigation controls

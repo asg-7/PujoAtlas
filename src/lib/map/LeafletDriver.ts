@@ -36,7 +36,8 @@ export class LeafletDriver implements IMapAdapter {
     L.tileLayer(TILE_URL, {
       attribution: TILE_ATTRIBUTION,
       subdomains: 'abcd',
-      maxZoom: 19,
+      maxZoom: 21,
+      maxNativeZoom: 16,
     }).addTo(this.map);
 
     this.markerLayer.addTo(this.map);

@@ -49,6 +49,7 @@ export default function MapUIOverlay({ initialPandals = [], initialFood = [] }: 
     setIsRaat(!isRaat);
     if (typeof document !== 'undefined') {
       document.documentElement.dataset.theme = nextTheme;
+      window.dispatchEvent(new CustomEvent('map:themeChange', { detail: { theme: nextTheme } }));
     }
   };
 
