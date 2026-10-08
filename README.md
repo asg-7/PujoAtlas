@@ -271,7 +271,8 @@ pujo-atlas/
 │   │   │   ├── FoodCard.tsx      # Card for dining spots with famous dishes
 │   │   │   └── NearbyLinks.tsx   # Nearby transit and metro station links
 │   │   ├── common/
-│   │   │   ├── EmptyState.tsx    # Empty state illustrations with filter reset
+│   │   │   ├── SearchBar.tsx         # Stable accessible search input with clear button & trailing action
+│   │   │   ├── EmptyState.tsx        # Empty state illustrations with filter reset
 │   │   │   └── PandalCardSkeleton.tsx # Shimmer skeleton loading cards
 │   │   ├── modals/
 │   │   │   └── SocialShareModal.tsx # WhatsApp, Telegram, and copy link share sheet
