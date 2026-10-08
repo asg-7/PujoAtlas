@@ -9,7 +9,7 @@
 [![Zustand](https://img.shields.io/badge/Zustand-5.0-764ABC?style=flat)](https://zustand-demo.pmnd.rs)
 [![Fastify](https://img.shields.io/badge/Fastify-4.28-000000?style=flat&logo=fastify&logoColor=white)](https://fastify.dev)
 
-**Pujo Atlas** is an editorial, mobile-first, high-performance geospatial discovery engine and cultural directory for Kolkata Durga Puja. It maps **732 verified pandals**, **213 heritage food spots**, **5 Kolkata Metro lines**, **curated walking trails**, and an **algorithmic shortest-path route planner** with sub-15ms spatial queries and 60fps hardware-accelerated vector mapping.
+**Pujo Atlas** is an editorial, mobile-first, high-performance geospatial discovery engine and cultural directory for Kolkata Durga Puja. It maps **737 verified pandals**, **213 heritage food spots**, **5 Kolkata Metro lines**, **13 curated walking & driving trails**, and an **algorithmic shortest-path route planner** with sub-15ms spatial queries and 60fps hardware-accelerated vector mapping.
 
 ---
 
@@ -49,10 +49,10 @@ flowchart TD
     end
 
     subgraph Data ["Bundled In-Memory Datasets"]
-        PAll["pandals-all.json\n(732 Pandals)"]
+        PAll["pandals-all.json\n(737 Pandals)"]
         Food["food.json\n(213 Spots)"]
         Metro["metroData.ts\n(5 Lines & Stations)"]
-        Trails["trails.ts\n(5 Curated Trails)"]
+        Trails["trails.ts\n(13 Curated Trails)"]
     end
 
     subgraph Server ["Fastify 4.x Spatial Microservice (Port 4000)"]
@@ -78,13 +78,13 @@ flowchart TD
 | :--- | :--- | :--- |
 | **60fps Vector Map** | Hardware-accelerated vector map styled with custom Carto/OSM raster layer, brightness/contrast filtering for day/night, and dynamic pitch & bearing. | [`src/lib/map/MapLibreDriver.ts`](src/lib/map/MapLibreDriver.ts) |
 | **Leaflet 2D Fallback** | Automated capability detection (`isWebGL2Available()`) that transparently falls back to Leaflet on legacy or low-power devices. | [`src/lib/map/LeafletDriver.ts`](src/lib/map/LeafletDriver.ts) |
-| **732 Pandal Directory** | Instant debounced search by name, locality, address, or metro station, with live count badges and zero empty states. | [`src/components/views/ExploreView.tsx`](src/components/views/ExploreView.tsx) |
+| **737 Pandal Directory** | Instant debounced search by name, locality, address, or metro station, with live count badges and zero empty states. | [`src/components/views/ExploreView.tsx`](src/components/views/ExploreView.tsx) |
 | **Shape-Differentiated Markers** | WCAG 2.2 AA compliant pins differentiated by shape (Star for Featured, Arch for Heritage, Flame for Trending, Bookmark for Saved). | [`src/lib/bonediIcons.ts`](src/lib/bonediIcons.ts) |
 | **Floating Map Layer Island** | Prominent top-right floating island toggling **Metro Lines** (`🚇`) and **Food Spots** (`🍽️`) with live pulsing indicators. | [`src/components/views/ExploreView.tsx`](src/components/views/ExploreView.tsx) |
 | **Kolkata Metro Network** | Fully mapped 5 lines (Blue Line 1, Green Line 2, Purple Line 3, Orange Line 6, Yellow Line 4) with clickable station icons. | [`src/data/metroData.ts`](src/data/metroData.ts) |
 | **213 Curated Food Spots** | Heritage cabins, iconic street food, sweet shops, dhabas, and late-night biryani spots with famous items and open hours. | [`src/components/views/FoodView.tsx`](src/components/views/FoodView.tsx) |
-| **Curated Puja Trails** | 5 signature walking/driving routes with distance, estimated hours, and food stops. | [`src/data/trails.ts`](src/data/trails.ts) |
-| **Shortest-Path Route Optimizer** | Traveling Salesperson Problem (TSP) nearest-neighbor algorithm solving multi-stop routes with 1-tap Google Maps export. | [`src/lib/geoUtils.ts`](src/lib/geoUtils.ts), [`PlannerView.tsx`](src/components/views/PlannerView.tsx) |
+| **13 Curated Puja Trails** | 13 signature walking and driving routes (including 8 Bongsense curated itineraries) with distance, estimated hours, and food stops. | [`src/data/trails.ts`](src/data/trails.ts) |
+| **Shortest-Path Route Optimizer** | Traveling Salesperson Problem (TSP) nearest-neighbor algorithm solving multi-stop routes with 1-tap Google Maps export (with <= 8 intermediate waypoint capping to avoid URL truncation). | [`src/lib/geoUtils.ts`](src/lib/geoUtils.ts), [`PlannerView.tsx`](src/components/views/PlannerView.tsx) |
 | **My Puja Dashboard** | Offline-capable personal itinerary: saved favorites, visited checklist with progress bar, and route management. | [`src/components/views/MyPujaView.tsx`](src/components/views/MyPujaView.tsx) |
 | **Dual Theme ("Raat" & "Din")** | "Raat" (Night pandal mode, dark base `#16100E`) as default, and "Din" (Day shola mode `#FAF6F1`). | [`src/styles/tokens.css`](src/styles/tokens.css) |
 | **Bilingual i18n (বাংলা / EN)** | Full Bengali script and English internationalization across all components and filters. | [`src/lib/i18n.ts`](src/lib/i18n.ts) |
@@ -95,24 +95,24 @@ flowchart TD
 
 ## 📍 Pandals Dataset & Regional Statistics
 
-The application bundles **732 verified Durga Puja pandals** in [`src/data/pandals-all.json`](src/data/pandals-all.json).
+The application bundles **737 verified Durga Puja pandals** in [`src/data/pandals-all.json`](src/data/pandals-all.json).
 
 ### Regional Breakdown
 
 | Zone Code | Region Name | Bengali Name | Pandal Count | Zone Identity Color |
 | :--- | :--- | :--- | :--- | :--- |
-| `SOUTH` | South Kolkata | দক্ষিণ কলকাতা | **335** | `#B8892F` (Ochre Brass) |
-| `NORTH` | North Kolkata | উত্তর কলকাতা | **160** | `#4A6A8A` (Slate Indigo) |
+| `SOUTH` | South Kolkata | দক্ষিণ কলকাতা | **338** | `#B8892F` (Ochre Brass) |
+| `NORTH` | North Kolkata | উত্তর কলকাতা | **162** | `#4A6A8A` (Slate Indigo) |
 | `EAST` | East / Salt Lake | পূর্ব কলকাতা ও সল্টলেক | **113** | `#4F8A83` (Muted Teal) |
 | `HOWRAH` | Howrah | হাওড়া | **65** | `#7E5A7E` (Deep Plum) |
 | `OTHERS` | Greater Kolkata / Suburbs | বৃহত্তর কলকাতা | **40** | `#C25953` (Coral Terracotta) |
 | `CENTRAL` | Central Kolkata | মধ্য কলকাতা | **19** | `#B5513A` (Terracotta Brick) |
-| **TOTAL** | **Entire Kolkata Metropolitan** | **সমগ্র কলকাতা** | **732** | — |
+| **TOTAL** | **Entire Kolkata Metropolitan** | **সমগ্র কলকাতা** | **737** | — |
 
-- **Mapped on Vector Canvas**: **627 pandals** have precise GPS coordinates (`lat`, `lng`).
+- **Mapped on Vector Canvas**: **634 pandals** have precise GPS coordinates (`lat`, `lng`).
 - **Heritage Pandals (`isHeritage: true`)**: **412 pandals** founded over 75 years ago (milestones: 75+, 100+, 150+, 200+ years).
 - **Featured Pandals (`isFeatured: true`)**: **30 iconic pujas** selected as editor's picks.
-- **Outbound Navigation**: All 732 pandals feature pre-computed, verified Google Maps deep links.
+- **Outbound Navigation**: All 737 pandals feature pre-computed, verified Google Maps deep links.
 
 ### Canonical Pandal Schema (`PandalEntity`)
 
@@ -252,7 +252,7 @@ pujo-atlas/
 ├── server/                       # Fastify spatial backend (Port 4000)
 │   ├── index.ts                  # Server entry, CORS, compression, healthcheck
 │   ├── lib/
-│   │   ├── data-loader.ts        # In-memory index of 732 pandals & 213 food spots
+│   │   ├── data-loader.ts        # In-memory index of 737 pandals & 213 food spots
 │   │   └── trending.ts           # Half-life decay algorithm for live clicks
 │   └── routes/
 │       ├── pandals.ts            # GET /api/pandals, GET /api/pandals/:id
@@ -260,6 +260,8 @@ pujo-atlas/
 │       ├── nearby.ts             # GET /api/nearby?lat=...&lng=...&radius=...
 │       └── navigate.ts           # POST /api/navigate (click telemetry & deep link)
 ├── scripts/                      # Data maintenance & enrichment scripts
+│   ├── check-trails.ts           # Trail validator verifying pandal/food IDs & coordinates
+│   ├── resolve-stops.mjs         # Fuzzy resolver matching stop names to pandal IDs
 │   ├── places_enrichment.js      # Google Places API geocoder & hours fetcher
 │   └── reddit_curation.py        # PRAW Reddit crowd sentiment crawler
 ├── src/
@@ -287,9 +289,9 @@ pujo-atlas/
 │   │       ├── PlannerView.tsx   # Curated trails + TSP multi-stop route planner
 │   │       └── MyPujaView.tsx    # Bookmarked pandals, visited check-in tracker
 │   ├── data/
-│   │   ├── pandals-all.json      # Master dataset of 732 pandals
-│   │   ├── pandals-north.json    # Regional slice: North Kolkata (160)
-│   │   ├── pandals-south.json    # Regional slice: South Kolkata (335)
+│   │   ├── pandals-all.json      # Master dataset of 737 pandals
+│   │   ├── pandals-north.json    # Regional slice: North Kolkata (162)
+│   │   ├── pandals-south.json    # Regional slice: South Kolkata (338)
 │   │   ├── pandals-central.json  # Regional slice: Central Kolkata (19)
 │   │   ├── pandals-east.json     # Regional slice: East / Salt Lake (113)
 │   │   ├── pandals-west.json     # Regional slice: Howrah & Suburbs (65)
@@ -297,7 +299,7 @@ pujo-atlas/
 │   │   ├── metro-lines.geojson   # Raw GeoJSON line strings for Kolkata Metro
 │   │   ├── metroData.ts          # Parsed metro features with line identity colors
 │   │   ├── zones.geojson         # Polygon boundaries for zone highlight & dimming
-│   │   └── trails.ts             # 5 signature walking and driving trails
+│   │   └── trails.ts             # 13 signature walking and driving trails
 │   ├── lib/
 │   │   ├── bonediIcons.ts        # SVG marker glyph generation & MapLibre sprite loader
 │   │   ├── bonediMapSkin.ts      # Canvas chalchitra arch pins & zone colors
@@ -446,8 +448,23 @@ The map engine uses the **Adapter Design Pattern** via `IMapAdapter` defined in 
      highlights: ['Experimental terracotta art installations', 'Traditional Chandannagar illumination'],
      theme: 'theme',
      coverEmoji: '🎨',
-     description: 'A relaxed evening walking corridor celebrating contemporary Durga Puja art.'
+     description: 'A relaxed evening walking corridor celebrating contemporary Durga Puja art.',
+     // Optional editorial enrichments:
+     bestFor: 'Art lovers seeking thematic, experimental pandal architecture',
+     bngBestFor: 'শিল্পপ্রেমী ও থিম পুজোর অনুরাগীদের জন্য',
+     tip: 'Visit between 4 PM and 7 PM to beat evening vehicular congestion',
+     bngTip: 'বিকেল ৪টা থেকে সন্ধ্যা ৭টার মধ্যে দর্শন সম্পন্ন করা সুবিধাজনক',
+     stopNames: ['Behala Natun Dal', 'Behala Club', 'Barisha Club'],
+     credit: 'Route inspired by Bongsense'
    }
+   ```
+3. Resolve stop names against existing pandal IDs if needed:
+   ```bash
+   node scripts/resolve-stops.mjs "Chetla Agrani" "Suruchi Sangha"
+   ```
+4. Validate the trail dataset to ensure zero broken pandal IDs, food IDs, or missing coordinates:
+   ```bash
+   npm run check:trails
    ```
 
 ---
@@ -577,6 +594,9 @@ npm run dev:web
 
 ### 3. Production Build & Verification
 ```bash
+# Validate all curated trails, stops, and food associations
+npm run check:trails
+
 # Runs Astro build and TypeScript type-checking
 npm run build
 ```

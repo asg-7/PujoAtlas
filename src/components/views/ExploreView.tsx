@@ -132,7 +132,7 @@ export default function ExploreView() {
     });
 
     return {
-      all: all || 732,
+      all: all || 737,
       featured: featured || 30,
       heritage: heritage || 412,
       saved: savedPandalIds.length,
@@ -371,7 +371,7 @@ export default function ExploreView() {
                 setFilter('ALL');
                 setSearchQuery('');
               }}
-              secondaryActionLabel={language === 'bn' ? 'সব মণ্ডপ দেখুন (৭৩২)' : 'Browse all 732 pandals'}
+              secondaryActionLabel={language === 'bn' ? 'সব মণ্ডপ দেখুন (৭৩৭)' : `Browse all ${stats.all || 737} pandals`}
               onSecondaryAction={() => {
                 setFilter('ALL');
                 setSearchQuery('');
