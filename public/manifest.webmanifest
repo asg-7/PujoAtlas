@@ -1,0 +1,38 @@
+{
+  "name": "Pujo Atlas — কলকাতার সেরা দুর্গোৎসব পরিক্রমা",
+  "short_name": "Pujo Atlas",
+  "description": "Interactive map, 737 verified pandals, 213 heritage food spots, metro connectivity, and 13 curated walking trails in Kolkata.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#16100E",
+  "theme_color": "#16100E",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["travel", "navigation", "lifestyle", "events"]
+}
