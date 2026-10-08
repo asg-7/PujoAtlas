@@ -550,5 +550,58 @@
         "url": "https://instagram.com/p/kumartuli_sarbojanin"
       }
     ]
+  },
+  {
+    "id": "dakshindari-youth-club",
+    "name": "Dakshindari Youth Club",
+    "bngName": "দক্ষিণদাঁড়ী ইয়ুথ ক্লাব",
+    "zone": "NORTH",
+    "address": "Dakshindari Rd, Lake Town / Ultadanga, Kolkata 700048",
+    "lat": 22.59451,
+    "lng": 88.39805,
+    "nearestMetro": "Belgachhia / Shobhabazar",
+    "established": 1980,
+    "isHeritage": false,
+    "isFeatured": false,
+    "rating": 4.5,
+    "crowdLevel": "med",
+    "categories": [
+      "theme-based"
+    ],
+    "tags": [
+      "theme-based",
+      "lake-town"
+    ],
+    "themeDescription": "Vibrant youth-led Durga Puja known for contemporary social themes and grand illuminations near Lake Town.",
+    "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=Dakshindari+Youth+Club+Kolkata",
+    "isFamous": false
+  },
+  {
+    "id": "kumartuli-sarbojanin-durgotsab",
+    "name": "Kumartuli Sarbojanin Durgotsab",
+    "bngName": "কুমারটুলি সর্বজনীন দুর্গোৎসব",
+    "zone": "NORTH",
+    "address": "108 Rabindra Sarani, Kumartuli, Sovabazar, Kolkata 700005",
+    "lat": 22.59972,
+    "lng": 88.36281,
+    "nearestMetro": "Shobhabazar Sutanuti",
+    "established": 1933,
+    "isHeritage": true,
+    "isFeatured": true,
+    "rating": 4.8,
+    "crowdLevel": "high",
+    "categories": [
+      "traditional",
+      "heritage",
+      "award-winner"
+    ],
+    "tags": [
+      "traditional",
+      "kumartuli",
+      "heritage"
+    ],
+    "themeDescription": "Historic 1933 puja at the heart of Kolkata idol-making district, revered for traditional Ekchala Daaker Saaj.",
+    "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=Kumartuli+Sarbojanin+Durgotsab+Kolkata",
+    "isFamous": true
   }
 ]

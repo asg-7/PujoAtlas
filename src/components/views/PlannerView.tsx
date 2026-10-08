@@ -90,8 +90,10 @@ export const PlannerView: React.FC = () => {
     if (items.length === 2) {
       return `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}&travelmode=${mode}`;
     }
-    const waypoints = items
-      .slice(1, -1)
+    // Google Maps API allows up to 9-10 waypoints per directions request
+    const intermediate = items.slice(1, -1);
+    const cappedWaypoints = intermediate.length > 8 ? intermediate.slice(0, 8) : intermediate;
+    const waypoints = cappedWaypoints
       .map((p) => `${p.lat},${p.lng}`)
       .join('|');
     return `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}&waypoints=${encodeURIComponent(waypoints)}&travelmode=${mode}`;
@@ -158,6 +160,7 @@ export const PlannerView: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {PUJA_TRAILS.map((trail) => {
                 const isSelected = activeTrailId === trail.id;
+                const stopsCount = trail.stopNames?.length || trail.pandalIds.length;
                 return (
                   <div
                     key={trail.id}
@@ -166,12 +169,12 @@ export const PlannerView: React.FC = () => {
                         ? 'border-kumkum dark:border-kumkum-lit bg-paper dark:bg-surface shadow-e2 ring-1 ring-kumkum/30'
                         : 'border-sand dark:border-line bg-paper dark:bg-surface hover:border-smoke/40 shadow-e1'
                     }`}
-                    onClick={() => setActiveTrailId(trail.id)}
+                    onClick={() => setActiveTrailId(isSelected ? null : trail.id)}
                   >
                     <div className="space-y-2">
                       <div className="flex items-center justify-between gap-2">
                         <span className="px-2 py-0.5 rounded-sm text-[10px] font-semibold bg-sand/60 dark:bg-line text-ink dark:text-text uppercase tracking-wider">
-                          {trail.zone} KOLKATA
+                          {trail.coverEmoji} {trail.zone} KOLKATA
                         </span>
                         <span className="text-xs text-smoke dark:text-text-muted font-medium">
                           {trail.distanceKm} km · ~{trail.estimatedHours}h
@@ -181,9 +184,21 @@ export const PlannerView: React.FC = () => {
                       <h3 className="text-base font-serif font-semibold text-ink dark:text-text">
                         {language === 'bn' ? trail.bngTitle : trail.title}
                       </h3>
-                      <p className="text-xs text-smoke dark:text-text-muted leading-relaxed line-clamp-2">
+                      <p className="text-xs text-smoke dark:text-text-muted leading-relaxed">
                         {trail.description}
                       </p>
+
+                      {trail.bestFor && (
+                        <p className="text-[11px] text-kumkum dark:text-kumkum-lit font-medium pt-0.5">
+                          ★ {language === 'bn' ? (trail.bngBestFor || trail.bestFor) : trail.bestFor}
+                        </p>
+                      )}
+
+                      {trail.tip && (
+                        <p className="text-[11px] text-smoke dark:text-text-muted italic pt-0.5">
+                          💡 {language === 'bn' ? (trail.bngTip || trail.tip) : trail.tip}
+                        </p>
+                      )}
 
                       <div className="pt-2 flex flex-wrap gap-1">
                         {trail.highlights.slice(0, 2).map((hl, i) => (
@@ -195,6 +210,37 @@ export const PlannerView: React.FC = () => {
                           </span>
                         ))}
                       </div>
+
+                      {trail.credit && (
+                        <span className="text-[10px] text-smoke dark:text-text-muted opacity-80 pt-1 block">
+                          {trail.credit}
+                        </span>
+                      )}
+
+                      {/* Expanded Stops List */}
+                      {isSelected && (
+                        <div className="mt-3 pt-3 border-t border-sand/40 dark:border-line space-y-1.5 animate-in fade-in duration-fast">
+                          <div className="text-[11px] font-semibold text-smoke dark:text-text-muted uppercase tracking-wider">
+                            {language === 'bn' ? 'স্টপ তালিকা' : 'Ordered Stops'} ({stopsCount}):
+                          </div>
+                          <div className="space-y-1 max-h-48 overflow-y-auto pr-1">
+                            {(trail.stopNames || trail.pandalIds).map((stop, sIdx) => {
+                              const pandalMatch = pandals.find((p) => p.id === stop || p.name === stop);
+                              const displayName = pandalMatch
+                                ? (language === 'bn' && pandalMatch.bngName ? pandalMatch.bngName : pandalMatch.name)
+                                : stop;
+                              return (
+                                <div key={sIdx} className="flex items-center gap-2 text-xs text-ink dark:text-text">
+                                  <span className="w-4 h-4 rounded-full bg-sand/70 dark:bg-line text-[10px] font-bold flex items-center justify-center text-smoke shrink-0">
+                                    {sIdx + 1}
+                                  </span>
+                                  <span className="truncate">{displayName}</span>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
                     </div>
 
                     <div className="mt-4 pt-3 border-t border-sand/60 dark:border-line flex items-center gap-2">
@@ -211,11 +257,11 @@ export const PlannerView: React.FC = () => {
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          setActiveTrailId(trail.id);
+                          setActiveTrailId(isSelected ? null : trail.id);
                         }}
                         className="py-1.5 px-3 bg-shola dark:bg-base border border-sand dark:border-line hover:bg-sand/20 text-ink dark:text-text text-xs font-medium rounded-md transition-colors duration-fast min-h-[36px]"
                       >
-                        {isSelected ? 'Selected' : 'View Stops'}
+                        {isSelected ? 'Hide Stops' : 'View Stops'}
                       </button>
                     </div>
                   </div>

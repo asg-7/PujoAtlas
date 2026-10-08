@@ -12,7 +12,8 @@
     "dev:api": "tsx watch server/index.ts",
     "build": "astro build --config _astro.config.mjs && tsc --noEmit",
     "preview": "astro preview",
-    "check": "astro check && tsc --noEmit"
+    "check": "astro check && tsc --noEmit",
+    "check:trails": "tsx scripts/check-trails.ts"
   },
   "dependencies": {
     "@astrojs/react": "^5.0.0",

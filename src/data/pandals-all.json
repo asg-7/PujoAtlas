@@ -10963,10 +10963,10 @@
     "id": "user-pandal-429-ajeya-sanghati",
     "name": "Ajeya Sanghati",
     "zone": "SOUTH",
-    "address": "Address not listed",
-    "lat": 0,
-    "lng": 0,
-    "nearestMetro": "",
+    "address": "Motilal Gupta Rd, Haridevpur, Paschim Putiary, Kolkata 700082",
+    "lat": 22.483512,
+    "lng": 88.337452,
+    "nearestMetro": "Mahanayak Uttam Kumar (Tollygunge)",
     "isHeritage": false,
     "isFeatured": false,
     "rating": 4.5,
@@ -14446,10 +14446,10 @@
     "id": "bosepukur-talbagan",
     "name": "Bosepukur Talbagan",
     "zone": "SOUTH",
-    "address": "1/27, Bose Pukur Rd, Tal Bagan, Bosepukur, Kasba, Kolkata 700042",
-    "lat": 0,
-    "lng": 0,
-    "nearestMetro": "Kavi Subhash / Rabindra Sarobar Metro",
+    "address": "Bosepukur Rd, Kasba, Kolkata 700042",
+    "lat": 22.51952,
+    "lng": 88.38605,
+    "nearestMetro": "Ballygunge / Kalighat",
     "established": 1946,
     "isHeritage": true,
     "isFeatured": false,
@@ -18769,5 +18769,135 @@
     "themeDescription": "WELLINGTON NAGARIK KALYAN SAMITY is an official registered member of Forum for Durgotsab (FFD 2025). Renowned for its rich cultural traditions, vibrant community participation, and magnificent Durga Puja celebrations.",
     "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=22.564522,88.358383",
     "isFamous": false
+  },
+  {
+    "id": "naktala-pally-unnayan-samity",
+    "name": "Naktala Pally Unnayan Samity",
+    "bngName": "নাকতলা পল্লী উন্নয়ন সমিতি",
+    "zone": "SOUTH",
+    "address": "Naktala Main Rd, Naktala, Garia, Kolkata 700047",
+    "lat": 22.47201,
+    "lng": 88.36852,
+    "nearestMetro": "Gitanjali (Naktala)",
+    "established": 1952,
+    "isHeritage": true,
+    "isFeatured": false,
+    "rating": 4.6,
+    "crowdLevel": "med",
+    "categories": [
+      "theme-based",
+      "traditional"
+    ],
+    "tags": [
+      "theme-based",
+      "naktala"
+    ],
+    "themeDescription": "Traditional para pujo known for aesthetic themes and strong community participation in Naktala.",
+    "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=Naktala+Pally+Unnayan+Samity+Kolkata",
+    "isFamous": false
+  },
+  {
+    "id": "garia-mitali-sangha",
+    "name": "Garia Mitali Sangha",
+    "bngName": "গড়িয়া মিতালী সংঘ",
+    "zone": "SOUTH",
+    "address": "Garia Main Rd, Kanungo Park, Garia, Kolkata 700084",
+    "lat": 22.46452,
+    "lng": 88.37921,
+    "nearestMetro": "Kavi Nazrul (Garia Bazar)",
+    "established": 1968,
+    "isHeritage": false,
+    "isFeatured": false,
+    "rating": 4.5,
+    "crowdLevel": "med",
+    "categories": [
+      "theme-based"
+    ],
+    "tags": [
+      "theme-based",
+      "garia"
+    ],
+    "themeDescription": "Prominent Garia puja famous for creative pandal architecture and festive cultural nights.",
+    "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=Garia+Mitali+Sangha+Kolkata",
+    "isFamous": false
+  },
+  {
+    "id": "tarun-sathi-garia",
+    "name": "Tarun Sathi",
+    "bngName": "তরুণ সাথী",
+    "zone": "SOUTH",
+    "address": "Raja SC Mullick Rd, Garia, Kolkata 700084",
+    "lat": 22.46605,
+    "lng": 88.37548,
+    "nearestMetro": "Kavi Nazrul (Garia Bazar)",
+    "established": 1974,
+    "isHeritage": false,
+    "isFeatured": false,
+    "rating": 4.6,
+    "crowdLevel": "med",
+    "categories": [
+      "theme-based",
+      "community-favorite"
+    ],
+    "tags": [
+      "theme-based",
+      "garia"
+    ],
+    "themeDescription": "High-spirited festive celebrations with vibrant artistic lighting along the Garia corridor.",
+    "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=Tarun+Sathi+Garia+Kolkata",
+    "isFamous": false
+  },
+  {
+    "id": "dakshindari-youth-club",
+    "name": "Dakshindari Youth Club",
+    "bngName": "দক্ষিণদাঁড়ী ইয়ুথ ক্লাব",
+    "zone": "NORTH",
+    "address": "Dakshindari Rd, Lake Town / Ultadanga, Kolkata 700048",
+    "lat": 22.59451,
+    "lng": 88.39805,
+    "nearestMetro": "Belgachhia / Shobhabazar",
+    "established": 1980,
+    "isHeritage": false,
+    "isFeatured": false,
+    "rating": 4.5,
+    "crowdLevel": "med",
+    "categories": [
+      "theme-based"
+    ],
+    "tags": [
+      "theme-based",
+      "lake-town"
+    ],
+    "themeDescription": "Vibrant youth-led Durga Puja known for contemporary social themes and grand illuminations near Lake Town.",
+    "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=Dakshindari+Youth+Club+Kolkata",
+    "isFamous": false
+  },
+  {
+    "id": "kumartuli-sarbojanin-durgotsab",
+    "name": "Kumartuli Sarbojanin Durgotsab",
+    "bngName": "কুমারটুলি সর্বজনীন দুর্গোৎসব",
+    "zone": "NORTH",
+    "address": "108 Rabindra Sarani, Kumartuli, Sovabazar, Kolkata 700005",
+    "lat": 22.59972,
+    "lng": 88.36281,
+    "nearestMetro": "Shobhabazar Sutanuti",
+    "established": 1933,
+    "isHeritage": true,
+    "isFeatured": true,
+    "rating": 4.8,
+    "crowdLevel": "high",
+    "categories": [
+      "traditional",
+      "heritage",
+      "award-winner"
+    ],
+    "tags": [
+      "traditional",
+      "kumartuli",
+      "heritage"
+    ],
+    "themeDescription": "Historic 1933 puja at the heart of Kolkata idol-making district, revered for traditional Ekchala Daaker Saaj.",
+    "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=Kumartuli+Sarbojanin+Durgotsab+Kolkata",
+    "isFamous": true
   }
 ]

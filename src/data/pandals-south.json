@@ -7,11 +7,27 @@
     "lat": 22.5218,
     "lng": 88.3638,
     "nearestMetroStationId": "station-kalighat",
-    "bestTimeToVisit": ["Shashthi Night 08:00 PM - 11:00 PM (Opening Ceremony)", "Saptami 04:00 - 07:00 AM (Minimal Crowd)"],
-    "bestDays": ["Shashthi", "Saptami", "Ashtami"],
+    "bestTimeToVisit": [
+      "Shashthi Night 08:00 PM - 11:00 PM (Opening Ceremony)",
+      "Saptami 04:00 - 07:00 AM (Minimal Crowd)"
+    ],
+    "bestDays": [
+      "Shashthi",
+      "Saptami",
+      "Ashtami"
+    ],
     "isFamous": true,
-    "tags": ["Traditional", "Mega-Budget", "Lighting-Famous"],
-    "sourceUrls": [{"platform": "google", "url": "https://g.page/ekdalia"}]
+    "tags": [
+      "Traditional",
+      "Mega-Budget",
+      "Lighting-Famous"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "google",
+        "url": "https://g.page/ekdalia"
+      }
+    ]
   },
   {
     "id": "pandal-singhi-park",
@@ -21,25 +37,56 @@
     "lat": 22.5225,
     "lng": 88.3596,
     "nearestMetroStationId": "station-kalighat",
-    "bestTimeToVisit": ["Ashtami 10:30 PM - 01:00 AM (Sandhi Puja Rush)", "Navami Afternoon 02:00 - 05:00 PM (Moderate)"],
-    "bestDays": ["Saptami", "Ashtami", "Navami"],
+    "bestTimeToVisit": [
+      "Ashtami 10:30 PM - 01:00 AM (Sandhi Puja Rush)",
+      "Navami Afternoon 02:00 - 05:00 PM (Moderate)"
+    ],
+    "bestDays": [
+      "Saptami",
+      "Ashtami",
+      "Navami"
+    ],
     "isFamous": true,
-    "tags": ["Traditional", "Lighting-Famous"],
-    "sourceUrls": [{"platform": "reddit", "url": "https://reddit.com/r/kolkata/singhi_park"}]
+    "tags": [
+      "Traditional",
+      "Lighting-Famous"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "reddit",
+        "url": "https://reddit.com/r/kolkata/singhi_park"
+      }
+    ]
   },
   {
     "id": "pandal-deshapriya-park",
     "name": "Deshapriya Park",
     "zone": "SOUTH",
     "address": "Rashbehari Avenue, Deshapriya Park",
-    "lat": 22.5170,
+    "lat": 22.517,
     "lng": 88.3555,
     "nearestMetroStationId": "station-kalighat",
-    "bestTimeToVisit": ["Saptami 04:00 - 07:00 AM (Minimal Crowd)", "Ashtami 10:30 PM - 01:00 AM (Sandhi Puja Rush)"],
-    "bestDays": ["Shashthi", "Saptami", "Ashtami", "Navami"],
+    "bestTimeToVisit": [
+      "Saptami 04:00 - 07:00 AM (Minimal Crowd)",
+      "Ashtami 10:30 PM - 01:00 AM (Sandhi Puja Rush)"
+    ],
+    "bestDays": [
+      "Shashthi",
+      "Saptami",
+      "Ashtami",
+      "Navami"
+    ],
     "isFamous": true,
-    "tags": ["Mega-Budget", "Theme-Based"],
-    "sourceUrls": [{"platform": "facebook", "url": "https://facebook.com/deshapriyaparkpujo"}]
+    "tags": [
+      "Mega-Budget",
+      "Theme-Based"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "facebook",
+        "url": "https://facebook.com/deshapriyaparkpujo"
+      }
+    ]
   },
   {
     "id": "pandal-tridhara-sammilani",
@@ -49,11 +96,26 @@
     "lat": 22.5148,
     "lng": 88.3614,
     "nearestMetroStationId": "station-kalighat",
-    "bestTimeToVisit": ["Navami Afternoon 02:00 - 05:00 PM (Moderate)"],
-    "bestDays": ["Saptami", "Ashtami", "Navami"],
+    "bestTimeToVisit": [
+      "Navami Afternoon 02:00 - 05:00 PM (Moderate)"
+    ],
+    "bestDays": [
+      "Saptami",
+      "Ashtami",
+      "Navami"
+    ],
     "isFamous": true,
-    "tags": ["Theme-Based", "Award-Winning", "Innovative"],
-    "sourceUrls": [{"platform": "instagram", "url": "https://instagram.com/tridhara"}]
+    "tags": [
+      "Theme-Based",
+      "Award-Winning",
+      "Innovative"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "instagram",
+        "url": "https://instagram.com/tridhara"
+      }
+    ]
   },
   {
     "id": "pandal-mudiali-club",
@@ -63,11 +125,26 @@
     "lat": 22.5255,
     "lng": 88.3425,
     "nearestMetroStationId": "station-kalighat",
-    "bestTimeToVisit": ["Saptami 04:00 - 07:00 AM (Minimal Crowd)"],
-    "bestDays": ["Saptami", "Ashtami", "Navami"],
+    "bestTimeToVisit": [
+      "Saptami 04:00 - 07:00 AM (Minimal Crowd)"
+    ],
+    "bestDays": [
+      "Saptami",
+      "Ashtami",
+      "Navami"
+    ],
     "isFamous": true,
-    "tags": ["Traditional", "Artistic", "Award-Winning"],
-    "sourceUrls": [{"platform": "google", "url": "https://g.page/mudiali"}]
+    "tags": [
+      "Traditional",
+      "Artistic",
+      "Award-Winning"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "google",
+        "url": "https://g.page/mudiali"
+      }
+    ]
   },
   {
     "id": "pandal-ballygunge-cultural",
@@ -77,25 +154,55 @@
     "lat": 22.5285,
     "lng": 88.3655,
     "nearestMetroStationId": "station-kalighat",
-    "bestTimeToVisit": ["Ashtami 10:30 PM - 01:00 AM (Sandhi Puja Rush)"],
-    "bestDays": ["Shashthi", "Saptami", "Ashtami"],
+    "bestTimeToVisit": [
+      "Ashtami 10:30 PM - 01:00 AM (Sandhi Puja Rush)"
+    ],
+    "bestDays": [
+      "Shashthi",
+      "Saptami",
+      "Ashtami"
+    ],
     "isFamous": true,
-    "tags": ["Traditional", "Community"],
-    "sourceUrls": [{"platform": "instagram", "url": "https://instagram.com/ballygungecultural"}]
+    "tags": [
+      "Traditional",
+      "Community"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "instagram",
+        "url": "https://instagram.com/ballygungecultural"
+      }
+    ]
   },
   {
     "id": "pandal-badamtala-ashar-sangha",
     "name": "Badamtala Ashar Sangha",
     "zone": "SOUTH",
     "address": "Nepal Bhattacharjee Street",
-    "lat": 22.5130,
-    "lng": 88.3490,
+    "lat": 22.513,
+    "lng": 88.349,
     "nearestMetroStationId": "station-rabindra-sarobar",
-    "bestTimeToVisit": ["Navami Afternoon 02:00 - 05:00 PM (Moderate)"],
-    "bestDays": ["Saptami", "Ashtami", "Navami", "Dashami"],
+    "bestTimeToVisit": [
+      "Navami Afternoon 02:00 - 05:00 PM (Moderate)"
+    ],
+    "bestDays": [
+      "Saptami",
+      "Ashtami",
+      "Navami",
+      "Dashami"
+    ],
     "isFamous": true,
-    "tags": ["Theme-Based", "Award-Winning", "Innovative"],
-    "sourceUrls": [{"platform": "facebook", "url": "https://facebook.com/badamtala"}]
+    "tags": [
+      "Theme-Based",
+      "Award-Winning",
+      "Innovative"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "facebook",
+        "url": "https://facebook.com/badamtala"
+      }
+    ]
   },
   {
     "id": "pandal-chetla-agrani",
@@ -105,11 +212,27 @@
     "lat": 22.5102,
     "lng": 88.3435,
     "nearestMetroStationId": "station-rabindra-sarobar",
-    "bestTimeToVisit": ["Shashthi Night 08:00 PM - 11:00 PM (Opening Ceremony)"],
-    "bestDays": ["Shashthi", "Saptami", "Ashtami", "Navami"],
+    "bestTimeToVisit": [
+      "Shashthi Night 08:00 PM - 11:00 PM (Opening Ceremony)"
+    ],
+    "bestDays": [
+      "Shashthi",
+      "Saptami",
+      "Ashtami",
+      "Navami"
+    ],
     "isFamous": true,
-    "tags": ["Mega-Budget", "Theme-Based", "Artistic"],
-    "sourceUrls": [{"platform": "reddit", "url": "https://reddit.com/r/kolkata/chetla"}]
+    "tags": [
+      "Mega-Budget",
+      "Theme-Based",
+      "Artistic"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "reddit",
+        "url": "https://reddit.com/r/kolkata/chetla"
+      }
+    ]
   },
   {
     "id": "pandal-suruchi-sangha",
@@ -119,11 +242,27 @@
     "lat": 22.5082,
     "lng": 88.3575,
     "nearestMetroStationId": "station-rabindra-sarobar",
-    "bestTimeToVisit": ["Saptami 04:00 - 07:00 AM (Minimal Crowd)"],
-    "bestDays": ["Saptami", "Ashtami", "Navami", "Dashami"],
+    "bestTimeToVisit": [
+      "Saptami 04:00 - 07:00 AM (Minimal Crowd)"
+    ],
+    "bestDays": [
+      "Saptami",
+      "Ashtami",
+      "Navami",
+      "Dashami"
+    ],
     "isFamous": true,
-    "tags": ["Theme-Based", "Mega-Budget", "Award-Winning"],
-    "sourceUrls": [{"platform": "instagram", "url": "https://instagram.com/suruchi"}]
+    "tags": [
+      "Theme-Based",
+      "Mega-Budget",
+      "Award-Winning"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "instagram",
+        "url": "https://instagram.com/suruchi"
+      }
+    ]
   },
   {
     "id": "pandal-selimpur-pally",
@@ -133,11 +272,25 @@
     "lat": 22.5068,
     "lng": 88.3525,
     "nearestMetroStationId": "station-rabindra-sarobar",
-    "bestTimeToVisit": ["Navami Afternoon 02:00 - 05:00 PM (Moderate)"],
-    "bestDays": ["Saptami", "Ashtami", "Navami"],
+    "bestTimeToVisit": [
+      "Navami Afternoon 02:00 - 05:00 PM (Moderate)"
+    ],
+    "bestDays": [
+      "Saptami",
+      "Ashtami",
+      "Navami"
+    ],
     "isFamous": false,
-    "tags": ["Theme-Based", "Community"],
-    "sourceUrls": [{"platform": "google", "url": "https://g.page/selimpur"}]
+    "tags": [
+      "Theme-Based",
+      "Community"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "google",
+        "url": "https://g.page/selimpur"
+      }
+    ]
   },
   {
     "id": "pandal-hindusthan-park",
@@ -145,13 +298,27 @@
     "zone": "SOUTH",
     "address": "Hindusthan Park",
     "lat": 22.5195,
-    "lng": 88.3610,
+    "lng": 88.361,
     "nearestMetroStationId": "station-kalighat",
-    "bestTimeToVisit": ["Ashtami 10:30 PM - 01:00 AM (Sandhi Puja Rush)"],
-    "bestDays": ["Saptami", "Ashtami", "Navami"],
+    "bestTimeToVisit": [
+      "Ashtami 10:30 PM - 01:00 AM (Sandhi Puja Rush)"
+    ],
+    "bestDays": [
+      "Saptami",
+      "Ashtami",
+      "Navami"
+    ],
     "isFamous": false,
-    "tags": ["Artistic", "Traditional"],
-    "sourceUrls": [{"platform": "facebook", "url": "https://facebook.com/hindusthanpark"}]
+    "tags": [
+      "Artistic",
+      "Traditional"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "facebook",
+        "url": "https://facebook.com/hindusthanpark"
+      }
+    ]
   },
   {
     "id": "pandal-jodhpur-park",
@@ -159,27 +326,55 @@
     "zone": "SOUTH",
     "address": "Jodhpur Park",
     "lat": 22.5045,
-    "lng": 88.3630,
+    "lng": 88.363,
     "nearestMetroStationId": "station-rabindra-sarobar",
-    "bestTimeToVisit": ["Saptami 04:00 - 07:00 AM (Minimal Crowd)"],
-    "bestDays": ["Saptami", "Ashtami", "Navami"],
+    "bestTimeToVisit": [
+      "Saptami 04:00 - 07:00 AM (Minimal Crowd)"
+    ],
+    "bestDays": [
+      "Saptami",
+      "Ashtami",
+      "Navami"
+    ],
     "isFamous": false,
-    "tags": ["Mega-Budget", "Theme-Based"],
-    "sourceUrls": [{"platform": "instagram", "url": "https://instagram.com/jodhpurpark"}]
+    "tags": [
+      "Mega-Budget",
+      "Theme-Based"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "instagram",
+        "url": "https://instagram.com/jodhpurpark"
+      }
+    ]
   },
   {
     "id": "pandal-bosepukur-sitala-mandir",
     "name": "Bosepukur Sitala Mandir",
     "zone": "SOUTH",
     "address": "Bosepukur",
-    "lat": 22.5150,
+    "lat": 22.515,
     "lng": 88.3665,
     "nearestMetroStationId": "station-kalighat",
-    "bestTimeToVisit": ["Shashthi Night 08:00 PM - 11:00 PM (Opening Ceremony)"],
-    "bestDays": ["Shashthi", "Saptami", "Ashtami"],
+    "bestTimeToVisit": [
+      "Shashthi Night 08:00 PM - 11:00 PM (Opening Ceremony)"
+    ],
+    "bestDays": [
+      "Shashthi",
+      "Saptami",
+      "Ashtami"
+    ],
     "isFamous": false,
-    "tags": ["Theme-Based", "Award-Winning"],
-    "sourceUrls": [{"platform": "google", "url": "https://g.page/bosepukur"}]
+    "tags": [
+      "Theme-Based",
+      "Award-Winning"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "google",
+        "url": "https://g.page/bosepukur"
+      }
+    ]
   },
   {
     "id": "pandal-lake-pally",
@@ -187,27 +382,57 @@
     "zone": "SOUTH",
     "address": "Rabindra Sarobar",
     "lat": 22.5115,
-    "lng": 88.3550,
+    "lng": 88.355,
     "nearestMetroStationId": "station-rabindra-sarobar",
-    "bestTimeToVisit": ["Navami Afternoon 02:00 - 05:00 PM (Moderate)"],
-    "bestDays": ["Saptami", "Ashtami", "Navami"],
+    "bestTimeToVisit": [
+      "Navami Afternoon 02:00 - 05:00 PM (Moderate)"
+    ],
+    "bestDays": [
+      "Saptami",
+      "Ashtami",
+      "Navami"
+    ],
     "isFamous": false,
-    "tags": ["Community", "Theme-Based"],
-    "sourceUrls": [{"platform": "reddit", "url": "https://reddit.com/r/kolkata/lakepally"}]
+    "tags": [
+      "Community",
+      "Theme-Based"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "reddit",
+        "url": "https://reddit.com/r/kolkata/lakepally"
+      }
+    ]
   },
   {
     "id": "pandal-samaj-sebi-sangha",
     "name": "Samaj Sebi Sangha",
     "zone": "SOUTH",
     "address": "Lake View Road",
-    "lat": 22.5020,
-    "lng": 88.3560,
+    "lat": 22.502,
+    "lng": 88.356,
     "nearestMetroStationId": "station-rabindra-sarobar",
-    "bestTimeToVisit": ["Ashtami 10:30 PM - 01:00 AM (Sandhi Puja Rush)"],
-    "bestDays": ["Shashthi", "Saptami", "Ashtami", "Navami"],
+    "bestTimeToVisit": [
+      "Ashtami 10:30 PM - 01:00 AM (Sandhi Puja Rush)"
+    ],
+    "bestDays": [
+      "Shashthi",
+      "Saptami",
+      "Ashtami",
+      "Navami"
+    ],
     "isFamous": false,
-    "tags": ["Award-Winning", "Innovative", "Theme-Based"],
-    "sourceUrls": [{"platform": "facebook", "url": "https://facebook.com/samajsebisangha"}]
+    "tags": [
+      "Award-Winning",
+      "Innovative",
+      "Theme-Based"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "facebook",
+        "url": "https://facebook.com/samajsebisangha"
+      }
+    ]
   },
   {
     "id": "pandal-naktala-udayan-sangha",
@@ -217,11 +442,27 @@
     "lat": 22.4965,
     "lng": 88.3695,
     "nearestMetroStationId": "station-rabindra-sarobar",
-    "bestTimeToVisit": ["Saptami 04:00 - 07:00 AM (Minimal Crowd)"],
-    "bestDays": ["Saptami", "Ashtami", "Navami", "Dashami"],
+    "bestTimeToVisit": [
+      "Saptami 04:00 - 07:00 AM (Minimal Crowd)"
+    ],
+    "bestDays": [
+      "Saptami",
+      "Ashtami",
+      "Navami",
+      "Dashami"
+    ],
     "isFamous": false,
-    "tags": ["Theme-Based", "Mega-Budget", "Artistic"],
-    "sourceUrls": [{"platform": "google", "url": "https://g.page/naktalaudayansangha"}]
+    "tags": [
+      "Theme-Based",
+      "Mega-Budget",
+      "Artistic"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "google",
+        "url": "https://g.page/naktalaudayansangha"
+      }
+    ]
   },
   {
     "id": "pandal-gariahat-hindustan-club",
@@ -231,25 +472,53 @@
     "lat": 22.5165,
     "lng": 88.3695,
     "nearestMetroStationId": "station-kalighat",
-    "bestTimeToVisit": ["Navami Afternoon 02:00 - 05:00 PM (Moderate)"],
-    "bestDays": ["Saptami", "Ashtami", "Navami"],
+    "bestTimeToVisit": [
+      "Navami Afternoon 02:00 - 05:00 PM (Moderate)"
+    ],
+    "bestDays": [
+      "Saptami",
+      "Ashtami",
+      "Navami"
+    ],
     "isFamous": false,
-    "tags": ["Traditional", "Community"],
-    "sourceUrls": [{"platform": "instagram", "url": "https://instagram.com/gariahatclub"}]
+    "tags": [
+      "Traditional",
+      "Community"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "instagram",
+        "url": "https://instagram.com/gariahatclub"
+      }
+    ]
   },
   {
     "id": "pandal-keyatala-sarbojanin",
     "name": "Keyatala Sarbojanin",
     "zone": "SOUTH",
     "address": "Keyatala Road",
-    "lat": 22.5210,
+    "lat": 22.521,
     "lng": 88.3575,
     "nearestMetroStationId": "station-kalighat",
-    "bestTimeToVisit": ["Ashtami 10:30 PM - 01:00 AM (Sandhi Puja Rush)"],
-    "bestDays": ["Saptami", "Ashtami", "Navami"],
+    "bestTimeToVisit": [
+      "Ashtami 10:30 PM - 01:00 AM (Sandhi Puja Rush)"
+    ],
+    "bestDays": [
+      "Saptami",
+      "Ashtami",
+      "Navami"
+    ],
     "isFamous": false,
-    "tags": ["Community", "Traditional"],
-    "sourceUrls": [{"platform": "reddit", "url": "https://reddit.com/r/kolkata/keyatala"}]
+    "tags": [
+      "Community",
+      "Traditional"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "reddit",
+        "url": "https://reddit.com/r/kolkata/keyatala"
+      }
+    ]
   },
   {
     "id": "pandal-rashbehari-sarbojanin",
@@ -259,11 +528,25 @@
     "lat": 22.5185,
     "lng": 88.3544,
     "nearestMetroStationId": "station-kalighat",
-    "bestTimeToVisit": ["Shashthi Night 08:00 PM - 11:00 PM (Opening Ceremony)"],
-    "bestDays": ["Shashthi", "Saptami", "Ashtami"],
+    "bestTimeToVisit": [
+      "Shashthi Night 08:00 PM - 11:00 PM (Opening Ceremony)"
+    ],
+    "bestDays": [
+      "Shashthi",
+      "Saptami",
+      "Ashtami"
+    ],
     "isFamous": false,
-    "tags": ["Traditional", "Lighting-Famous"],
-    "sourceUrls": [{"platform": "facebook", "url": "https://facebook.com/rashbeharisarbojanin"}]
+    "tags": [
+      "Traditional",
+      "Lighting-Famous"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "facebook",
+        "url": "https://facebook.com/rashbeharisarbojanin"
+      }
+    ]
   },
   {
     "id": "pandal-tollygunge-palli",
@@ -271,12 +554,103 @@
     "zone": "SOUTH",
     "address": "Tollygunge",
     "lat": 22.4925,
-    "lng": 88.3480,
+    "lng": 88.348,
     "nearestMetroStationId": "station-rabindra-sarobar",
-    "bestTimeToVisit": ["Saptami 04:00 - 07:00 AM (Minimal Crowd)"],
-    "bestDays": ["Saptami", "Ashtami", "Navami"],
+    "bestTimeToVisit": [
+      "Saptami 04:00 - 07:00 AM (Minimal Crowd)"
+    ],
+    "bestDays": [
+      "Saptami",
+      "Ashtami",
+      "Navami"
+    ],
     "isFamous": false,
-    "tags": ["Community", "Theme-Based"],
-    "sourceUrls": [{"platform": "google", "url": "https://g.page/tollygungepalli"}]
+    "tags": [
+      "Community",
+      "Theme-Based"
+    ],
+    "sourceUrls": [
+      {
+        "platform": "google",
+        "url": "https://g.page/tollygungepalli"
+      }
+    ]
+  },
+  {
+    "id": "naktala-pally-unnayan-samity",
+    "name": "Naktala Pally Unnayan Samity",
+    "bngName": "নাকতলা পল্লী উন্নয়ন সমিতি",
+    "zone": "SOUTH",
+    "address": "Naktala Main Rd, Naktala, Garia, Kolkata 700047",
+    "lat": 22.47201,
+    "lng": 88.36852,
+    "nearestMetro": "Gitanjali (Naktala)",
+    "established": 1952,
+    "isHeritage": true,
+    "isFeatured": false,
+    "rating": 4.6,
+    "crowdLevel": "med",
+    "categories": [
+      "theme-based",
+      "traditional"
+    ],
+    "tags": [
+      "theme-based",
+      "naktala"
+    ],
+    "themeDescription": "Traditional para pujo known for aesthetic themes and strong community participation in Naktala.",
+    "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=Naktala+Pally+Unnayan+Samity+Kolkata",
+    "isFamous": false
+  },
+  {
+    "id": "garia-mitali-sangha",
+    "name": "Garia Mitali Sangha",
+    "bngName": "গড়িয়া মিতালী সংঘ",
+    "zone": "SOUTH",
+    "address": "Garia Main Rd, Kanungo Park, Garia, Kolkata 700084",
+    "lat": 22.46452,
+    "lng": 88.37921,
+    "nearestMetro": "Kavi Nazrul (Garia Bazar)",
+    "established": 1968,
+    "isHeritage": false,
+    "isFeatured": false,
+    "rating": 4.5,
+    "crowdLevel": "med",
+    "categories": [
+      "theme-based"
+    ],
+    "tags": [
+      "theme-based",
+      "garia"
+    ],
+    "themeDescription": "Prominent Garia puja famous for creative pandal architecture and festive cultural nights.",
+    "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=Garia+Mitali+Sangha+Kolkata",
+    "isFamous": false
+  },
+  {
+    "id": "tarun-sathi-garia",
+    "name": "Tarun Sathi",
+    "bngName": "তরুণ সাথী",
+    "zone": "SOUTH",
+    "address": "Raja SC Mullick Rd, Garia, Kolkata 700084",
+    "lat": 22.46605,
+    "lng": 88.37548,
+    "nearestMetro": "Kavi Nazrul (Garia Bazar)",
+    "established": 1974,
+    "isHeritage": false,
+    "isFeatured": false,
+    "rating": 4.6,
+    "crowdLevel": "med",
+    "categories": [
+      "theme-based",
+      "community-favorite"
+    ],
+    "tags": [
+      "theme-based",
+      "garia"
+    ],
+    "themeDescription": "High-spirited festive celebrations with vibrant artistic lighting along the Garia corridor.",
+    "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=Tarun+Sathi+Garia+Kolkata",
+    "isFamous": false
   }
 ]
