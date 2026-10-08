@@ -27,11 +27,12 @@
    - [Add or Edit a Pandal](#1-how-to-add-or-edit-a-pandal)
    - [Add or Edit a Food Spot](#2-how-to-add-or-edit-a-food-spot)
    - [Add or Modify a Curated Trail](#3-how-to-add-or-modify-a-curated-trail)
-   - [Change Design Tokens or Colors](#4-how-to-change-design-tokens-or-colors)
-   - [Customize Map Tiles or Zoom Caps](#5-how-to-customize-map-tiles-or-zoom-caps)
-   - [Update Translations (Bengali / English)](#6-how-to-update-translations-bengali--english)
-   - [Modify Markers or Icon Geometry](#7-how-to-modify-markers-or-icon-geometry)
-   - [Run Server & Enrichment Pipelines](#8-how-to-run-server--enrichment-pipelines)
+   - [How Search Works & Customizing Search](#4-how-search-works--customizing-search)
+   - [Change Design Tokens or Colors](#5-how-to-change-design-tokens-or-colors)
+   - [Customize Map Tiles or Zoom Caps](#6-how-to-customize-map-tiles-or-zoom-caps)
+   - [Update Translations (Bengali / English)](#7-how-to-update-translations-bengali--english)
+   - [Modify Markers or Icon Geometry](#8-how-to-modify-markers-or-icon-geometry)
+   - [Run Server & Enrichment Pipelines](#9-how-to-run-server--enrichment-pipelines)
 10. [Local Setup & Deployment](#-local-setup--deployment)
 
 ---
@@ -78,7 +79,7 @@ flowchart TD
 | :--- | :--- | :--- |
 | **60fps Vector Map** | Hardware-accelerated vector map styled with custom Carto/OSM raster layer, brightness/contrast filtering for day/night, and dynamic pitch & bearing. | [`src/lib/map/MapLibreDriver.ts`](src/lib/map/MapLibreDriver.ts) |
 | **Leaflet 2D Fallback** | Automated capability detection (`isWebGL2Available()`) that transparently falls back to Leaflet on legacy or low-power devices. | [`src/lib/map/LeafletDriver.ts`](src/lib/map/LeafletDriver.ts) |
-| **737 Pandal Directory** | Instant debounced search by name, locality, address, or metro station, with live count badges and zero empty states. | [`src/components/views/ExploreView.tsx`](src/components/views/ExploreView.tsx) |
+| **Instant Search & Autocomplete** | Unicode & Bengali-aware debounced combobox search with real-time map pin filtering, keyboard navigation, and interactive pandal/food dropdown with auto keyboard dismissal. | [`src/components/common/SearchBar.tsx`](src/components/common/SearchBar.tsx), [`src/lib/search.ts`](src/lib/search.ts) |
 | **Shape-Differentiated Markers** | WCAG 2.2 AA compliant pins differentiated by shape (Star for Featured, Arch for Heritage, Flame for Trending, Bookmark for Saved). | [`src/lib/bonediIcons.ts`](src/lib/bonediIcons.ts) |
 | **Floating Map Layer Island** | Prominent top-right floating island toggling **Metro Lines** (`🚇`) and **Food Spots** (`🍽️`) with live pulsing indicators. | [`src/components/views/ExploreView.tsx`](src/components/views/ExploreView.tsx) |
 | **Kolkata Metro Network** | Fully mapped 5 lines (Blue Line 1, Green Line 2, Purple Line 3, Orange Line 6, Yellow Line 4) with clickable station icons. | [`src/data/metroData.ts`](src/data/metroData.ts) |
@@ -88,8 +89,8 @@ flowchart TD
 | **My Puja Dashboard** | Offline-capable personal itinerary: saved favorites, visited checklist with progress bar, and route management. | [`src/components/views/MyPujaView.tsx`](src/components/views/MyPujaView.tsx) |
 | **Dual Theme ("Raat" & "Din")** | "Raat" (Night pandal mode, dark base `#16100E`) as default, and "Din" (Day shola mode `#FAF6F1`). | [`src/styles/tokens.css`](src/styles/tokens.css) |
 | **Bilingual i18n (বাংলা / EN)** | Full Bengali script and English internationalization across all components and filters. | [`src/lib/i18n.ts`](src/lib/i18n.ts) |
-| **Collapsible Sidebar** | Claude-style expandable sidebar with `Ctrl+B` keyboard shortcut and floating expand button. | [`src/components/views/ExploreView.tsx`](src/components/views/ExploreView.tsx) |
-| **Thumb-Zone Map Controls** | Compact 32px × 32px zoom, compass bearing, and geolocation controls pinned to bottom-right with mobile bottom-bar clearance. | [`src/styles/tokens.css`](src/styles/tokens.css) |
+| **Mobile-First Responsive Layout** | Dynamic viewport height (`100dvh`), horizontally scrollable quick filter chips with fade mask, live results counter, safe-area-bottom insets, and compact sticky header. | [`src/components/views/ExploreView.tsx`](src/components/views/ExploreView.tsx), [`src/pages/index.astro`](src/pages/index.astro) |
+| **Collapsible Sidebar & Controls** | Claude-style expandable sidebar with `Ctrl+B` keyboard shortcut, centered map/list mobile toggle, and bottom-right thumb-zone map controls. | [`src/components/views/ExploreView.tsx`](src/components/views/ExploreView.tsx), [`src/styles/tokens.css`](src/styles/tokens.css) |
 
 ---
 
@@ -273,7 +274,7 @@ pujo-atlas/
 │   │   │   ├── FoodCard.tsx      # Card for dining spots with famous dishes
 │   │   │   └── NearbyLinks.tsx   # Nearby transit and metro station links
 │   │   ├── common/
-│   │   │   ├── SearchBar.tsx         # Stable accessible search input with clear button & trailing action
+│   │   │   ├── SearchBar.tsx         # Combobox search input with autocomplete dropdown, keyboard arrows & mobile auto-blur
 │   │   │   ├── EmptyState.tsx        # Empty state illustrations with filter reset
 │   │   │   └── PandalCardSkeleton.tsx # Shimmer skeleton loading cards
 │   │   ├── modals/
@@ -301,6 +302,7 @@ pujo-atlas/
 │   │   ├── zones.geojson         # Polygon boundaries for zone highlight & dimming
 │   │   └── trails.ts             # 13 signature walking and driving trails
 │   ├── lib/
+│   │   ├── search.ts             # Unicode & Bengali-aware tokenized search engine & relevance ranking
 │   │   ├── bonediIcons.ts        # SVG marker glyph generation & MapLibre sprite loader
 │   │   ├── bonediMapSkin.ts      # Canvas chalchitra arch pins & zone colors
 │   │   ├── geoUtils.ts           # Haversine distance, walking time, TSP route solver
@@ -345,8 +347,10 @@ State is managed via **Zustand** in [`src/store/useMapStore.ts`](src/store/useMa
 | Event Name | Dispatch Signature | Listener / Handled In |
 | :--- | :--- | :--- |
 | `map:flyToPandal` | `CustomEvent<{ lat: number; lng: number }>` | Map flies camera to pandal coordinates with smooth easing. |
+| `map:flyToZone` | `CustomEvent<{ zone: Zone }>` | Pans and zooms camera to bounds of specified zone. |
+| `map:fitToResults` | `CustomEvent<{ query: string }>` | Computes bounds of all search results and smoothly fits camera with safe screen padding. |
 | `map:themeChange` | `CustomEvent<{ theme: 'din' \| 'raat' }>` | Toggles raster tile brightness, contrast, and saturation. |
-| `map:locateUser` | `CustomEvent<void>` | Triggers device GPS geolocation and pans map to user. |
+| `map:locateUser` | `CustomEvent<void>` | Triggers device GPS geolocation, stores position, and pans map to user. |
 
 ---
 
@@ -360,12 +364,13 @@ The map engine uses the **Adapter Design Pattern** via `IMapAdapter` defined in 
   - **Raat Mode**: `brightness-min: 0.1`, `brightness-max: 0.72`, `contrast: 0.2`, `saturation: -0.65`.
   - **Din Mode**: `brightness-min: 0.0`, `brightness-max: 1.0`, `contrast: 0.0`, `saturation: 0.0`.
 - Native overzooming up to zoom level 21 without grey missing tile errors.
-- Dynamic clustering at zooms 0–12; expands to custom shape-differentiated vector pins at zoom 12+.
+- Real-time marker query filtering: updates the GeoJSON point source on debounced search queries so only matching pins are visible.
+- Clamped bounding box fitting via `fitBounds()` ensuring markers fit within the visible viewport accounting for mobile search chips and navigation bars.
 
 ### 2. LeafletDriver (Fallback — 2D Canvas)
 - Automatically initialized if `isWebGL2Available()` returns `false` (e.g. low-memory devices, older mobile browsers, WebGL disabled).
 - Tile layer configured with `maxZoom: 21` and `maxNativeZoom: 16` to gracefully stretch raster tiles when zoomed in.
-- Mirrored feature parity: renders identical pins, metro lines, zone polygons, and click handlers.
+- Mirrored feature parity: renders identical pins, metro lines, zone polygons, real-time search filtering, and clamped `fitBounds()`.
 
 ---
 
@@ -469,20 +474,38 @@ The map engine uses the **Adapter Design Pattern** via `IMapAdapter` defined in 
 
 ---
 
-### 4. How to Change Design Tokens or Colors
+### 4. How Search Works & Customizing Search
+
+The in-memory search engine is implemented in [`src/lib/search.ts`](src/lib/search.ts) and powers both the combobox dropdown and real-time map pin filtering:
+
+1. **Unicode & Bengali-Aware Normalization**:
+   - `norm()` uses NFKC normalization with unicode property escapes (`\p{L}\p{M}\p{N}`) to preserve Bengali letters and vowel diacritics while lowercasing Latin text.
+2. **Order-Independent Tokenization**:
+   - Multiple query words (e.g. `mudiali club` or `club mudiali`) match across name, address, nearest metro, categories, and tags.
+3. **Relevance Ranking**:
+   - Exact prefix match (`rank 0`) > Substring in name (`rank 1`) > Matches across secondary fields (`rank 2`) > Alphabetical tiebreaker.
+4. **Real-time Synchronization Flow**:
+   - Typing in [`src/components/common/SearchBar.tsx`](src/components/common/SearchBar.tsx) uses `useDeferredValue` for smooth UI responsiveness.
+   - Updates `useMapStore.searchQuery` (debounced by 200ms).
+   - Reactive subscriber in [`src/lib/map/initMap.ts`](src/lib/map/initMap.ts) calls `mapAdapter.filterMarkers()`, instantly filtering map pins to only matching entities.
+   - Selecting a suggestion or tapping **"Show all on map"** emits `map:fitToResults` and automatically blurs the input to dismiss mobile keyboards.
+
+---
+
+### 5. How to Change Design Tokens or Colors
 
 1. Open [`src/styles/tokens.css`](src/styles/tokens.css).
 2. Change the CSS custom property under `:root` (for light mode) or `:root[data-theme='raat']` (for dark mode).
 3. If changing theme palette tokens, ensure the values align with the 42° hue arc:
-   - Primary Red/Kumkum: `--kumkum`
-   - Secondary Terracotta: `--terracotta`
-   - Accent Marigold: `--marigold`
-   - Neutral Backgrounds: `--shola` (light) / `--base` (dark)
-4. Check [`tailwind.config.mjs`](tailwind.config.mjs) if you want to expose new utility classes in Tailwind.
+   - Primary Red/Kumkum: `--kumkum` (`#C8432E`)
+   - Secondary Terracotta: `--terracotta` (`#A85B3C`)
+   - Accent Marigold: `--marigold` (`#E8961E`)
+   - Neutral Backgrounds: `--shola` (`#FAF6F1`) / `--base` (`#16100E`)
+4. In [`tailwind.config.mjs`](tailwind.config.mjs), colors are configured via a modern `color-mix(in srgb, var(--name) NN%, transparent)` helper. This enables arbitrary Tailwind opacity modifiers (e.g. `bg-paper/95`, `text-ink/60`, `ring-kumkum/25`) to work seamlessly with CSS variables without RGB channel splitting.
 
 ---
 
-### 5. How to Customize Map Tiles or Zoom Caps
+### 6. How to Customize Map Tiles or Zoom Caps
 
 #### In MapLibre (`MapLibreDriver.ts`):
 - To change the max zoom level:
@@ -504,7 +527,7 @@ The map engine uses the **Adapter Design Pattern** via `IMapAdapter` defined in 
 
 ---
 
-### 6. How to Update Translations (Bengali / English)
+### 7. How to Update Translations (Bengali / English)
 
 1. Open [`src/lib/i18n.ts`](src/lib/i18n.ts).
 2. Locate the key inside the `DICTIONARY` object.
@@ -525,7 +548,7 @@ The map engine uses the **Adapter Design Pattern** via `IMapAdapter` defined in 
 
 ---
 
-### 7. How to Modify Markers or Icon Geometry
+### 8. How to Modify Markers or Icon Geometry
 
 1. Open [`src/lib/bonediIcons.ts`](src/lib/bonediIcons.ts).
 2. Marker SVG templates are generated as pure SVG strings:
@@ -542,7 +565,7 @@ The map engine uses the **Adapter Design Pattern** via `IMapAdapter` defined in 
 
 ---
 
-### 8. How to Run Server & Enrichment Pipelines
+### 9. How to Run Server & Enrichment Pipelines
 
 - **Start Fastify Spatial Backend:**
   ```bash
