@@ -6,6 +6,7 @@ import foodData from '../../data/food.json';
 import type { PandalEntity, FoodEntity, Zone } from '../schemas';
 
 import { metroGeoJson } from '../../data/metroData';
+import { pandalIdsForQuery, searchPandals, searchFood } from '../search';
 
 export const allPandals: PandalEntity[] = pandalsAll as PandalEntity[];
 export const allFood: FoodEntity[] = foodData as FoodEntity[];
@@ -73,15 +74,28 @@ export async function initApp() {
   mapAdapter.toggleLayer('metro', initialState.activeLayers.metro);
 
   // 5. Subscribe to Zustand store changes for Reactive Map Updates
+  const applyMarkerFilter = (state: ReturnType<typeof useMapStore.getState>) => {
+    if (typeof mapAdapter.filterMarkers !== 'function') return;
+    mapAdapter.filterMarkers(
+      state.activeFilter,
+      state.savedPandalIds,
+      pandalIdsForQuery(allPandals, state.searchQuery)
+    );
+  };
+
   useMapStore.subscribe((state, prevState) => {
+    // Typing in the search box narrows the pins on the map. It never moves the camera;
+    // the camera only moves on an explicit choice (tap a result / "Show all on map").
+    if (state.searchQuery !== prevState.searchQuery) {
+      applyMarkerFilter(state);
+    }
+
     // Reactive Filter updates (ALL, FEATURED, HERITAGE, SAVED, or Zone)
     if (
       state.activeFilter !== prevState.activeFilter ||
       state.savedPandalIds !== prevState.savedPandalIds
     ) {
-      if (typeof mapAdapter.filterMarkers === 'function') {
-        mapAdapter.filterMarkers(state.activeFilter, state.savedPandalIds);
-      }
+      applyMarkerFilter(state);
       if (['NORTH', 'SOUTH', 'CENTRAL', 'EAST', 'HOWRAH', 'OTHERS', 'WEST'].includes(state.activeFilter)) {
         mapAdapter.setActiveZone(state.activeFilter as Zone);
         mapAdapter.fitZone(state.activeFilter as Zone);
@@ -117,6 +131,9 @@ export async function initApp() {
     }
   });
 
+  // Apply any search already in the store (e.g. opened from a shared ?q= link)
+  applyMarkerFilter(useMapStore.getState());
+
   // 6. Custom window event listeners
   window.addEventListener('map:flyToZone', (e: Event) => {
     const customEvent = e as CustomEvent<{ zone: any }>;
@@ -125,6 +142,28 @@ export async function initApp() {
       mapAdapter.setActiveZone(zone);
       mapAdapter.fitZone(zone);
     }
+  });
+
+  // "Show all N pandals on map" from the search dropdown: frame every matching pin.
+  window.addEventListener('map:fitToResults', (e: Event) => {
+    const query = (e as CustomEvent<{ query: string }>).detail?.query ?? '';
+    const ids = new Set([
+      ...searchPandals(allPandals, query).map((p) => p.id),
+      ...searchFood(allFood, query).map((f) => f.id),
+    ]);
+    const points = allMarkers.filter((m) => ids.has(m.id)).map((m) => [m.lng, m.lat] as [number, number]);
+    if (points.length === 0 || typeof mapAdapter.fitBounds !== 'function') return;
+
+    const st = useMapStore.getState();
+    const isDesktop = window.innerWidth >= 768;
+    // Desktop: the directory panel covers the left of the map, so keep pins clear of it.
+    // Mobile: keep pins below the floating search + chips and above the bottom nav.
+    mapAdapter.fitBounds(points, {
+      top: isDesktop ? 80 : 150,
+      bottom: isDesktop ? 60 : 110,
+      left: isDesktop && !st.isSidebarCollapsed ? 480 : 40,
+      right: 40,
+    });
   });
 
   // Geolocation trigger from search bar locate button
@@ -136,6 +175,7 @@ export async function initApp() {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
         const { latitude, longitude } = pos.coords;
+        useMapStore.getState().setUserLocation({ lat: latitude, lng: longitude }, 'granted');
         mapAdapter.flyTo([longitude, latitude], 16.5);
       },
       (err) => {

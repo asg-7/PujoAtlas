@@ -1,3 +1,13 @@
+/**
+ * Tailwind cannot apply an opacity modifier (bg-paper/90) to a colour defined as var(--x),
+ * so those classes were silently NOT generated (transparent headers, chips, bottom nav).
+ * This helper keeps plain classes (bg-paper) byte-identical and makes `/NN` work via color-mix.
+ */
+const token = (name) => ({ opacityValue }) =>
+  opacityValue === undefined || String(opacityValue).startsWith('var(')
+    ? `var(--${name})`
+    : `color-mix(in srgb, var(--${name}) ${Math.round(Number(opacityValue) * 100)}%, transparent)`;
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
@@ -6,31 +16,33 @@ export default {
     extend: {
       colors: {
         /* Primary Hue Arc Tokens */
-        sindoor: 'var(--sindoor)',
+        sindoor: token('sindoor'),
         kumkum: {
-          DEFAULT: 'var(--kumkum)',
-          lit: 'var(--kumkum-lit)',
+          DEFAULT: token('kumkum'),
+          lit: token('kumkum-lit'),
         },
-        terracotta: 'var(--terracotta)',
+        terracotta: token('terracotta'),
         marigold: {
-          DEFAULT: 'var(--marigold)',
-          lit: 'var(--marigold-lit)',
+          DEFAULT: token('marigold'),
+          lit: token('marigold-lit'),
         },
-        haldi: 'var(--haldi)',
-        neel: 'var(--neel)',
+        haldi: token('haldi'),
+        neel: token('neel'),
 
         /* Neutrals */
-        shola: 'var(--shola)',
-        paper: 'var(--paper)',
-        sand: 'var(--sand)',
-        smoke: 'var(--smoke)',
-        ink: 'var(--ink)',
+        shola: token('shola'),
+        paper: token('paper'),
+        sand: token('sand'),
+        smoke: token('smoke'),
+        ink: token('ink'),
 
         /* Dark Mode Surfaces */
-        base: 'var(--base)',
-        surface: 'var(--surface)',
-        raised: 'var(--raised)',
-        line: 'var(--line)',
+        base: token('base'),
+        surface: token('surface'),
+        raised: token('raised'),
+        line: token('line'),
+        /* Dark-mode text tokens (already used in markup as dark:text-text / dark:text-text-muted) */
+        text: { DEFAULT: token('text'), muted: token('text-muted') },
       },
       fontFamily: {
         display: ['var(--font-display)', 'serif'],

@@ -30,6 +30,9 @@ import '../styles/tokens.css';
 				background: var(--bg-page);
 				color: var(--text-main);
 			}
+			@supports (height: 100dvh) {
+				body, html { height: 100dvh; }
+			}
 		</style>
 	</head>
 	<body class="font-body overflow-hidden w-full h-full relative selection:bg-kumkum selection:text-shola">

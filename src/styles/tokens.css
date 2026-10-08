@@ -334,3 +334,16 @@ p {
   text-decoration: underline !important;
 }
 
+/* Bottom-nav clearance for iPhone home indicator / Android gesture bar */
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* Safety net: never show the browser's own clear (x) button; SearchBar renders its own */
+input::-webkit-search-cancel-button,
+input::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+  display: none;
+}
+

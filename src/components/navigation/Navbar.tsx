@@ -91,11 +91,11 @@ export default function Navbar() {
 
   return (
     <header className="w-full bg-paper/95 dark:bg-surface/95 backdrop-blur-md border-b border-sand dark:border-line shadow-e1 sticky top-0 z-30 transition-colors duration-fast">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 h-14 sm:h-16 flex items-center justify-between gap-3">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 h-13 sm:h-16 flex items-center justify-between gap-2 sm:gap-3">
         {/* Brand Logo & Editorial Subtitle */}
         <div
           onClick={() => handleTabClick('explore')}
-          className="flex items-center gap-3 cursor-pointer select-none shrink-0 group"
+          className="flex items-center gap-2.5 sm:gap-3 cursor-pointer select-none shrink-0 group"
           role="button"
           tabIndex={0}
           onKeyDown={(e) => e.key === 'Enter' && handleTabClick('explore')}
@@ -105,10 +105,10 @@ export default function Navbar() {
             <Flame className="w-4 h-4 sm:w-5 sm:h-5 text-shola" strokeWidth={1.75} />
           </div>
           <div className="flex flex-col">
-            <span className="font-serif font-semibold text-base sm:text-lg text-ink dark:text-text tracking-tight leading-none">
+            <span className="font-serif font-semibold text-sm sm:text-lg text-ink dark:text-text tracking-tight leading-none">
               {t('brandTitle', language)}
             </span>
-            <span className="text-[11px] text-terracotta dark:text-smoke font-normal tracking-normal mt-0.5 leading-tight">
+            <span className="hidden sm:inline text-[11px] text-terracotta dark:text-smoke font-normal tracking-normal mt-0.5 leading-tight">
               {t('brandSubtitle', language)}
             </span>
           </div>

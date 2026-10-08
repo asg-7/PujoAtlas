@@ -29,7 +29,10 @@ export interface IMapAdapter {
   renderMarkers(items: MarkerItem[], onClick: (id: string, type: 'pandal' | 'food' | 'station') => void): void;
 
   /** Filter rendered markers dynamically by category, heritage, saved or zone */
-  filterMarkers?(filterType: string, savedIds?: string[]): void;
+  filterMarkers?(filterType: string, savedIds?: string[], searchIds?: string[] | null): void;
+
+  /** Frame a set of [lng, lat] points inside the visible map area (padding is clamped to the container). */
+  fitBounds?(points: Array<[number, number]>, padding?: { top?: number; bottom?: number; left?: number; right?: number }): void;
 
   /** Clear all currently rendered markers. */
   clearMarkers(): void;

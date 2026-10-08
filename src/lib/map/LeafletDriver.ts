@@ -283,6 +283,53 @@ export class LeafletDriver implements IMapAdapter {
     });
   }
 
+  filterMarkers(filterType: string, savedIds: string[] = [], searchIds: string[] | null = null): void {
+    if (!this.map) return;
+    const searchSet = searchIds ? new Set(searchIds) : null;
+    this.markerLayer.clearLayers();
+    for (const { marker, item } of this.markerInstances) {
+      if (item.type !== 'pandal') {
+        this.markerLayer.addLayer(marker);
+        continue;
+      }
+      if (searchSet && !searchSet.has(item.id)) continue;
+      if (filterType === 'ALL') {
+        this.markerLayer.addLayer(marker);
+      } else if (filterType === 'FEATURED' && item.isFeatured) {
+        this.markerLayer.addLayer(marker);
+      } else if (filterType === 'HERITAGE' && item.isHeritage) {
+        this.markerLayer.addLayer(marker);
+      } else if (filterType === 'SAVED' && savedIds.includes(item.id)) {
+        this.markerLayer.addLayer(marker);
+      } else if (
+        ['NORTH', 'SOUTH', 'CENTRAL', 'EAST', 'HOWRAH', 'OTHERS', 'WEST'].includes(filterType) &&
+        item.zone === filterType
+      ) {
+        this.markerLayer.addLayer(marker);
+      }
+    }
+  }
+
+  fitBounds(
+    points: Array<[number, number]>,
+    padding: { top?: number; bottom?: number; left?: number; right?: number } = {}
+  ): void {
+    if (!this.map || points.length === 0) return;
+    const size = this.map.getSize();
+    const clamp = (v: number | undefined, max: number) => Math.max(0, Math.min(v ?? 40, max));
+    const latlngs = points.map(([lng, lat]) => L.latLng(lat, lng));
+    if (latlngs.length === 1) {
+      this.map.flyTo(latlngs[0], Math.max(this.map.getZoom(), 16), { duration: 1 });
+      return;
+    }
+    this.map.flyToBounds(L.latLngBounds(latlngs), {
+      paddingTopLeft: [clamp(padding.left, size.x * 0.45), clamp(padding.top, size.y * 0.3)],
+      paddingBottomRight: [clamp(padding.right, size.x * 0.2), clamp(padding.bottom, size.y * 0.3)],
+      maxZoom: 16,
+      duration: 1,
+    });
+  }
+
   getZoom(): number {
     return this.map?.getZoom() ?? 12;
   }

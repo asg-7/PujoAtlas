@@ -22,6 +22,7 @@ import { PandalCardSkeleton } from '../common/PandalCardSkeleton';
 import { SearchBar } from '../common/SearchBar';
 import { t } from '../../lib/i18n';
 import { calculateDistanceKm } from '../../lib/geoUtils';
+import { searchPandals, isActiveQuery } from '../../lib/search';
 import { telemetry } from '../../lib/telemetry';
 
 export default function ExploreView() {
@@ -54,18 +55,25 @@ export default function ExploreView() {
   const [searchQuery, setSearchQuery] = useState(storeSearchQuery || '');
   const [debouncedQuery, setDebouncedQuery] = useState(storeSearchQuery || '');
 
-  // Debounce search filter by 200ms to eliminate typing lag
+  // Remember the last value WE pushed to the store, so the sync effect below can tell
+  // "the store changed because of us" from "something else reset it" (e.g. Clear All).
+  const lastPushed = useRef(storeSearchQuery || '');
+
+  // Debounce the expensive part (list + map filtering) by 200ms. The input itself is never delayed.
   useEffect(() => {
     const timer = setTimeout(() => {
+      lastPushed.current = searchQuery;
       setDebouncedQuery(searchQuery);
       setStoreSearchQuery(searchQuery);
     }, 200);
     return () => clearTimeout(timer);
   }, [searchQuery, setStoreSearchQuery]);
 
-  // Sync if store search query is reset externally (e.g. from Clear Filters)
+  // Adopt the store value only when it was changed by someone else. Without this guard a
+  // slow debounce tick could overwrite characters the user typed in the meantime.
   useEffect(() => {
-    if (storeSearchQuery !== searchQuery) {
+    if (storeSearchQuery !== lastPushed.current) {
+      lastPushed.current = storeSearchQuery;
       setSearchQuery(storeSearchQuery);
       setDebouncedQuery(storeSearchQuery);
     }
@@ -97,8 +105,8 @@ export default function ExploreView() {
       } else {
         params.delete('filter');
       }
-      if (debouncedQuery) {
-        params.set('q', debouncedQuery);
+      if (debouncedQuery.trim()) {
+        params.set('q', debouncedQuery.trim());
       } else {
         params.delete('q');
       }
@@ -144,19 +152,9 @@ export default function ExploreView() {
   const filteredPandals = useMemo(() => {
     let list = [...pandals];
 
-    // 1. Text Search Query (Debounced for buttery-smooth typing)
-    if (debouncedQuery.trim()) {
-      const q = debouncedQuery.toLowerCase().trim();
-      list = list.filter(
-        (p) =>
-          p.name.toLowerCase().includes(q) ||
-          p.bngName?.toLowerCase().includes(q) ||
-          p.address.toLowerCase().includes(q) ||
-          p.zone.toLowerCase().includes(q) ||
-          p.nearestMetro?.toLowerCase().includes(q) ||
-          p.categories?.some((c) => c.toLowerCase().includes(q)) ||
-          p.tags?.some((t) => t.toLowerCase().includes(q))
-      );
+    // 1. Text search (shared with the dropdown + map so all three always agree)
+    if (isActiveQuery(debouncedQuery)) {
+      list = searchPandals(list, debouncedQuery);
     }
 
     // 2. Active Filter Chip
@@ -206,8 +204,20 @@ export default function ExploreView() {
     }
   };
 
+  const hasQuery = isActiveQuery(debouncedQuery);
+
+  // Shared look for the mobile quick-filter chips (opaque, 36px tall, readable over any map tile)
+  const chip = (on: boolean, tone: 'kumkum' | 'neel' | 'food' = 'kumkum') => {
+    const base =
+      'shrink-0 min-h-[36px] px-3 rounded-full text-xs font-medium whitespace-nowrap border shadow-e1 flex items-center gap-1.5 cursor-pointer active:scale-95 transition-transform';
+    if (!on) return `${base} bg-paper border-sand text-ink`;
+    if (tone === 'neel') return `${base} bg-neel border-neel text-shola font-semibold`;
+    if (tone === 'food') return `${base} bg-[#8C3A27] border-[#8C3A27] text-shola font-semibold`;
+    return `${base} bg-kumkum dark:bg-kumkum-lit border-kumkum text-shola dark:text-base font-semibold`;
+  };
+
   return (
-    <div className="relative w-full h-[calc(100vh-3.5rem)] sm:h-[calc(100vh-4rem)] flex overflow-hidden pointer-events-none">
+    <div className="absolute inset-0 flex overflow-hidden pointer-events-none">
       {/* LEFT PANEL: 320px–40% Desktop Editorial & Pandal Directory (Collapsible) */}
       <div
         ref={listContainerRef}
@@ -469,98 +479,74 @@ export default function ExploreView() {
           </div>
         </div>
 
-        {/* Mobile Top Floating Quick Search & Filter Chips */}
+        {/* Mobile: compact floating search + chips (keeps the map visible) */}
         <div className="md:hidden absolute top-2 left-2 right-2 z-20 pointer-events-auto space-y-1.5">
           <SearchBar
             value={searchQuery}
             onChange={setSearchQuery}
             placeholder={t('hero.searchPlaceholder', language)}
-            ariaLabel="Search pandals on mobile"
+            ariaLabel="Search pandals, food spots and metro stations"
             className="w-full shadow-e2"
-            trailingAction={
-              <button
-                type="button"
-                onClick={handleLocateUser}
-                title={language === 'bn' ? 'আমার অবস্থান' : 'Locate me on map'}
-                className="w-7 h-7 rounded-sm bg-neel text-shola flex items-center justify-center cursor-pointer shadow-e1 active:scale-95"
-                aria-label="Locate me on map"
-              >
-                <Locate className="w-3.5 h-3.5" strokeWidth={1.5} />
-              </button>
-            }
           />
 
-          <div className="flex overflow-x-auto hide-scrollbar gap-1.5 px-1 py-0.5 items-center">
-            <button
-              onClick={() => handlePillClick('ALL')}
-              className={`px-3 py-1 rounded-full text-xs font-medium border shadow-e1 whitespace-nowrap ${
-                activeFilter === 'ALL'
-                  ? 'bg-kumkum dark:bg-kumkum-lit text-shola dark:text-base border-kumkum font-semibold'
-                  : 'bg-paper/90 dark:bg-surface/90 text-ink dark:text-text border-sand dark:border-line'
-              }`}
-            >
-              All ({stats.all})
+          <div className="flex overflow-x-auto hide-scrollbar gap-1.5 py-0.5 pr-8 items-center [mask-image:linear-gradient(to_right,#000_calc(100%-32px),transparent)]">
+            <button type="button" onClick={() => handlePillClick('ALL')} className={chip(activeFilter === 'ALL')}>
+              {t('filters.all', language)} ({stats.all})
             </button>
-            <button
-              onClick={() => handlePillClick('FEATURED')}
-              className={`px-3 py-1 rounded-full text-xs font-medium border shadow-e1 whitespace-nowrap flex items-center gap-1 ${
-                activeFilter === 'FEATURED'
-                  ? 'bg-kumkum dark:bg-kumkum-lit text-shola dark:text-base border-kumkum font-semibold'
-                  : 'bg-paper/90 dark:bg-surface/90 text-ink dark:text-text border-sand dark:border-line'
-              }`}
-            >
-              <Star className="w-3 h-3 fill-current" strokeWidth={1.5} />
-              <span>Featured ({stats.featured})</span>
+            <button type="button" onClick={() => handlePillClick('FEATURED')} className={chip(activeFilter === 'FEATURED')}>
+              <Star className="w-3.5 h-3.5 fill-current" strokeWidth={1.5} />
+              <span>{t('filters.featured', language)} ({stats.featured})</span>
             </button>
-            <button
-              onClick={() => handlePillClick('HERITAGE')}
-              className={`px-3 py-1 rounded-full text-xs font-medium border shadow-e1 whitespace-nowrap flex items-center gap-1 ${
-                activeFilter === 'HERITAGE'
-                  ? 'bg-kumkum dark:bg-kumkum-lit text-shola dark:text-base border-kumkum font-semibold'
-                  : 'bg-paper/90 dark:bg-surface/90 text-ink dark:text-text border-sand dark:border-line'
-              }`}
-            >
-              <Landmark className="w-3 h-3" strokeWidth={1.5} />
-              <span>Heritage ({stats.heritage})</span>
+            <button type="button" onClick={() => handlePillClick('HERITAGE')} className={chip(activeFilter === 'HERITAGE')}>
+              <Landmark className="w-3.5 h-3.5" strokeWidth={1.5} />
+              <span>{t('filters.heritage', language)} ({stats.heritage})</span>
             </button>
 
-            <div className="w-px h-4 bg-sand dark:bg-line mx-0.5 shrink-0" />
+            <div className="w-px h-5 bg-sand mx-0.5 shrink-0" />
 
-            {/* Mobile quick layer toggles */}
-            <button
-              onClick={() => toggleLayer('metro')}
-              className={`px-2.5 py-1 rounded-full text-xs font-medium border shadow-e1 whitespace-nowrap flex items-center gap-1 cursor-pointer active:scale-95 ${
-                activeLayers.metro
-                  ? 'bg-neel text-shola border-neel font-semibold'
-                  : 'bg-paper/90 dark:bg-surface/90 text-smoke dark:text-text-muted border-sand dark:border-line'
-              }`}
-            >
-              <Train className="w-3 h-3" strokeWidth={1.5} />
+            <button type="button" onClick={() => toggleLayer('metro')} aria-pressed={activeLayers.metro} className={chip(activeLayers.metro, 'neel')}>
+              <Train className="w-3.5 h-3.5" strokeWidth={1.5} />
               <span>{t('filters.metroLines', language)}</span>
             </button>
-            <button
-              onClick={() => toggleLayer('food')}
-              className={`px-2.5 py-1 rounded-full text-xs font-medium border shadow-e1 whitespace-nowrap flex items-center gap-1 cursor-pointer active:scale-95 ${
-                activeLayers.food
-                  ? 'bg-[#8C3A27] text-shola border-[#8C3A27] font-semibold'
-                  : 'bg-paper/90 dark:bg-surface/90 text-smoke dark:text-text-muted border-sand dark:border-line'
-              }`}
-            >
-              <UtensilsCrossed className="w-3 h-3" strokeWidth={1.5} />
+            <button type="button" onClick={() => toggleLayer('food')} aria-pressed={activeLayers.food} className={chip(activeLayers.food, 'food')}>
+              <UtensilsCrossed className="w-3.5 h-3.5" strokeWidth={1.5} />
               <span>{t('filters.foodLayer', language)}</span>
             </button>
           </div>
+
+          {/* Live result count: proves the search is doing something while the list is hidden */}
+          {(hasQuery || activeFilter !== 'ALL') && (
+            <div className="flex w-fit items-center gap-2 rounded-full border border-sand bg-paper/95 px-3 py-1 text-xs text-ink shadow-e1 backdrop-blur-md">
+              <span className="font-semibold">{filteredPandals.length}</span>
+              <span className="text-smoke">{language === 'bn' ? 'মণ্ডপ' : filteredPandals.length === 1 ? 'pandal' : 'pandals'}</span>
+              <button
+                type="button"
+                onClick={() => {
+                  setFilter('ALL');
+                  setSearchQuery('');
+                }}
+                className="ml-1 min-h-[28px] cursor-pointer font-semibold text-kumkum dark:text-kumkum-lit"
+              >
+                {t('filters.clearAll', language)}
+              </button>
+            </div>
+          )}
         </div>
 
-        {/* Floating Mobile Map / List Toggle Button */}
-        <div className="md:hidden absolute bottom-20 right-4 z-30 pointer-events-auto">
+        {/* Floating Mobile Map / List Toggle: bottom-centre so it never covers the map controls on the right */}
+        <div className="md:hidden absolute bottom-4 left-1/2 -translate-x-1/2 z-30 pointer-events-auto">
           <button
+            type="button"
             onClick={() => setMobileView(mobileView === 'map' ? 'list' : 'map')}
-            className="px-4 py-2.5 rounded-full bg-sindoor hover:bg-kumkum dark:bg-kumkum-lit text-shola dark:text-base text-xs font-semibold shadow-e3 flex items-center gap-2 transition-transform active:scale-95 cursor-pointer min-h-[44px]"
+            className="px-5 rounded-full bg-sindoor dark:bg-kumkum-lit text-shola dark:text-base text-sm font-semibold shadow-e3 flex items-center gap-2 transition-transform active:scale-95 cursor-pointer min-h-[44px]"
             aria-label="Toggle map and list view"
           >
-            <span>{mobileView === 'map' ? '📋' : '🗺️'}</span>
-            <span>{mobileView === 'map' ? 'View List' : 'View Map'}</span>
+            <span aria-hidden="true">{mobileView === 'map' ? '📋' : '🗺️'}</span>
+            <span>
+              {mobileView === 'map'
+                ? language === 'bn' ? 'তালিকা' : 'List'
+                : language === 'bn' ? 'ম্যাপ' : 'Map'}
+            </span>
           </button>
         </div>
       </div>

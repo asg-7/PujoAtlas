@@ -255,13 +255,16 @@ export class MapLibreDriver implements IMapAdapter {
     this.setActiveZone(this.activeZone);
   }
 
-  filterMarkers(filterType: string, savedIds: string[] = []): void {
+  filterMarkers(filterType: string, savedIds: string[] = [], searchIds: string[] | null = null): void {
     if (!this.map) return;
     const src = this.map.getSource('pandals-src') as maplibregl.GeoJSONSource;
     if (!src) return;
 
+    const searchSet = searchIds ? new Set(searchIds) : null;
+
     const filteredPandals = this.items.filter((i) => {
       if (i.type !== 'pandal') return false;
+      if (searchSet && !searchSet.has(i.id)) return false;
       if (filterType === 'ALL') return true;
       if (filterType === 'FEATURED') return !!i.isFeatured;
       if (filterType === 'HERITAGE') return !!i.isHeritage;
@@ -611,6 +614,31 @@ export class MapLibreDriver implements IMapAdapter {
       curve: 1.2,
       essential: true,
     });
+  }
+
+  fitBounds(
+    points: Array<[number, number]>,
+    padding: { top?: number; bottom?: number; left?: number; right?: number } = {}
+  ): void {
+    if (!this.map || points.length === 0) return;
+    const canvas = this.map.getCanvas();
+    const w = canvas.clientWidth;
+    const h = canvas.clientHeight;
+    // Clamp so padding can never exceed the container (that is what flings the camera to a corner).
+    const clamp = (v: number | undefined, max: number) => Math.max(0, Math.min(v ?? 40, max));
+    const pad = {
+      top: clamp(padding.top, h * 0.3),
+      bottom: clamp(padding.bottom, h * 0.3),
+      left: clamp(padding.left, w * 0.45),
+      right: clamp(padding.right, w * 0.2),
+    };
+    if (points.length === 1) {
+      this.map.flyTo({ center: points[0], zoom: Math.max(this.map.getZoom(), 16), essential: true });
+      return;
+    }
+    const b = new maplibregl.LngLatBounds(points[0], points[0]);
+    points.forEach((pt) => b.extend(pt));
+    this.map.fitBounds(b, { padding: pad, maxZoom: 16, duration: 900, essential: true });
   }
 
   getZoom(): number {
