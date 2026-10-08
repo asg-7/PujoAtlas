@@ -19,6 +19,7 @@ import type { Zone } from '../../lib/schemas';
 import PandalCard from '../cards/PandalCard';
 import { EmptyState } from '../common/EmptyState';
 import { PandalCardSkeleton } from '../common/PandalCardSkeleton';
+import { SearchBar } from '../common/SearchBar';
 import { t } from '../../lib/i18n';
 import { calculateDistanceKm } from '../../lib/geoUtils';
 import { telemetry } from '../../lib/telemetry';
@@ -30,8 +31,8 @@ export default function ExploreView() {
     setFilter,
     activeZone,
     setZone,
-    searchQuery,
-    setSearchQuery,
+    searchQuery: storeSearchQuery,
+    setSearchQuery: setStoreSearchQuery,
     userLocation,
     language,
     savedPandalIds,
@@ -49,6 +50,27 @@ export default function ExploreView() {
   const [isLoading, setIsLoading] = useState(false);
   const listContainerRef = useRef<HTMLDivElement>(null);
 
+  // Local input state for instant, buttery-smooth typing
+  const [searchQuery, setSearchQuery] = useState(storeSearchQuery || '');
+  const [debouncedQuery, setDebouncedQuery] = useState(storeSearchQuery || '');
+
+  // Debounce search filter by 200ms to eliminate typing lag
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedQuery(searchQuery);
+      setStoreSearchQuery(searchQuery);
+    }, 200);
+    return () => clearTimeout(timer);
+  }, [searchQuery, setStoreSearchQuery]);
+
+  // Sync if store search query is reset externally (e.g. from Clear Filters)
+  useEffect(() => {
+    if (storeSearchQuery !== searchQuery) {
+      setSearchQuery(storeSearchQuery);
+      setDebouncedQuery(storeSearchQuery);
+    }
+  }, [storeSearchQuery]);
+
   // 4.2 URL State Synchronization (Shareable, restorable, back button works)
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -61,6 +83,7 @@ export default function ExploreView() {
       }
       if (urlQ && urlQ !== searchQuery) {
         setSearchQuery(urlQ);
+        setDebouncedQuery(urlQ);
       }
     } catch (e) {}
   }, []);
@@ -74,15 +97,15 @@ export default function ExploreView() {
       } else {
         params.delete('filter');
       }
-      if (searchQuery) {
-        params.set('q', searchQuery);
+      if (debouncedQuery) {
+        params.set('q', debouncedQuery);
       } else {
         params.delete('q');
       }
       const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
       window.history.replaceState(null, '', newUrl);
     } catch (e) {}
-  }, [activeFilter, searchQuery]);
+  }, [activeFilter, debouncedQuery]);
 
   // Keyboard shortcut Ctrl+B or Cmd+B to toggle sidebar
   useEffect(() => {
@@ -121,15 +144,17 @@ export default function ExploreView() {
   const filteredPandals = useMemo(() => {
     let list = [...pandals];
 
-    // 1. Text Search Query (Debounced in search handling, from 2 chars)
-    if (searchQuery.trim().length >= 2) {
-      const q = searchQuery.toLowerCase().trim();
+    // 1. Text Search Query (Debounced for buttery-smooth typing)
+    if (debouncedQuery.trim()) {
+      const q = debouncedQuery.toLowerCase().trim();
       list = list.filter(
         (p) =>
           p.name.toLowerCase().includes(q) ||
+          p.bngName?.toLowerCase().includes(q) ||
           p.address.toLowerCase().includes(q) ||
           p.zone.toLowerCase().includes(q) ||
           p.nearestMetro?.toLowerCase().includes(q) ||
+          p.categories?.some((c) => c.toLowerCase().includes(q)) ||
           p.tags?.some((t) => t.toLowerCase().includes(q))
       );
     }
@@ -157,7 +182,7 @@ export default function ExploreView() {
     }
 
     return list;
-  }, [pandals, searchQuery, activeFilter, savedPandalIds, visitedPandalIds, userLocation]);
+  }, [pandals, debouncedQuery, activeFilter, savedPandalIds, visitedPandalIds, userLocation]);
 
   const REGIONS: Array<{ id: Zone | 'ALL'; labelKey: string }> = [
     { id: 'ALL', labelKey: 'regions.ALL' },
@@ -198,36 +223,24 @@ export default function ExploreView() {
         <div className="p-3.5 sm:p-4 bg-paper dark:bg-surface border-b border-sand dark:border-line sticky top-0 z-10 space-y-2.5 shadow-e1">
           {/* Search Box + Minimize Sidebar Button */}
           <div className="flex items-center gap-2">
-            <div className="relative flex-1 flex items-center">
-              <Search className="w-4 h-4 text-smoke absolute left-3.5 top-1/2 -translate-y-1/2" strokeWidth={1.5} />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={t('hero.searchPlaceholder', language)}
-                className="w-full bg-shola dark:bg-base text-ink dark:text-text placeholder-smoke border border-sand dark:border-line rounded-md py-2 pl-9 pr-10 text-xs sm:text-sm font-sans focus:outline-none focus:ring-2 focus:ring-kumkum/30 focus:border-kumkum transition-all duration-fast"
-                aria-label="Search pandals, localities, or metro stations"
-              />
-              {searchQuery ? (
+            <SearchBar
+              value={searchQuery}
+              onChange={setSearchQuery}
+              placeholder={t('hero.searchPlaceholder', language)}
+              ariaLabel="Search pandals, localities, or metro stations"
+              className="flex-1"
+              trailingAction={
                 <button
                   type="button"
-                  onClick={() => setSearchQuery('')}
-                  className="absolute right-9 top-1/2 -translate-y-1/2 text-xs font-semibold text-smoke hover:text-ink dark:hover:text-text cursor-pointer p-1"
-                  aria-label="Clear search"
+                  onClick={handleLocateUser}
+                  title={language === 'bn' ? 'আমার অবস্থান' : 'Locate me on map'}
+                  className="w-7 h-7 rounded-sm bg-neel hover:bg-neel/90 text-shola flex items-center justify-center transition-transform active:scale-95 cursor-pointer shadow-e1"
+                  aria-label="Locate me on map"
                 >
-                  <X className="w-3.5 h-3.5" strokeWidth={1.5} />
+                  <Locate className="w-3.5 h-3.5" strokeWidth={1.5} />
                 </button>
-              ) : null}
-              <button
-                type="button"
-                onClick={handleLocateUser}
-                title="Locate me (আমার অবস্থান)"
-                className="absolute right-1.5 top-1/2 -translate-y-1/2 w-7 h-7 rounded-sm bg-neel hover:bg-neel/90 text-shola flex items-center justify-center transition-transform active:scale-95 cursor-pointer"
-                aria-label="Locate me on map"
-              >
-                <Locate className="w-3.5 h-3.5" strokeWidth={1.5} />
-              </button>
-            </div>
+              }
+            />
 
             {/* Desktop Sidebar Minimize Toggle */}
             <button
@@ -458,25 +471,24 @@ export default function ExploreView() {
 
         {/* Mobile Top Floating Quick Search & Filter Chips */}
         <div className="md:hidden absolute top-2 left-2 right-2 z-20 pointer-events-auto space-y-1.5">
-          <div className="relative flex items-center bg-paper/95 dark:bg-surface/95 backdrop-blur-md rounded-md shadow-e2 border border-sand dark:border-line p-1">
-            <Search className="w-4 h-4 text-smoke ml-2 shrink-0" strokeWidth={1.5} />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder={t('hero.searchPlaceholder', language)}
-              className="w-full bg-transparent text-ink dark:text-text placeholder-smoke text-xs font-sans px-2.5 py-1.5 focus:outline-none"
-              aria-label="Search pandals on mobile"
-            />
-            <button
-              type="button"
-              onClick={handleLocateUser}
-              className="w-7 h-7 rounded-sm bg-neel text-shola flex items-center justify-center text-xs shrink-0 mr-1 cursor-pointer"
-              aria-label="Locate me"
-            >
-              <Locate className="w-3.5 h-3.5" strokeWidth={1.5} />
-            </button>
-          </div>
+          <SearchBar
+            value={searchQuery}
+            onChange={setSearchQuery}
+            placeholder={t('hero.searchPlaceholder', language)}
+            ariaLabel="Search pandals on mobile"
+            className="w-full shadow-e2"
+            trailingAction={
+              <button
+                type="button"
+                onClick={handleLocateUser}
+                title={language === 'bn' ? 'আমার অবস্থান' : 'Locate me on map'}
+                className="w-7 h-7 rounded-sm bg-neel text-shola flex items-center justify-center cursor-pointer shadow-e1 active:scale-95"
+                aria-label="Locate me on map"
+              >
+                <Locate className="w-3.5 h-3.5" strokeWidth={1.5} />
+              </button>
+            }
+          />
 
           <div className="flex overflow-x-auto hide-scrollbar gap-1.5 px-1 py-0.5 items-center">
             <button
