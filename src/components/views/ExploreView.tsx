@@ -13,6 +13,8 @@ import {
   PanelLeftOpen,
   SlidersHorizontal,
   Layers,
+  List,
+  Map as MapIcon,
 } from 'lucide-react';
 import { useMapStore } from '../../store/useMapStore';
 import type { Zone } from '../../lib/schemas';
@@ -541,7 +543,11 @@ export default function ExploreView() {
             className="px-5 rounded-full bg-sindoor dark:bg-kumkum-lit text-shola dark:text-base text-sm font-semibold shadow-e3 flex items-center gap-2 transition-transform active:scale-95 cursor-pointer min-h-[44px]"
             aria-label="Toggle map and list view"
           >
-            <span aria-hidden="true">{mobileView === 'map' ? '📋' : '🗺️'}</span>
+            {mobileView === 'map' ? (
+              <List className="w-4 h-4" strokeWidth={2} />
+            ) : (
+              <MapIcon className="w-4 h-4" strokeWidth={2} />
+            )}
             <span>
               {mobileView === 'map'
                 ? language === 'bn' ? 'তালিকা' : 'List'

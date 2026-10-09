@@ -101,8 +101,16 @@ export default function Navbar() {
           onKeyDown={(e) => e.key === 'Enter' && handleTabClick('explore')}
           aria-label="Pujo Atlas Home"
         >
-          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-md bg-sindoor flex items-center justify-center text-shola shadow-e1 group-hover:scale-105 transition-transform duration-fast">
-            <Flame className="w-4 h-4 sm:w-5 sm:h-5 text-shola" strokeWidth={1.75} />
+          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-md bg-[#16100E] border border-kumkum/40 flex items-center justify-center shadow-e1 group-hover:scale-105 transition-transform duration-fast overflow-hidden p-1 shrink-0">
+            <svg viewBox="0 0 64 64" className="w-full h-full" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect width="64" height="64" rx="14" fill="#16100E" />
+              {/* Temple Arch */}
+              <path d="M32 12 C20 12 14 24 14 48 L50 48 C50 24 44 12 32 12 Z" fill="#C8432E" />
+              {/* Inner Arch cutout */}
+              <path d="M32 20 C24 20 20 28 20 48 L44 48 C44 28 40 20 32 20 Z" fill="#16100E" />
+              {/* Marigold Star */}
+              <path d="M32 26 L34.5 32 L41 32 L35.5 36 L37.5 42 L32 38 L26.5 42 L28.5 36 L23 32 L29.5 32 Z" fill="#E8961E" />
+            </svg>
           </div>
           <div className="flex flex-col">
             <span className="font-serif font-semibold text-sm sm:text-lg text-ink dark:text-text tracking-tight leading-none">
